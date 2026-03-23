@@ -11,5 +11,5 @@ def get_restaurants(db: Session) -> list[Restaurant]:
 def get_restaurant_by_id(db: Session, restaurant_id: int) -> Optional[Restaurant]:
     return RestaurantRepository.get_by_id(db, restaurant_id)
 
-def create_restaurant(db: Session, restuarant: RestaurantCreate) -> Restaurant:
-    return RestaurantRepository.create(db, restuarant)
+def create_restaurant(db: Session, restaurant: RestaurantCreate) -> Restaurant:
+    return RestaurantRepository.create(db, restaurant)

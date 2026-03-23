@@ -34,7 +34,7 @@ class RestaurantRepository:
         return db_restaurant
     
     @staticmethod
-    def create(db: Session, db_restaurant: Restaurant) -> Restaurant:
+    def update(db: Session, db_restaurant: Restaurant) -> Restaurant:
         db.commit()
         db.refresh(db_restaurant)
         return db_restaurant
@@ -48,8 +48,8 @@ class RestaurantRepository:
     def get_filtered(
         db: Session,
         cuisine: Optional[str] = None,
-        max_price: Optional[str] = None,
-        dietary_tag: Optional[list[str]] = None,
+        max_price: Optional[int] = None,
+        dietary_tag: Optional[str] = None,
     ) -> list[Restaurant]:
         query = db.query(Restaurant)
 
