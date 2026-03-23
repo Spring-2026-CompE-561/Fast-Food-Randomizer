@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     )
 
     database_url: str = Field(
-        default="sqlite:///./budget_buddy.db",
+        default="sqlite:///./fast_food_randomizer.db",
         description="Database connection URL",
     )
 
