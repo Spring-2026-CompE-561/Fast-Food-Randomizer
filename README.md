@@ -2,11 +2,11 @@
 
 **Course:** COMPE-561: Windows Database and Web Programming
 **Team Members:** Valerie Joy Pinto, Sydney Kim, Aliza Siddiqui, Melina Kai Kwarcinski, Kaitlin Bituen
-
+---
 **Project Overview**
 This project presents a FastAPI backend for [Insert Name], a fast food randomizer app. Users can register, log in, and get a randomly selected fast-food restaurant based on custom filters. 
 Results are saved to history and the user can favorite restaurants for quick access.
-
+---
 ## Project Structure
 ```
 src/app/
