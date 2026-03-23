@@ -1,6 +1,7 @@
 # Fast Food Randomizer - Backend Implementation
-
+---
 **Course:** COMPE-561: Windows Database and Web Programming
+---
 **Team Members:** Valerie Joy Pinto, Sydney Kim, Aliza Siddiqui, Melina Kai Kwarcinski, Kaitlin Bituen
 ---
 **Project Overview**
