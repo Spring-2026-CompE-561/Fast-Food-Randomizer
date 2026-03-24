@@ -12,9 +12,10 @@ from app.services import user as user_service
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
-@router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 def register(data: UserCreate, db: Session = Depends(get_db)):
-    return user_service.register(db, data)
+    user = user_service.register(db, data)
+    return {"success": True, "user": {"id": user.id, "username": user.username, "email": user.email}}
 
 
 @router.post("/login", response_model=Token)
