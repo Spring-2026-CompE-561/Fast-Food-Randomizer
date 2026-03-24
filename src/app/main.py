@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from app.core.database import Base, engine
-# from app.models import Favorite, History, Restaurant, User
+# from app.models import Favorite
+# from app.models import History
+# from app.models import User
 from app.models import Restaurant
 from app.api.v1.routes import api_router
 
