@@ -2,7 +2,7 @@ import math
 import random
 from typing import List, Optional, Tuple
 
-from src.app.models.restaurant import Restaurant
+from app.models.restaurant import Restaurant
 
 
 def haversine_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

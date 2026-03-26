@@ -1,27 +1,15 @@
-<<<<<<< HEAD
 import time
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.app.core.database import Base, engine
-from src.app.api.v1.routes import api_router
-=======
-from fastapi import FastAPI
-from app.core.database import Base, engine
-# from app.models import Favorite
-# from app.models import History
-# from app.models import User
-from app.models import Restaurant
 from app.api.v1.routes import api_router
-
-Base.metadata.create_all(bind=engine) 
->>>>>>> origin/main
+from app.core.database import Base, engine
+from app.models import Favorite, History, Restaurant  # noqa: F401
 
 # This variable NAME must be "app" because that is what your command is looking for
-app = FastAPI() 
+app = FastAPI()
 
-<<<<<<< HEAD
 
 @app.on_event("startup")
 def on_startup() -> None:
@@ -46,10 +34,8 @@ async def log_requests(request: Request, call_next):
     return response
 
 
-app.include_router(api_router, prefix="/api/v1")
-=======
 app.include_router(api_router)
->>>>>>> origin/main
+
 
 @app.get("/")
 def read_root():

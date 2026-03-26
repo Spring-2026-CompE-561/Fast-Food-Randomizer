@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from src.app.models.history import History
+from app.models.history import History
 
 
 def create_history_entry(

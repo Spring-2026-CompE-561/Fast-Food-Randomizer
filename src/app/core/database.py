@@ -5,7 +5,7 @@ from collections.abc import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-from src.app.core.settings import settings
+from app.core.settings import settings
 
 if TYPE_CHECKING:
     from collections.abc import Generator

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Float, Integer, String
 
-from src.app.core.database import Base
+from app.core.database import Base
 
 
 class History(Base):

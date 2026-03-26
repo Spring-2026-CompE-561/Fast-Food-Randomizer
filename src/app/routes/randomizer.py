@@ -1,16 +1,14 @@
-<<<<<<< HEAD
 import json
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from src.app.core.database import get_db
-from src.app.models.restaurant import Restaurant
-from src.app.repository.history import create_history_entry
-from src.app.schemas.randomizer import RandomizeRequest, RandomizeResponse
-from src.app.services.randomizer import choose_random_within_radius
-
+from app.core.database import get_db
+from app.models.restaurant import Restaurant
+from app.repository.history import create_history_entry
+from app.schemas.randomizer import RandomizeRequest, RandomizeResponse
+from app.services.randomizer import choose_random_within_radius
 
 router = APIRouter(prefix="/randomizer", tags=["randomizer"])
 
@@ -75,6 +73,3 @@ def randomize_restaurant(
         longitude=chosen.longitude,
         distance_miles=float(distance_miles),
     )
-=======
-# syd test
->>>>>>> origin/main

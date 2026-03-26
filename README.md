@@ -14,8 +14,16 @@ pip install -r requirements.txt
 
 ## Run the API
 
+From the project root, put `src` on `PYTHONPATH` so imports like `app.*` resolve:
+
 ```bash
-uvicorn src.app.main:app --reload
+PYTHONPATH=src uvicorn app.main:app --reload
+```
+
+Alternatively:
+
+```bash
+cd src && uvicorn app.main:app --reload
 ```
 
 Then open:
