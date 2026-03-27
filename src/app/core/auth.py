@@ -5,11 +5,11 @@ from passlib.context import CryptContext
 
 from app.core.settings import settings
 
-#set up: tells the app to use brypt for password hashing and verification
+#Setup: tells the app to use bcrypt for password hashing and verification
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-#configuration: needed to move to settings.py in the real app for frontend
+#Configuration: needed to move to settings.py in the real app for frontend
 SECRET_KEY = "YOUR_SUPER_SECRET_KEY_KEEP_IT_SAFE"
 ALGORITHM = "HS256"
 

@@ -1,29 +1,18 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, declarative_base, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+import os
+from dontenv import load_dotenv
 
-from app.core.settings import settings
+load_dotenv 
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-if TYPE_CHECKING:
-    from collections.abc import Generator
-
-# Create database engine
-engine = create_engine(
-    settings.database_url,
-    connect_args=(
-        {"check_same_thread": False}
-        if settings.database_url.startswith("sqlite")
-        else {}
-    ),
-)
-
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base = declarative_base()
 
-
-def get_db() -> Generator[Session]:
+##dependency of routes being utilized
+def get_db():
     db = SessionLocal()
     try:
         yield db
