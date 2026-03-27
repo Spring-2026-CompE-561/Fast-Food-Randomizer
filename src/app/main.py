@@ -1,26 +1,41 @@
-from fastapi import FastAPI
-<<<<<<< HEAD
-from app.api.v1.routes import router as auth_router
-from app.core.database import engine, Base
+import time
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 
-Base.metadata.create_all(bind=engine)
-app = FastAPI()
-=======
-from src.app.core.database import engine, Base
-from src.app.api.v1.routes import router as auth_router
+# Core imports
+from app.api.v1.routes import api_router
+from app.core.database import Base, engine
+from app.models.user import Favorite, HistoryEntry, Restaurant, User  # Ensure User is here!
 
-# Build tables in Postgres
-Base.metadata.create_all(bind=engine)
-
+# The variable name must be "app"
 app = FastAPI(title="Fast Food Randomizer")
 
->>>>>>> f9aaf906a3af3a9c534bd271492ec03c02340716
-app.include_router(auth_router)
+@app.on.event("startup")
+def on_startup() -> None:
+    # Build tables in the database
+    Base.metadata.create_all(bind=engine)
+
+# Middleware for CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Middleware for logging request times
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start = time.perf_counter()
+    response = await call_next(request)
+    elapsed_ms = (time.perf_counter() - start) * 1000
+    print(f"{request.method} {request.url.path} -> {response.status_code} ({elapsed_ms:.1f}ms)")
+    return response
+
+# Include the Master Router
+app.include_router(api_router, prefix="/api/v1")
 
 @app.get("/")
-def root():
-<<<<<<< HEAD
-    return {"message": "API is running"}
-=======
-    return {"message": "API is online and Database is connected!"}
->>>>>>> f9aaf906a3af3a9c534bd271492ec03c02340716
+def read_root():
+    return {"message": "Fast Food Randomizer is officially online!"}
