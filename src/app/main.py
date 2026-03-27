@@ -2,20 +2,21 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-# Core imports
+# Core imports - including the Master Router we built
 from app.api.v1.routes import api_router
 from app.core.database import Base, engine
-from app.models.user import Favorite, HistoryEntry, Restaurant, User  # Ensure User is here!
+# Import all models so Base knows how to create the tables
+from app.models.user import User, Favorite, HistoryEntry, Restaurant  
 
-# The variable name must be "app"
+# 1. Initialize the App
 app = FastAPI(title="Fast Food Randomizer")
 
-@app.on.event("startup")
+# 2. Database Table Creation (Sydney's Startup Event)
+@app.on_event("startup")
 def on_startup() -> None:
-    # Build tables in the database
     Base.metadata.create_all(bind=engine)
 
-# Middleware for CORS
+# 3. Middleware: CORS (Allows frontend to talk to backend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,7 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Middleware for logging request times
+# 4. Middleware: Logger (Shows request times in your terminal)
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     start = time.perf_counter()
@@ -33,7 +34,8 @@ async def log_requests(request: Request, call_next):
     print(f"{request.method} {request.url.path} -> {response.status_code} ({elapsed_ms:.1f}ms)")
     return response
 
-# Include the Master Router
+# 5. Include the Master Router (The Switchboard)
+# This includes Auth, Randomizer, etc.
 app.include_router(api_router, prefix="/api/v1")
 
 @app.get("/")
