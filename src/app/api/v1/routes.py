@@ -8,10 +8,12 @@ from app.schemas.token import Token
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
-@router.post("/register", response_model=UserOut)
+@router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
 def register(user_in: UserCreate, db: Session = Depends(get_db)):
+    # Check if user already exists
     if db.query(User).filter(User.email == user_in.email).first():
-        raise HTTPException(status_code=409, detail="Email exists")
+        raise HTTPException(status_code=409, detail="Email already registered")
+    
     new_user = User(
         username=user_in.username,
         email=user_in.email,
@@ -27,4 +29,7 @@ def login(user_in: UserCreate, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == user_in.email).first()
     if not user or not verify_password(user_in.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    return {"access_token": create_access_token({"sub": user.email}), "token_type": "bearer"}
+    
+    # Standard practice is to put the email/subject in the 'sub' field
+    access_token = create_access_token(data={"sub": user.email})
+    return {"access_token": access_token, "token_type": "bearer"}
