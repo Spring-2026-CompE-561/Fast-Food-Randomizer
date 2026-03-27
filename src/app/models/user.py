@@ -19,8 +19,6 @@ class User(Base):
     favorites = relationship("Favorite", back_populates="user", cascade="all, delete-orphan")
     history = relationship("HistoryEntry", back_populates="user", cascade="all, delete-orphan")
 
-# --- PLACEHOLDERS ---
-# These must exist so the User model above doesn't error out
 class Favorite(Base):
     __tablename__ = "favorites"
     id = Column(Integer, primary_key=True)
