@@ -1,12 +1,14 @@
 from fastapi import FastAPI
+from src.app.core.database import engine, Base
+from src.app.api.v1.routes import router as auth_router
 
-# This variable NAME must be "app" because that is what your command is looking for
-app = FastAPI(title = "Fast Food Randomizer API", version="1.0.0") 
+# Build tables in Postgres
+Base.metadata.create_all(bind=engine)
 
-#this plug in the authentication routes into the main app
+app = FastAPI(title="Fast Food Randomizer")
 
 app.include_router(auth_router)
 
 @app.get("/")
-def read_root():
-    return {"message": "Welcome to the Fast Food Randomizer API!"}
+def root():
+    return {"message": "API is online and Database is connected!"}
