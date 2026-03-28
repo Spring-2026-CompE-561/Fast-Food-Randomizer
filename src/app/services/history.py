@@ -6,7 +6,7 @@ from app.models.history import History
 from app.repository.history import HistoryRepository
 from app.schemas.history import HistoryCreate
 
-def get_user_history(deb: Session, user_id: int) -> list[History]:
+def get_user_history(db: Session, user_id: int) -> list[History]:
     return HistoryRepository.get_by_user(db, user_id)
 
 def get_history(db: Session, history_id: int) -> Optional[History]:
