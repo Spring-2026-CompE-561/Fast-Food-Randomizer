@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
 from app.routes import restaurant, favorites, history, randomizer
-# from app.routes import restaurant, user, history, favorites, randomizer
 
 api_router = APIRouter(prefix="/api/v1")
 
