@@ -8,12 +8,10 @@ from app.models.user import User
 from app.schemas.user import UserCreate, UserOut
 from app.schemas.token import Token
 
-# Teammate Imports (Based on Sydney's setup)
-# Note: If these files aren't in your branch yet, comment these 2 lines out
 from app.api.v1 import favorites, restaurant
 from app.api.v1.randomizer import router as randomizer_router
 
-# 1. Create the Master Router (Sydney's approach)
+# 1. Create the Master Router
 api_router = APIRouter()
 
 # 2. Create your Auth Router

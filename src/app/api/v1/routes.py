@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.routes import user, favorites, restaurant
+from app.routes import user, favorites, restaurant, history
 from app.routes.randomizer import router as randomizer_router
 api_router = APIRouter(prefix="/api/v1")
 

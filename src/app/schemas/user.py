@@ -1,7 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
-<<<<<<< HEAD
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
@@ -14,7 +13,7 @@ class UserOut(BaseModel):
     created_at: datetime
     class Config:
         from_attributes = True
-=======
+
 class UserBase(BaseModel):
     username: str
     email: EmailStr
@@ -31,4 +30,4 @@ class UserResponse(UserBase):
 class Token(BaseModel):
     access_token: str
     token_type: str
->>>>>>> f9aaf906a3af3a9c534bd271492ec03c02340716
+
