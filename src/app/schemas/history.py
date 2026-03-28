@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 
 class HistoryBase(BaseModel):
-    user_id: int
     restaurant_id: int
 
 
@@ -13,6 +12,7 @@ class HistoryCreate(HistoryBase):
 
 class HistoryResponse(HistoryBase):
     id: int
+    user_id: int
     selected_at: datetime
 
     class Config:
