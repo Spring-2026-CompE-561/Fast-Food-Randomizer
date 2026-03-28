@@ -7,7 +7,8 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.models.restaurant import Restaurant
-from app.repository.history import create_history
+import app.services.history as history_service
+from app.schemas.history import HistoryCreate
 from app.repository.restaurant import RestaurantRepository
 from app.schemas.randomizer import RandomizeRequest, RandomizeResponse
 
@@ -94,13 +95,13 @@ def randomize_restaurant(
             }
         )
 
-        create_history(
+        history_service.add_history(
             db,
-            user_id=payload.user_id,
-            restaurant_id=int(chosen.id),
-            distance_miles=float(distance_miles),
-            applied_filters=applied_filters,
-            )
+            HistoryCreate(
+                user_id=payload.user_id,
+                restaurant_id=int(chosen.id),
+            ),
+        )
         
     return RandomizeResponse(
         restaurant_id=int(chosen.id),
