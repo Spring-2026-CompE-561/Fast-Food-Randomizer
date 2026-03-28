@@ -11,9 +11,10 @@ Valerie Joy Pinto, Sydney Kim, Aliza Siddiqui, Melina Kai Kwarcinski, Kaitlin Bi
 ```
 ---
 **Project Overview**
-
+```
 This project presents a FastAPI backend for [Insert Name], a fast food randomizer app. Users can register, log in, and get a randomly selected fast-food restaurant based on custom filters. 
 Results are saved to history and the user can favorite restaurants for quick access.
+```
 ---
 # Fast Food Randomizer Backend
 
