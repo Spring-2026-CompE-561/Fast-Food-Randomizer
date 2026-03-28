@@ -17,8 +17,8 @@ class Settings(BaseSettings):
     )
 
     access_token_expire_minutes: int = Field(
-        default=30,
-        description="Access token expiration time in minutes",
+    default=1440, # 24 hours (60 * 24)
+    description="Access token expiration time in minutes",
     )
 
     database_url: str = Field(
