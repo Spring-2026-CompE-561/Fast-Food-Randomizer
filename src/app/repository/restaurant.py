@@ -25,6 +25,8 @@ class RestaurantRepository:
             cuisine=restaurant.cuisine,
             price_range=restaurant.price_range,
             dietary_tags=restaurant.dietary_tags,
+            latitude=restaurant.latitude,
+            longitude=restaurant.longitude,
         )
 
         db.add(db_restaurant)
@@ -60,6 +62,6 @@ class RestaurantRepository:
             query = query.filter(Restaurant.price_range <= max_price)
 
         if dietary_tag:
-            query = query.filter(Restaurant.dietary_tags.contains(dietary_tag)) 
+            query = query.filter(Restaurant.dietary_tags.isnot(None)).filter(Restaurant.dietary_tags.like(f"%{dietary_tag}%"))
 
         return query.all()
