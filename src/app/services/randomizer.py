@@ -4,7 +4,7 @@ import json
 from typing import List, Optional, Tuple
 
 from fastapi import HTTPException
-from sqlachemy.orm import Session
+from sqlalchemy.orm import Session
 
 from app.models.restaurant import Restaurant
 from app.repository.history import create_history
