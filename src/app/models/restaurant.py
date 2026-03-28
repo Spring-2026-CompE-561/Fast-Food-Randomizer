@@ -10,4 +10,6 @@ class Restaurant(Base):
     cuisine = Column(String, index=True, nullable=False)
     price_range = Column(Integer, index=True, nullable=False)
     dietary_tags = Column(String, index=True, nullable=True)
+    latitude = Column(Float, index=True, nullable=True)
+    longitude = Column(Float, index=True, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow) 
