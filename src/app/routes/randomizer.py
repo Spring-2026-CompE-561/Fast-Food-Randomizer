@@ -9,7 +9,7 @@ from app.schemas.randomizer import RandomizeRequest, RandomizeResponse
 
 api_router = APIRouter(
     prefix="/randomizer", 
-    tags=["randomizer"]
+    tags=["Randomizer"]
 )
 
 

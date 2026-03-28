@@ -1,7 +1,8 @@
+from typing import Optional
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.core.auth import create_access_token, hash_password, verify_password
+from app.core.auth import create_access_token, get_password_hash, verify_password
 from app.models.user import User
 from app.repository.user import UserRepository
 from app.schemas.token import Token
@@ -21,7 +22,7 @@ def register_user(db: Session, user: UserCreate) -> User:
             detail="Username already taken.",
         )
 
-    password_hash = hash_password(user.password)
+    password_hash = get_password_hash(user.password)
     return UserRepository.create(db, user, password_hash)
 
 
@@ -36,3 +37,6 @@ def login_user(db: Session, credentials: UserLogin) -> Token:
 
     access_token = create_access_token(data={"sub": user.email})
     return Token(access_token=access_token)
+
+def get_by_mail(db: Session, email: str) -> Optional[User]:
+    return UserRepository.get_by_email(db, email)

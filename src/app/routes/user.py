@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 import app.services.user as user_service
 from app.core.database import get_db
 from app.core.dependencies import get_current_user
+from app.repository.user import UserRepository
 from app.models.user import User
 from app.schemas.token import Token
 from app.schemas.user import UserCreate, UserLogin, UserResponse

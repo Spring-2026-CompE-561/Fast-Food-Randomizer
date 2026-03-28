@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.routes import api_router
 from app.core.database import Base, engine
 from app.core.settings import settings
-from app.models import Favorite, History, Restaurant
+from app.models import Favorite, History, Restaurant, User
 
 # Create database tables
 # If the tables do not exist, create them
