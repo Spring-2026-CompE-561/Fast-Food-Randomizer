@@ -10,11 +10,11 @@ from app.repository.history import create_history_entry
 from app.schemas.randomizer import RandomizeRequest, RandomizeResponse
 from app.services.randomizer import choose_random_within_radius
 
-router = APIRouter(prefix="/randomizer", tags=["randomizer"])
+api_router = APIRouter(prefix="/randomizer", tags=["randomizer"])
 
 
-@router.post("", response_model=RandomizeResponse)
-def randomize_restaurant(
+@api_router.post("", response_model=RandomizeResponse)
+async def randomize_restaurant(
     payload: RandomizeRequest,
     db: Annotated[Session, Depends(get_db)],
 ) -> RandomizeResponse:
