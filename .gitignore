@@ -7,3 +7,4 @@ venv/
 *.db
 .vscode/
 backend_submission/
+backend_submission_fast_food_randomizer/
