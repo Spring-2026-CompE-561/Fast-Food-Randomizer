@@ -7,8 +7,6 @@ class RestaurantBase(BaseModel):
     cuisine: str
     price_range: int
     dietary_tags: Optional[str] = None
-    latitude: Optional[float] = None
-    longitude: Optional[float] = None
 
 class RestaurantCreate(RestaurantBase):
     pass

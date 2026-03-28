@@ -16,10 +16,10 @@ class FavoriteRepository:
         )
 
     @staticmethod
-    def create(db: Session, user_id: int, restaurant_id: int) -> Favorite:
+    def create(db: Session, favorite: FavoriteCreate) -> Favorite:
         db_favorite = Favorite(
-            user_id=user_id,
-            restaurant_id=restaurant_id,
+            user_id=favorite.user_id,
+            restaurant_id=favorite.restaurant_id,
         )
 
         db.add(db_favorite)
