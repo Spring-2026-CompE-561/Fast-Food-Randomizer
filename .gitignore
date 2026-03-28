@@ -6,3 +6,4 @@ env/
 venv/
 *.db
 .vscode/
+backend_submission/
