@@ -38,5 +38,17 @@ def login_user(db: Session, credentials: UserLogin) -> Token:
     access_token = create_access_token(data={"sub": user.email})
     return Token(access_token=access_token)
 
+def login_user_by_email(db: Session, email: str, password: str) -> Token:
+    user = UserRepository.get_by_email(db, email)
+
+    if user is None or not verify_password(password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials.",
+        )
+
+    access_token = create_access_token(data={"sub": user.email})
+    return Token(access_token=access_token)
+
 def get_by_mail(db: Session, email: str) -> Optional[User]:
     return UserRepository.get_by_email(db, email)
