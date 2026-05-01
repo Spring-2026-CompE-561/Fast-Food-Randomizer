@@ -1,65 +1,52 @@
-import Image from "next/image";
+// frontend/src/app/page.tsx
+import Link from "next/link";
+import { Shuffle, LayoutGrid, MoveRight } from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="min-h-[calc(100vh-73px)] bg-[#E8F4FD] flex flex-col items-center pt-20 px-4 font-sans">
+      {/* Hero Header */}
+      <div className="text-center mb-16 space-y-2">
+        <h1 className="text-8xl font-black tracking-tighter text-[#1E293B] lowercase">
+          craveroll
+        </h1>
+        <p className="text-2xl font-bold tracking-tight text-[#475569]">
+         SDSU's Official Fast-Food Randomizer
+        </p>
+      </div>
+
+      {/* Feature Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
+        
+        {/* Randomizer Card */}
+        <Link href="/randomizer" className="group">
+          <div className="bg-[#FF5722] rounded-[45px] p-12 text-white h-[420px] flex flex-col items-center justify-center text-center shadow-2xl transition-transform hover:scale-[1.01]">
+            <Shuffle size={70} strokeWidth={2.5} className="mb-6" />
+            <h2 className="text-4xl font-black tracking-tight mb-4">Randomizer</h2>
+            <p className="text-lg font-medium opacity-90 mb-8 leading-relaxed max-w-[320px]">
+              Feeling indecisive? Let fate choose your next meal! Filter by category and roll the dice.
+            </p>
+            <div className="flex items-center gap-2 text-xl font-black tracking-tight">
+              Get Started <MoveRight strokeWidth={3} />
+            </div>
+          </div>
+        </Link>
+
+        {/* Browse All Card */}
+        <Link href="/browse" className="group">
+          <div className="bg-[#9333EA] rounded-[45px] p-12 text-white h-[420px] flex flex-col items-center justify-center text-center shadow-2xl transition-transform hover:scale-[1.01]">
+            <LayoutGrid size={70} strokeWidth={2.5} className="mb-6" />
+            <h2 className="text-4xl font-black tracking-tight mb-4">Browse All</h2>
+            <p className="text-lg font-medium opacity-90 mb-8 leading-relaxed max-w-[320px]">
+              Know what you want? Browse through all SDSU restaurants and College Area favorites.
+            </p>
+            <div className="flex items-center gap-2 text-xl font-black tracking-tight">
+              Explore Restaurants <MoveRight strokeWidth={3} />
+            </div>
+          </div>
+        </Link>
+
+      </div>
     </div>
   );
 }
