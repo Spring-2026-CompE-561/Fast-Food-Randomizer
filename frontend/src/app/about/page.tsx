@@ -68,6 +68,32 @@ export default function AboutPage() {
                     </div>
                 </div>
 
+                {/* Feature 3: Favorites */}
+                <div className="flex gap-5">
+                    <Heart size={52} className="text-[#FF2D3D] shrink-0" />
+                    <div>
+                        <h3 className="text-2xl font-black text-[#111827] mb-3">
+                            Save Favorites
+                        </h3>
+                        <p className="text-lg leading-relaxed text-[#64748B]">
+                            Keep track of your go-to spots and discover new favorites.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Feature 4: Locations */}
+                <div className="flex gap-5">
+                    <MapPin size={52} className="text-[#22C55E] shrink-0" />
+                    <div>
+                        <h3 className="text-2xl font-black text-[#111827] mb-3">
+                            31+ Locations
+                        </h3>
+                        <p className="text-lg leading-relaxed text-[#64748B]">
+                            From on-campus dining to College Area favorites.
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </CardContent>
     </Card>
