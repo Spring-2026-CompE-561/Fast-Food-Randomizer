@@ -1,6 +1,5 @@
 //// src/app/about/page.tsx
 import { Card, CardContent } from "@/components/ui/card";
-import { Shuffle, Star, Heart, MapPin } from "lucide-react";
 
 //Based on Next.js App Router page structure
 export default function AboutPage() {
@@ -9,10 +8,10 @@ export default function AboutPage() {
        <main className="min-h-screen bg-[#E8F4FD] px-4 py-14 font-sans">
         {/* Hero section: introduces the About page */}
         <section className="text-center mb-16">
-            <h1 className="text-7x1 font-black tracking-tight text-[#111827]">
+            <h1 className="text-7xl font-black tracking-tight text-[#111827]">
                 About Craveroll
             </h1>
-            <p className="mt-6 text-2x1 text-[#334155]">
+            <p className="mt-6 text-2xl text-[#334155]">
                 Your ultimate SDSU dining companion
             </p>
         </section>
