@@ -20,7 +20,7 @@ export default function AboutPage() {
         {/* Mission section: explains the purpose of craveroll */}
         <Card className="w-full max-w-5xl mx-auto rounded-[30px] shadow-xl border border-white/20 mb-12">
             <CardContent className="p-10">
-                <h2 className="text-4xl font-black text-[#111827] mb-6">
+                <h2 className="text-4xl font-black text-[#111827] mb-6 text-center">
                     Our Mission
                 </h2>
                 <p className="text-xl leading-relaxed text-[#475569]">
@@ -35,7 +35,7 @@ export default function AboutPage() {
         {/* What We Offer section: highlights main features */}
         <Card className="w-full max-w-5xl mx-auto rounded-[30px] shadow-xl border border-white/20 mb-12">
             <CardContent className="p-10">
-                <h2 className="text-4xl font-black text-[#111827] mb-10">
+                <h2 className="text-4xl font-black text-[#111827] mb-10 text-center">
                     What We Offer
                 </h2>
 
