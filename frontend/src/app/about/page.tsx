@@ -110,12 +110,39 @@ export default function AboutPage() {
                     <p className="mt-3 text-lg">Restaurants</p>
                 </div>
 
+                {/* Category count */}
+                <div>
+                    <p className="text-5xl font-black">10</p>
+                    <p className="mt-3 text-lg">Categories</p>
+                </div>
+
+                {/* Stat 3: Review count */}
+                <div>
+                    <p className="text-5xl font-black">1000+</p>
+                    <p className="mt-3 text-lg">Reviews</p>
+                </div>
+
+                {/* Stat 4: Possibilities */}
+                <div>
+                    <p className="text-5xl font-black">∞</p>
+                    <p className="mt-3 text-lg">Possibilities</p>
+                </div>
             </div>
         </section>
 
+        {/* Closing section: emphasizes community and purpose */}
+        <Card className="w-full max-w-5xl mx-auto rounded-[30px] shadow-xl border border-white/20 text-center">
+            <CardContent className="p-10">
+                <h2 className="text-4xl font-black text-[#111827] mb-6">
+                    Built by Aztecs for Aztecs
+                </h2>
+                <p className="text-2xl text-[#475569] leading-relaxed">
+                    Made with 💖 by SDSU students who were tired of asking
+                    "where should we eat?"
+                </p>
+            </CardContent>
+        </Card>
 
-
-    
 
        </main>    
     );
