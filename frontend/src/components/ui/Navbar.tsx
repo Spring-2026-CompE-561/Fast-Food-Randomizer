@@ -33,9 +33,11 @@ export default function Navbar() {
         <Link href="/login" className="text-sm font-bold text-slate-600 hover:text-orange-600 px-4">
           Login
         </Link>
-        <Button className="bg-[#ff5722] hover:bg-[#e64a19] font-black rounded-xl px-6 text-white h-11">
-          Sign Up
-        </Button>
+        <Link href="/register">
+          <Button className="bg-[#ff5722] hover:bg-[#e64a19] font-black rounded-xl px-6 text-white h-11">
+            Sign Up
+          </Button>
+        </Link>
       </div>
     </nav>
   );
