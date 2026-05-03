@@ -53,6 +53,15 @@ export default function RegisterPage() {
             <UserPlus strokeWidth={3} size={28} /> Sign Up
           </Button>
         </form>
+
+        {/* Footer link */}
+        <div className="mt-10 text-center text-lg font-bold">
+          <span className="text-[#64748B]">Already have an account? </span>
+          <Link href="/login" className="text-[#FF5722] hover:underline underline-offset-4">
+            Login
+          </Link>
+        </div>
+        
       </div>
     </main>
   );
