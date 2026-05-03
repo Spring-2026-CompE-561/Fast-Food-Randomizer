@@ -57,7 +57,8 @@ def choose_random_within_radius(
     if not within_radius:
         return None
 
-    return random.choice(within_radius)
+    chosen = random.choice(within_radius)
+    return chosen[0], chosen[1], len(within_radius)
 
 def randomize_restaurant(
         db: Session,
@@ -66,24 +67,31 @@ def randomize_restaurant(
     candidates = RestaurantRepository.get_filtered(
         db,
         cuisine=payload.cuisine,
-        price_range=payload.price_range,
+        max_price=payload.price_range,
         dietary_tag=payload.dietary_tag,
     )
 
-    chosen_result = choose_random_within_radius(
-        restuarants=candidates,
-        user_latitude=payload.latitude,
-        user_longitude=payload.longitude,
-        radius_miles=3.0,
-    )
+    if payload.latitude is not None and payload.longitude is not None:
+        chosen_result = choose_random_within_radius(
+            restaurants=candidates,
+            user_latitude=payload.latitude,
+            user_longitude=payload.longitude,
+            radius_miles=3.0,
+        )
+    else:
+        if not candidates:
+            chosen_result = None
+        else:
+            chosen = random.choice(candidates)
+            chosen_result = (chosen, 0.0, len(candidates))
 
     if chosen_result is None:
         raise HTTPException(
             status_code=404, 
-            detail="No restaurants found within 3 miles for the given filters."
+            detail="No restaurants found in the area for the given filters."
         )
     
-    chosen, distance_miles = chosen_result
+    chosen, distance_miles, match_count = chosen_result
     
     if payload.user_id is not None:
         applied_filters = json.dumps(
@@ -112,4 +120,5 @@ def randomize_restaurant(
         latitude=chosen.latitude,
         longitude=chosen.longitude,
         distance_miles=distance_miles,
+        match_count=match_count,
     )

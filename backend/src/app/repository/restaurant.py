@@ -2,6 +2,7 @@ from typing import Optional
 from sqlalchemy.orm import Session
 from app.models.restaurant import Restaurant
 from app.schemas.restaurant import RestaurantCreate
+from sqlalchemy import or_
 
 class RestaurantRepository:
     """Repo for restaurant data access."""
@@ -56,12 +57,24 @@ class RestaurantRepository:
         query = db.query(Restaurant)
 
         if cuisine:
-            query = query.filter(Restaurant.cuisine == cuisine)
-
+            query = query.filter(
+                or_(*[
+                    Restaurant.cuisine.ilike(f"%{c}%")
+                    for c in cuisine
+                ])
+            )
+            
         if max_price is not None:
             query = query.filter(Restaurant.price_range <= max_price)
 
         if dietary_tag:
-            query = query.filter(Restaurant.dietary_tags.isnot(None)).filter(Restaurant.dietary_tags.like(f"%{dietary_tag}%"))
+            query = query.filter(
+                Restaurant.dietary_tag.isnot(None)
+            ).filter(
+                or_(*[
+                    Restaurant.dietary_tag.ilike(f"%{tag}%")
+                    for tag in dietary_tag
+                ])
+            )
 
         return query.all()
