@@ -130,7 +130,7 @@ export default function AboutPage() {
             </div>
         </section>
 
-        {/* Closing section: emphasizes community and purpose */}
+        {/* Closing section */}
         <Card className="w-full max-w-5xl mx-auto rounded-[30px] shadow-xl border border-white/20 text-center">
             <CardContent className="p-10">
                 <h2 className="text-4xl font-black text-[#111827] mb-6">
