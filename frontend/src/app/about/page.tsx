@@ -39,9 +39,9 @@ export default function AboutPage() {
                 What We Offer
             </h2>
 
-            {/* Grid of features */}
+            {/* Grid of features from Tailwind's grid system */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                
+
                 {/* Feature 1: Randomizer */}
                 <div className="flex gap-5">
                     <Shuffle size={52} className="text-[#FF5722] shrink-0" />
@@ -53,7 +53,20 @@ export default function AboutPage() {
                             Can't decide? Let our randomizer pick for you with customizable filters!
                         </p>
                     </div>
-                </div> 
+                </div>
+
+                {/* Feature 2: Reviews */}
+                <div className="flex gap-5">
+                    <Star size={52} className="text-[#EAB308] shrink-0" />
+                    <div>
+                        <h3 className="text-2xl font-black text-[#111827] mb-3">
+                            Real Reviews
+                        </h3>
+                        <p className="text-lg leading-relaxed text-[#64748B]">
+                            Authentic student reviews and ratings to help you choose wisely.
+                        </p>
+                    </div>
+                </div>
 
             </div>
         </CardContent>
