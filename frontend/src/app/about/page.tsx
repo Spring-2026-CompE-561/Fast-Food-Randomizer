@@ -97,7 +97,21 @@ export default function AboutPage() {
             </CardContent>
         </Card>
 
-        
+        {/* Stats section: summarizes key craveroll numbers */}
+        <section className="w-full max-w-5xl mx-auto bg-[#FF5722] rounded-[30px] p-10 shadow-xl text-white text-center mb-12">
+            <h2 className="text-4xl font-black mb-10">By The Numbers</h2>
+
+            {/* Responsive stats grid using Tailwind CSS grid utilities */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+
+                {/*  Restaurant count */}
+                <div>
+                    <p className="text-5xl font-black">31+</p>
+                    <p className="mt-3 text-lg">Restaurants</p>
+                </div>
+
+            </div>
+        </section>
 
 
 
