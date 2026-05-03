@@ -1,11 +1,45 @@
-// src/app/login/page.tsx
-import LoginForm from "@/components/ui/LoginForm";
+"use client";
 
-export default function LoginPage() {
+import Link from "next/link";
+import { LogIn } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+export default function LoginForm() {
   return (
-    // This matches the light blue background from your mockups
-    <main className="min-h-screen bg-[#E8F4FD] flex items-center justify-center px-4">
-      <LoginForm />
-    </main>
+    <div className="w-full max-w-[450px] bg-white rounded-[40px] p-10 shadow-xl border border-slate-100">
+      <div className="text-center mb-8 space-y-2">
+        <h1 className="text-5xl font-black tracking-tight text-slate-900">
+          Welcome Back!
+        </h1>
+        <p className="text-slate-500 font-medium text-lg">
+          Log in to your craveroll account
+        </p>
+      </div>
+
+      <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+        <Input 
+          type="email" 
+          placeholder="Email" 
+          className="h-14 rounded-2xl border-slate-200 bg-slate-50/50 px-6 focus:ring-orange-500 text-lg"
+        />
+        <Input 
+          type="password" 
+          placeholder="Password" 
+          className="h-14 rounded-2xl border-slate-200 bg-slate-50/50 px-6 focus:ring-orange-500 text-lg"
+        />
+        
+        <Button className="w-full h-14 bg-[#FF5722] hover:bg-[#F4511E] text-white text-xl font-bold rounded-2xl mt-4 flex items-center justify-center gap-2 transition-transform active:scale-95">
+          <LogIn size={20} strokeWidth={3} /> Login
+        </Button>
+      </form>
+
+      <div className="mt-8 text-center text-lg font-bold">
+        <span className="text-slate-400">New here? </span>
+        <Link href="/signup" className="text-[#FF5722] hover:underline">
+          Sign Up
+        </Link>
+      </div>
+    </div>
   );
 }
