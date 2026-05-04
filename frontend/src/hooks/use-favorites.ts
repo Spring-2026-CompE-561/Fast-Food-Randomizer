@@ -35,7 +35,8 @@ export function useFavorites() {
       setError(null);
 
       try {
-        const favs = (await getFavorites()) as FavoriteEntry[];
+        const favsRaw = await getFavorites();
+        const favs = (Array.isArray(favsRaw) ? favsRaw : []) as FavoriteEntry[];
         const restaurants = (await getRestaurants()) as Restaurant[];
 
         const restaurantMap = new Map(restaurants.map((r) => [r.id, r]));
