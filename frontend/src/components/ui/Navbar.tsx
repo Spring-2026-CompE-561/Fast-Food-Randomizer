@@ -121,7 +121,7 @@ export default function Navbar() {
 
             <Button
               variant="outline"
-              className="font-bold rounded-xl px-6 h-11"
+              className={cn("font-bold rounded-xl px-6 h-11", authPopOutline)}
               onClick={logout}
             >
               Logout
@@ -185,7 +185,7 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent side="right" className="flex flex-col w-[min(100vw-1rem,20rem)]">
             <SheetHeader>
-              <SheetTitle className="text-left font-heading text-xl">
+              <SheetTitle className="text-center font-heading text-xl">
                 Navigate
               </SheetTitle>
             </SheetHeader>
@@ -240,7 +240,11 @@ export default function Navbar() {
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Button className="w-full font-black" onClick={logout}>
+                    <Button
+                      variant="outline"
+                      className={cn("w-full font-bold rounded-xl", authPopOutline)}
+                      onClick={logout}
+                    >
                       Logout
                     </Button>
                   </SheetClose>
