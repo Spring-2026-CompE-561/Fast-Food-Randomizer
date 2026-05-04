@@ -218,8 +218,23 @@ export default function Navbar() {
               </SheetClose>
             </nav>
 
-            
+
             <SheetFooter className="gap-2 sm:flex-col border-t border-border pt-4">
+              {isAuthenticated ? (
+                <>
+                  <SheetClose asChild>
+                    <Button variant="outline" className="w-full font-bold" asChild>
+                      <Link href="/profile">Profile</Link>
+                    </Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Button className="w-full font-black" onClick={logout}>
+                      Logout
+                    </Button>
+                  </SheetClose>
+                </>
+              ) : (
+                <> 
               <SheetClose asChild>
                 <Button variant="outline" className="w-full font-bold" asChild>
                   <Link href="/login">Login</Link>
@@ -230,6 +245,8 @@ export default function Navbar() {
                   <Link href="/register">Sign Up</Link>
                 </Button>
               </SheetClose>
+             </>
+             )}
             </SheetFooter>
           </SheetContent>
         </Sheet>
