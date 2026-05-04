@@ -21,7 +21,7 @@ finally:
 
 app = FastAPI(
     title=settings.app_name,
-    description="An API for picking a restaurant based on user preferences.",
+    description="CraveRoll — pick a restaurant based on user preferences.",
     version=settings.app_version,
 )
 
@@ -29,7 +29,7 @@ app.include_router(api_router)
 
 @app.get("/")
 def read_root():
-    return {"message": "Fast Food Randomizer is officially online!"}
+    return {"message": "CraveRoll is officially online!"}
 
 # Configure CORS
 app.add_middleware(

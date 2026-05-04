@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    app_name: str = "Fast Food Randomizer API"
+    app_name: str = "CraveRoll API"
     app_version: str = "1.0.0"
 
     secret_key: str = Field(
