@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Home, Info, LayoutGrid, Menu, Shuffle, Heart, Clock, User } from "lucide-react";
 import { Button } from "./button";
 import { useAuth } from "@/hooks/use-auth";
+import { useCurrentUser } from "@/hooks/use-curr-user";
 import {
   Sheet,
   SheetClose,
@@ -71,6 +72,13 @@ function NavLinkDesktop({
 export default function Navbar() {
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
+  const { user } = useCurrentUser();
+
+  function handleLogout() {
+    logout();
+    window.location.href = "/login";
+
+  }
 
   const mobileLinkClass = (href: string) =>
     cn(
@@ -111,18 +119,14 @@ export default function Navbar() {
       <div className="hidden md:flex items-center gap-4 shrink-0">
         {isAuthenticated ? (
           <>
-            <Link
-              href="/profile"
-              className="text-sm font-bold text-muted-foreground hover:text-primary px-4 transition-colors"
-            >
+            <div className="text-sm font-bold text-muted-foreground px-4">
               <User size={16} className="inline mr-2" />
-              Profile
-            </Link>
-
+              {user?.username ?? "Account"}
+            </div>
             <Button
               variant="outline"
               className={cn("font-bold rounded-xl px-6 h-11", authPopOutline)}
-              onClick={logout}
+              onClick={handleLogout}
             >
               Logout
             </Button>
@@ -235,15 +239,15 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <>
                   <SheetClose asChild>
-                    <Button variant="outline" className="w-full font-bold" asChild>
-                      <Link href="/profile">Profile</Link>
-                    </Button>
+                    <div className="w-full text-center font-bold text-muted-foreground">
+                      {user?.username ?? "Account"}
+                    </div>
                   </SheetClose>
                   <SheetClose asChild>
                     <Button
                       variant="outline"
                       className={cn("w-full font-bold rounded-xl", authPopOutline)}
-                      onClick={logout}
+                      onClick={handleLogout}
                     >
                       Logout
                     </Button>

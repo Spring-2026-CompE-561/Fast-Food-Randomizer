@@ -12,7 +12,7 @@ import {
 } from "@/lib/restaurant-card-helpers";
 
 export default function FavoritesPage() {
-  const { favorites, loading } = useFavorites();
+  const { favorites, loading, error } = useFavorites();
 
   return (
     <ProtectedRoute>
@@ -23,20 +23,24 @@ export default function FavoritesPage() {
         </section>
 
         <div className="w-full max-w-5xl mx-auto bg-white rounded-[30px] shadow-xl p-10">
-          <h2 className="text-3xl font-black mb-8 flex items-center gap-3">
+          <h2 className="text-3xl font-black mb-8 flex items-center justify-center gap-3">
             <Heart size={52} className="text-accent shrink-0" aria-hidden />
             Saved Places
           </h2>
 
+          {error && (
+            <p className="mb-6 text-center text-sm font-medium text-destructive">{error}</p>
+          )}
+
           {loading && <RestaurantCardGridSkeleton count={4} />}
 
-          {!loading && favorites.length === 0 && (
+          {!loading && !error && favorites.length === 0 && (
             <div className="text-lg text-gray-500">
               No favorites yet — start exploring!
             </div>
           )}
 
-          {!loading && favorites.length > 0 && (
+          {!loading && !error && favorites.length > 0 && (
             <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 gap-8">
               {favorites.map((r) => (
                 <RestaurantCard

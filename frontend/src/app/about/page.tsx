@@ -20,6 +20,7 @@ const team: TeamMember[] = [
   {
     name: "Valerie Joy Pinto",
     bio: "Keeps our API and data layer solid so random picks stay fast and trustworthy between classes.",
+    photo: "/team/valpfp.jpg",
   },
   {
     name: "Sydney Kim",
@@ -29,6 +30,7 @@ const team: TeamMember[] = [
   {
     name: "Aliza Siddiqui",
     bio: "Bridges design and logic so filters and favorites feel obvious the first time you use them.",
+    photo: "/team/alizapfp.JPEG",
   },
   {
     name: "Melina Kai Kwarcinski",
@@ -38,6 +40,7 @@ const team: TeamMember[] = [
   {
     name: "Kaitlin Bituen",
     bio: "Helps tune copy and flows so the randomizer feels friendly, not like another homework assignment.",
+    photo: "/team/kaitlinpfp.JPG",
   },
 ];
 
