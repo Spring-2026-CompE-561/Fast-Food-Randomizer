@@ -1,9 +1,15 @@
 // frontend/src/components/ui/Navbar.tsx
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Home, Shuffle, LayoutGrid, Info } from "lucide-react";
 import { Button } from "./button";
 
 export default function Navbar() {
+  //usePathname gets current route
+  const pathname = usePathname();
+
   return (
     <nav className="flex items-center justify-between px-12 py-4 bg-white border-b sticky top-0 z-50 font-sans">
       {/* Logo */}
@@ -13,17 +19,49 @@ export default function Navbar() {
       
       {/* Centered Navigation Menu */}
       <div className="flex items-center gap-8 bg-[#fff5f0] px-6 py-2 rounded-full border border-orange-100 shadow-sm">
-        <Link href="/" className="flex items-center gap-2 text-sm font-bold text-orange-600">
+        
+        <Link 
+          href="/" 
+          className={`flex items-center gap-2 text-sm font-bold transition-colors ${
+            pathname === "/"
+              ? "text-orange-600"
+              : "text-slate-500 hover:text-orange-600"
+          }`}
+        >
           <Home size={18} strokeWidth={2.5} /> Home
         </Link>
-        <Link href="/randomizer" className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-orange-600 transition-colors">
+
+        <Link 
+          href="/randomizer" 
+          className={`flex items-center gap-2 text-sm font-bold transition-colors ${
+            pathname === "/randomizer"
+              ? "text-orange-600"
+              : "text-slate-500 hover:text-orange-600"
+          }`}
+        >
           <Shuffle size={18} strokeWidth={2.5} /> Randomizer
         </Link>
-        <Link href="/browse" className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-orange-600 transition-colors">
+
+        <Link
+          href="/browse"
+          className={`flex items-center gap-2 text-sm font-bold transition-colors ${
+            pathname === "/browse"
+              ? "text-orange-600"
+              : "text-slate-500 hover:text-orange-600"
+          }`}
+        >
           <LayoutGrid size={18} strokeWidth={2.5} /> Browse
         </Link>
+
         {/* Added About Link here */}
-        <Link href="/about" className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-orange-600 transition-colors">
+        <Link 
+          href="/about"
+          className={`flex items-center gap-2 text-sm font-bold transition-colors ${
+            pathname === "/about"
+              ? "text-orange-600"
+              : "text-slate-500 hover:text-orange-600"
+          }`}
+        >
           <Info size={18} strokeWidth={2.5} /> About
         </Link>
       </div>
