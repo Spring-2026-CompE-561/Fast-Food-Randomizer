@@ -20,7 +20,10 @@ export default function LoginForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    await login(email, password);
+    const success = await login(email, password);
+    if(success) {
+      router.push("/randomizer");
+    }
   }
 
   return (
@@ -31,7 +34,7 @@ export default function LoginForm() {
           Welcome Back!
         </h1>
         <p className="text-lg font-medium text-[#64748B]">
-          Login to craveroll
+          Login to CraveRoll
         </p>
       </div>
 
