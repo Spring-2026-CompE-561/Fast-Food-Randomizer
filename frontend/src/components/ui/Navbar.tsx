@@ -20,6 +20,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { authPopOutline, authPopPrimary } from "@/lib/auth-button-styles";
 
 const navHints: Partial<Record<string, string>> = {
   "/": "Your starting point for everything CraveRoll.",
@@ -132,7 +133,10 @@ export default function Navbar() {
             <TooltipTrigger asChild>
               <Link
                 href="/login"
-                className="text-sm font-bold text-muted-foreground hover:text-primary px-4 transition-colors"
+                className={cn(
+                  "inline-flex items-center justify-center text-sm font-bold rounded-xl px-5 h-11 text-muted-foreground hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                  authPopOutline
+                )}
               >
                 Login
               </Link>
@@ -144,8 +148,16 @@ export default function Navbar() {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link href="/register">
-                <Button className="font-black rounded-xl px-6 h-11 shadow-md shadow-primary/20">
+              <Link
+                href="/register"
+                className="inline-block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <Button
+                  className={cn(
+                    "font-black rounded-xl px-6 h-11 cursor-pointer",
+                    authPopPrimary
+                  )}
+                >
                   Sign Up
                 </Button>
               </Link>
@@ -236,12 +248,19 @@ export default function Navbar() {
               ) : (
                 <> 
               <SheetClose asChild>
-                <Button variant="outline" className="w-full font-bold" asChild>
+                <Button
+                  variant="outline"
+                  className={cn("w-full font-bold rounded-xl", authPopOutline)}
+                  asChild
+                >
                   <Link href="/login">Login</Link>
                 </Button>
               </SheetClose>
               <SheetClose asChild>
-                <Button className="w-full font-black" asChild>
+                <Button
+                  className={cn("w-full font-black rounded-xl", authPopPrimary)}
+                  asChild
+                >
                   <Link href="/register">Sign Up</Link>
                 </Button>
               </SheetClose>

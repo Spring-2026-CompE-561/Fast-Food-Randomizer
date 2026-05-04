@@ -7,8 +7,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LogIn } from "lucide-react";
 // Ensure these paths match where your shadcn components are
-import { Button } from "@/components/ui/button"; 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { authPopPrimary } from "@/lib/auth-button-styles";
 
 export default function LoginForm() {
   const { login, loading, error } = useAuth();
@@ -56,8 +58,20 @@ export default function LoginForm() {
           />
         </div>
 
-        <Button className="w-full h-16 text-2xl font-black rounded-2xl shadow-lg shadow-primary/25 mt-6 flex items-center justify-center gap-3 transition-transform active:scale-95">
-           <LogIn strokeWidth={3} size={28} /> Login
+        <Button
+          type="submit"
+          disabled={loading}
+          className={cn(
+            "w-full h-16 text-2xl font-black rounded-2xl mt-6 flex items-center justify-center gap-3",
+            authPopPrimary
+          )}
+        >
+          <LogIn
+            strokeWidth={3}
+            size={28}
+            className="shrink-0 transition-transform duration-300 ease-out group-hover:scale-110"
+          />
+          Login
         </Button>
       </form>
 
