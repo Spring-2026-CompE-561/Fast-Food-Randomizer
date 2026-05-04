@@ -34,24 +34,6 @@ export default function RandomizerPage() {
       radius_miles: 1,
       user_id: user?.id ?? null,
     });
-
-    if (out.ok && out.data && typeof out.data === "object") {
-      const d = out.data as {
-        name?: string;
-        cuisine?: string;
-        price_range?: unknown;
-      };
-      if (d.name) {
-        toast.success(`You're eating at ${d.name}`, {
-          description:
-            typeof d.cuisine === "string"
-              ? `${d.cuisine} · ${priceDots(d.price_range)}`
-              : undefined,
-        });
-      }
-    } else if (!out.ok) {
-      toast.error(out.error);
-    }
   }
 
   return (
