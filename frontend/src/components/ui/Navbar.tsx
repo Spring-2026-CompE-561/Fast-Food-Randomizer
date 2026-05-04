@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Home, Info, LayoutGrid, Menu, Shuffle, Heart, Clock, User } from "lucide-react";
 import { Button } from "./button";
 import { useAuth } from "@/hooks/use-auth";
@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { authPopOutline, authPopPrimary } from "@/lib/auth-button-styles";
-import { userAgent } from "next/server";
 
 const navHints: Partial<Record<string, string>> = {
   "/": "Your starting point for everything CraveRoll.",
@@ -75,8 +74,6 @@ export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
   const { user } = useCurrentUser();
 
-  const router = useRouter();
-
   function handleLogout() {
     logout();
     window.location.href = "/login";
@@ -128,7 +125,7 @@ export default function Navbar() {
             </div>
             <Button
               variant="outline"
-              className="font-bold rounded-xl px-6 h-11"
+              className={cn("font-bold rounded-xl px-6 h-11", authPopOutline)}
               onClick={handleLogout}
             >
               Logout
@@ -192,7 +189,7 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent side="right" className="flex flex-col w-[min(100vw-1rem,20rem)]">
             <SheetHeader>
-              <SheetTitle className="text-left font-heading text-xl">
+              <SheetTitle className="text-center font-heading text-xl">
                 Navigate
               </SheetTitle>
             </SheetHeader>
@@ -247,7 +244,11 @@ export default function Navbar() {
                     </div>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Button className="w-full font-black" onClick={handleLogout} asChild>
+                    <Button
+                      variant="outline"
+                      className={cn("w-full font-bold rounded-xl", authPopOutline)}
+                      onClick={handleLogout}
+                    >
                       Logout
                     </Button>
                   </SheetClose>

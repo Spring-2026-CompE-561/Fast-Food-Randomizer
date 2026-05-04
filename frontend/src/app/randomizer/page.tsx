@@ -2,7 +2,6 @@
 
 import { useCurrentUser } from "@/hooks/use-curr-user";
 import { useRandomizer } from "@/hooks/use-randomizer";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,21 +10,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
+import { RestaurantCardSkeleton } from "@/components/ui/restaurant-card-skeleton";
+import RestaurantCard from "@/components/ui/RestaurantCard";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Shuffle } from "lucide-react";
+import {
+  looksOnCampus,
+  priceFromRange,
+  restaurantCardMotionClass,
+} from "@/lib/restaurant-card-helpers";
 
 export default function RandomizerPage() {
   const { result, loading, error, runRandomizer } = useRandomizer();
   const { user } = useCurrentUser();
 
   async function handleSpin() {
-    const out = await runRandomizer({
+    await runRandomizer({
       latitude: null,
       longitude: null,
       cuisine: null,
@@ -49,12 +53,12 @@ export default function RandomizerPage() {
         </div>
 
         <Card className="rounded-[28px] border-border shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl font-black">
+          <CardHeader className="justify-items-center text-center">
+            <CardTitle className="flex items-center justify-center gap-2 text-2xl font-black">
               <Shuffle className="size-7 text-primary shrink-0" aria-hidden />
               Spin the wheel
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-center">
               Hungry but stuck deciding? Tap below and we&apos;ll suggest a spot worth trying.
             </CardDescription>
           </CardHeader>
@@ -87,32 +91,32 @@ export default function RandomizerPage() {
             )}
 
             {loading && (
-              <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-6">
-                <Skeleton className="h-8 w-4/5 mx-auto rounded-lg" />
-                <Skeleton className="h-5 w-full rounded-md" />
-                <Skeleton className="h-5 w-2/3 rounded-md" />
-                <div className="flex gap-2 justify-center pt-2">
-                  <Skeleton className="h-6 w-20 rounded-full" />
-                  <Skeleton className="h-6 w-16 rounded-full" />
-                </div>
+              <div className="flex w-full flex-col items-center">
+                <RestaurantCardSkeleton />
               </div>
             )}
 
             {!loading && result && (
-              <div className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">
-                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              <div className="flex w-full flex-col items-center space-y-3">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground text-center">
                   Tonight&apos;s pick
                 </p>
-                <h2 className="text-3xl font-black text-card-foreground">{result.name}</h2>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {result.cuisine && (
-                    <Badge variant="secondary">{String(result.cuisine)}</Badge>
-                  )}
-                  <Badge variant="outline">{priceDots(result.price_range)}</Badge>
-                  {result.match_count != null && (
-                    <Badge variant="outline">{result.match_count} places we considered</Badge>
-                  )}
-                </div>
+                <RestaurantCard
+                  name={String(result.name ?? "Your spot")}
+                  price={priceFromRange(result.price_range)}
+                  category={
+                    result.cuisine != null && String(result.cuisine).trim() !== ""
+                      ? String(result.cuisine)
+                      : "Restaurant"
+                  }
+                  onCampus={looksOnCampus(String(result.name ?? ""))}
+                  className={restaurantCardMotionClass}
+                />
+                {result.match_count != null && (
+                  <p className="text-center text-xs text-muted-foreground">
+                    {String(result.match_count)} places we considered
+                  </p>
+                )}
               </div>
             )}
           </CardContent>
@@ -120,15 +124,4 @@ export default function RandomizerPage() {
       </div>
     </div>
   );
-}
-
-function priceDots(price_range: unknown) {
-  const n =
-    typeof price_range === "number"
-      ? price_range
-      : typeof price_range === "string"
-        ? parseInt(price_range, 10)
-        : NaN;
-  const safe = Number.isFinite(n) ? Math.min(Math.max(n, 1), 4) : 2;
-  return "$".repeat(safe);
 }

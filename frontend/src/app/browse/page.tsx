@@ -3,36 +3,13 @@
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { useRestaurants } from "@/hooks/use-restaurants";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-
-function priceLabel(range: number) {
-  const n = Math.min(Math.max(range, 1), 4);
-  return "$".repeat(n);
-}
-
-function BrowseSkeleton() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <Card key={i} className="rounded-2xl border-border overflow-hidden">
-          <CardHeader className="space-y-3">
-            <Skeleton className="h-7 w-3/4 rounded-lg" />
-            <div className="flex gap-2">
-              <Skeleton className="h-5 w-24 rounded-full" />
-              <Skeleton className="h-5 w-16 rounded-full" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-4 w-full rounded-md mb-2" />
-            <Skeleton className="h-4 w-2/3 rounded-md" />
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-}
+import RestaurantCard from "@/components/ui/RestaurantCard";
+import { RestaurantCardGridSkeleton } from "@/components/ui/restaurant-card-skeleton";
+import {
+  looksOnCampus,
+  priceFromRange,
+  restaurantCardMotionClass,
+} from "@/lib/restaurant-card-helpers";
 
 export default function BrowsePage() {
   const { restaurants, loading, error } = useRestaurants();
@@ -57,7 +34,7 @@ export default function BrowsePage() {
         </p>
       </div>
 
-      {loading && <BrowseSkeleton />}
+      {loading && <RestaurantCardGridSkeleton />}
 
       {!loading && error && (
         <p className="text-center text-destructive font-medium">
@@ -72,26 +49,19 @@ export default function BrowsePage() {
       )}
 
       {!loading && !error && restaurants.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto pb-8">
-          {restaurants.map((r: { id: number; name: string; cuisine: string; price_range: number }) => (
-            <Card
-              key={r.id}
-              className="rounded-2xl border border-transparent shadow-md shadow-black/[0.06] transition-all duration-300 ease-out hover:scale-[1.025] hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/20 hover:border-border hover:ring-2 hover:ring-primary/15"
-            >
-              <CardHeader className="pb-2">
-                <CardTitle className="text-xl font-black text-card-foreground leading-snug">
-                  {r.name}
-                </CardTitle>
-                <div className="flex flex-wrap gap-2 pt-2">
-                  <Badge variant="secondary">{r.cuisine}</Badge>
-                  <Badge variant="outline">{priceLabel(r.price_range)}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="text-muted-foreground text-sm font-medium">
-                Tap Randomizer when you&apos;re ready to let fate pick for you.
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 gap-8 max-w-5xl mx-auto pb-8">
+          {restaurants.map(
+            (r: { id: number; name: string; cuisine: string; price_range: number }) => (
+              <RestaurantCard
+                key={r.id}
+                name={r.name}
+                price={priceFromRange(r.price_range)}
+                category={r.cuisine}
+                onCampus={looksOnCampus(r.name)}
+                className={restaurantCardMotionClass}
+              />
+            )
+          )}
         </div>
       )}
     </div>

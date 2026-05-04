@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { getHistory } from "@/lib/history"
 import { getRestaurants } from "@/lib/restaurants"
+import { looksOnCampus, priceFromRange } from "@/lib/restaurant-card-helpers"
 
 type Restaurant = {
   id: number;
@@ -39,15 +40,13 @@ export function useHistory() {
 
         const combined = history.map((h: any) => {
           const restaurant = restaurantMap.get(h.restaurant_id)
+          const name = restaurant?.name ?? "Unknown"
 
           return {
-            name: restaurant?.name ?? "Unknown",
-            emoji: "🍽️", // placeholder
-            rating: 4.5, // placeholder
-            reviews: 100, // placeholder
-            price: "$".repeat(restaurant?.price_range ?? 1),
+            name,
+            price: priceFromRange(restaurant?.price_range),
             category: restaurant?.cuisine ?? "Unknown",
-            onCampus: true,
+            onCampus: looksOnCampus(name),
           }
         })
 

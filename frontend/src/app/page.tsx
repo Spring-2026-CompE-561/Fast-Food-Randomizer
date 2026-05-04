@@ -4,7 +4,7 @@ import { LayoutGrid, MoveRight, Shuffle } from "lucide-react";
 export default function HomePage() {
   return (
     <div className="min-h-[calc(100vh-73px)] bg-background flex flex-col items-center pt-20 px-4 font-sans">
-      <div className="text-center mb-16 space-y-2">
+      <div className="text-center mb-16 flex flex-col items-center space-y-5">
         <h1 className="text-8xl font-black tracking-tighter text-foreground">
           CraveRoll
         </h1>

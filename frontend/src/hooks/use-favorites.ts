@@ -1,8 +1,15 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { getFavorites } from "@/lib/favorites"
-import { getRestaurants } from "@/lib/restaurants"
+import { useEffect, useState } from "react";
+import { getFavorites } from "@/lib/favorites";
+import { getRestaurants } from "@/lib/restaurants";
+
+export type FavoriteRestaurant = {
+  id: number;
+  name: string;
+  cuisine: string;
+  price_range: number;
+};
 
 type Restaurant = {
   id: number;
@@ -18,48 +25,46 @@ type FavoriteEntry = {
 };
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [favorites, setFavorites] = useState<FavoriteRestaurant[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
 
       try {
-        const favs = (await getFavorites()) as FavoriteEntry[];
+        const favsRaw = await getFavorites();
+        const favs = (Array.isArray(favsRaw) ? favsRaw : []) as FavoriteEntry[];
         const restaurants = (await getRestaurants()) as Restaurant[];
 
-        const restaurantMap = new Map(
-          restaurants.map((r: any) => [r.id, r])
-        )
+        const restaurantMap = new Map(restaurants.map((r) => [r.id, r]));
 
-        const combined = favs.map((f: any) => {
-          const restaurant = restaurantMap.get(f.restaurant_id)
+        const combined: FavoriteRestaurant[] = favs.map((f) => {
+          const restaurant = restaurantMap.get(f.restaurant_id);
+          const name = restaurant?.name ?? "Unknown";
 
           return {
-            name: restaurant?.name ?? "Unknown",
-            emoji: "🍽️",
-            rating: 4.5,
-            reviews: 100,
-            price: "$".repeat(restaurant?.price_range ?? 1),
-            category: restaurant?.cuisine ?? "Unknown",
-            onCampus: true,
-            restaurant_id: f.restaurant_id,
-          }
-        })
+            id: f.id,
+            name,
+            cuisine: restaurant?.cuisine ?? "Unknown",
+            price_range: restaurant?.price_range ?? 1,
+            // priceFromRange / looksOnCampus used on the page from helpers
+          };
+        });
 
-        setFavorites(combined)
-      } catch (err: any) {
-        setError(err.message)
+        setFavorites(combined);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Failed to load favorites";
+        setError(message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchData()
-  }, [])
+    void fetchData();
+  }, []);
 
-  return { favorites, loading, error }
+  return { favorites, loading, error };
 }
