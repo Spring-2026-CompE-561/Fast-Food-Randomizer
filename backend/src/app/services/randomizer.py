@@ -11,6 +11,7 @@ import app.services.history as history_service
 from app.schemas.history import HistoryCreate
 from app.repository.restaurant import RestaurantRepository
 from app.schemas.randomizer import RandomizeRequest, RandomizeResponse
+from app.models.user import User
 
 
 def haversine_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -63,6 +64,7 @@ def choose_random_within_radius(
 def randomize_restaurant(
         db: Session,
         payload: RandomizeRequest,
+        current_user: Optional[User],
 ) -> RandomizeResponse:
     candidates = RestaurantRepository.get_filtered(
         db,
@@ -93,7 +95,7 @@ def randomize_restaurant(
     
     chosen, distance_miles, match_count = chosen_result
     
-    if payload.user_id is not None:
+    if current_user is not None:
         applied_filters = json.dumps(
             {
                 "cuisine": payload.cuisine,
@@ -105,10 +107,8 @@ def randomize_restaurant(
 
         history_service.add_history(
             db,
-            HistoryCreate(
-                user_id=payload.user_id,
-                restaurant_id=int(chosen.id),
-            ),
+            current_user.id,
+            int(chosen.id),
         )
         
     return RandomizeResponse(

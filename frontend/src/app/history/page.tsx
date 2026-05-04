@@ -1,43 +1,22 @@
 // src/app/history/page.tsx
+"use client";
+
 import { Clock } from "lucide-react";
 import RestaurantCard from "@/components/ui/RestaurantCard";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { useHistory } from "@/hooks/use-history";
 
-//Placeholders until backend/auth is connected
-//Newest randomizer results appear first in array
-const historyItems = [
-  {
-    name: "Los Primos Mexican Food",
-    emoji: "🌯",
-    rating: 4.5,
-    reviews: 689,
-    price: "$",
-    category: "Mexican",
-    onCampus: false,
-  },
-  {
-    name: "Oggi's Pizza",
-    emoji: "🍕",
-    rating: 4.2,
-    reviews: 534,
-    price: "$$",
-    category: "Pizza",
-    onCampus: false,
-  },
-  {
-    name: "Chipotle",
-    emoji: "🌯",
-    rating: 4.3,
-    reviews: 2341,
-    price: "$$",
-    category: "Mexican",
-    onCampus: true,
-  },
-];
 
 //based on Next.js App Router page structure
 export default function HistoryPage(){
+  const { historyItems, loading, error } = useHistory();
+
+  {loading && <p>Loading...</p>}
+  {error && <p className="text-red-500">{error}</p>}
+
     return(
         //Page background and spacing
+      <ProtectedRoute>
         <main className="min-h-screen bg-background px-4 py-14 font-sans">
             {/* Hero section */}
             <section className="text-center mb-16">
@@ -91,5 +70,6 @@ export default function HistoryPage(){
                 </section>
             )} 
         </main>
+      </ProtectedRoute>
     );
 }

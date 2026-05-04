@@ -9,7 +9,6 @@ class RandomizeRequest(BaseModel):
     cuisine: Optional[list[str]] = None
     price_range: Optional[int] = Field(default=None, ge=1, le=5)
     dietary_tag: Optional[list[str]] = None
-    user_id: Optional[str] = None
 
 class RandomizeResponse(BaseModel):
     restaurant_id: int
