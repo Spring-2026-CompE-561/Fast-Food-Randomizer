@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Info, LayoutGrid, Menu, Shuffle } from "lucide-react";
+import { Home, Info, LayoutGrid, Menu, Shuffle, Heart, Clock, User } from "lucide-react";
 import { Button } from "./button";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Sheet,
   SheetClose,
@@ -24,6 +25,8 @@ const navHints: Partial<Record<string, string>> = {
   "/": "Your starting point for everything CraveRoll.",
   "/randomizer": "Let us surprise you with a spot worth trying.",
   "/browse": "See every restaurant CraveRoll lists in one place.",
+  "/favorites": "View your saved favorite restaurants.",
+  "/history": "See your recent randomizer picks.",
   "/about": "Our story, mission, and the team behind the app.",
 };
 
@@ -66,6 +69,7 @@ function NavLinkDesktop({
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { isAuthenticated, logout } = useAuth();
 
   const mobileLinkClass = (href: string) =>
     cn(
@@ -84,43 +88,77 @@ export default function Navbar() {
         CraveRoll
       </Link>
 
+      {/* Desktop Navigation */}
       <div className="hidden md:flex flex-1 justify-center">
         <div className="flex items-center gap-8 bg-muted px-6 py-2 rounded-full border border-border shadow-sm">
           <NavLinkDesktop href="/" label="Home" icon={Home} />
           <NavLinkDesktop href="/randomizer" label="Randomizer" icon={Shuffle} />
           <NavLinkDesktop href="/browse" label="Browse" icon={LayoutGrid} />
+          
+          {isAuthenticated && (
+            <>
+            <NavLinkDesktop href="/favorites" label="Favorites" icon={Heart} />
+            <NavLinkDesktop href="/history" label="History" icon={Clock} />
+            </>
+          )}
+          
           <NavLinkDesktop href="/about" label="About" icon={Info} />
         </div>
       </div>
 
+      {/* Desktop Right Side */}
       <div className="hidden md:flex items-center gap-4 shrink-0">
-        <Tooltip>
-          <TooltipTrigger asChild>
+        {isAuthenticated ? (
+          <>
             <Link
-              href="/login"
+              href="/profile"
               className="text-sm font-bold text-muted-foreground hover:text-primary px-4 transition-colors"
             >
-              Login
+              <User size={16} className="inline mr-2" />
+              Profile
             </Link>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            Welcome back — sign in to your account.
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link href="/register">
-              <Button className="font-black rounded-xl px-6 h-11 shadow-md shadow-primary/20">
-                Sign Up
-              </Button>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            New here? Create a free CraveRoll account.
-          </TooltipContent>
-        </Tooltip>
-      </div>
 
+            <Button
+              variant="outline"
+              className="font-bold rounded-xl px-6 h-11"
+              onClick={logout}
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href="/login"
+                className="text-sm font-bold text-muted-foreground hover:text-primary px-4 transition-colors"
+              >
+                Login
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              Welcome back — sign in to your account.
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/register">
+                <Button className="font-black rounded-xl px-6 h-11 shadow-md shadow-primary/20">
+                  Sign Up
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              New here? Create a free CraveRoll account.
+            </TooltipContent>
+          </Tooltip>
+        </>
+      )}
+    </div>
+
+      {/* Mobile Menu */}
       <div className="flex md:hidden items-center shrink-0">
         <Sheet>
           <SheetTrigger asChild>
@@ -155,13 +193,48 @@ export default function Navbar() {
                   <LayoutGrid size={20} strokeWidth={2.5} /> Browse
                 </Link>
               </SheetClose>
+
+              {/* auth history and favs */}
+              {isAuthenticated && (
+                <>
+                  <SheetClose asChild>
+                    <Link href="/favorites" className={mobileLinkClass("/favorites")}>
+                      <Heart size={20} strokeWidth={2.5} /> Favorites
+                    </Link>
+                  </SheetClose>
+
+                  <SheetClose asChild>
+                    <Link href="/history" className={mobileLinkClass("/history")}>
+                      <Clock size={20} strokeWidth={2.5} /> History
+                    </Link>
+                  </SheetClose>
+                </>
+              )}
+
               <SheetClose asChild>
                 <Link href="/about" className={mobileLinkClass("/about")}>
                   <Info size={20} strokeWidth={2.5} /> About
                 </Link>
               </SheetClose>
             </nav>
+
+
             <SheetFooter className="gap-2 sm:flex-col border-t border-border pt-4">
+              {isAuthenticated ? (
+                <>
+                  <SheetClose asChild>
+                    <Button variant="outline" className="w-full font-bold" asChild>
+                      <Link href="/profile">Profile</Link>
+                    </Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Button className="w-full font-black" onClick={logout}>
+                      Logout
+                    </Button>
+                  </SheetClose>
+                </>
+              ) : (
+                <> 
               <SheetClose asChild>
                 <Button variant="outline" className="w-full font-bold" asChild>
                   <Link href="/login">Login</Link>
@@ -172,6 +245,8 @@ export default function Navbar() {
                   <Link href="/register">Sign Up</Link>
                 </Button>
               </SheetClose>
+             </>
+             )}
             </SheetFooter>
           </SheetContent>
         </Sheet>

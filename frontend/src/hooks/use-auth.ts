@@ -1,7 +1,6 @@
 "use client"
 
-import { use, useState } from "react"
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { loginUser, registerUser } from "@/lib/auth"
 
 export function useAuth() {
@@ -11,10 +10,18 @@ export function useAuth() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token")
-    if (token) {
-      setIsAuthenticated(true)
+    function checkAuth(){
+      const token = localStorage.getItem("access_token");
+      setIsAuthenticated(!!token);
     }
+
+    checkAuth();
+
+    window.addEventListener("auth-change", checkAuth);
+    
+    return () => {
+      window.removeEventListener("auth-change", checkAuth);
+    };
   }, [])
 
   async function login(email: string, password: string) {
@@ -24,6 +31,7 @@ export function useAuth() {
     try {
       const data = await loginUser(email, password);
       localStorage.setItem("access_token", data.access_token);
+      window.dispatchEvent(new Event("auth-change"));
       setUser(email);
       setIsAuthenticated(true);
       return true;
@@ -52,6 +60,7 @@ export function useAuth() {
 
   function logout() {
     localStorage.removeItem("access_token")
+    window.dispatchEvent(new Event("auth-change"));
     setUser(null)
     setIsAuthenticated(false)
   }
