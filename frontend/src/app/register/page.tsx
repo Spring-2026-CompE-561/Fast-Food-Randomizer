@@ -9,6 +9,8 @@ import Link from "next/link";
 import { UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { authPopPrimary } from "@/lib/auth-button-styles";
 
 // Based on Next.js App Router page structure
 export default function RegisterPage() {
@@ -84,12 +86,20 @@ export default function RegisterPage() {
             />
             </div>
           
-          <Button 
-            className="w-full h-16 text-2xl font-black rounded-2xl shadow-lg shadow-primary/25 mt-6 flex items-center justify-center gap-3 transition-transform active:scale-95"
+          <Button
             type="submit"
             disabled={loading}
+            className={cn(
+              "w-full h-16 text-2xl font-black rounded-2xl mt-6 flex items-center justify-center gap-3",
+              authPopPrimary
+            )}
           >
-            <UserPlus strokeWidth={3} size={28} /> Sign Up
+            <UserPlus
+              strokeWidth={3}
+              size={28}
+              className="shrink-0 transition-transform duration-300 ease-out group-hover:scale-110"
+            />
+            Sign Up
           </Button>
         </form>
 

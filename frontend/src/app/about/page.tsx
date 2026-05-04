@@ -212,15 +212,23 @@ export default function AboutPage() {
         </h2>
         <div className="max-w-3xl mx-auto mb-12 space-y-5 text-muted-foreground text-lg leading-relaxed text-left">
           <p>
-            CraveRoll was built by a group of students at San Diego State University as part of
-            COMPE 561, where we collaborated to design and develop a full-stack application from the
-            ground up. Each of us contributed to different parts of the project, from frontend design
-            to backend development, all while learning how to work as a real development team.
+            <strong className="font-semibold text-foreground">CraveRoll</strong> was built by a group
+            of students at{" "}
+            <strong className="font-semibold text-foreground">
+              San Diego State University
+            </strong>{" "}
+            as part of{" "}
+            <strong className="font-semibold text-foreground">COMPE 561</strong>, where we
+            collaborated to design and develop a full-stack application from the ground up. Each of
+            us contributed to different parts of the project, from frontend design to backend
+            development, all while learning how to work as a real development team.
           </p>
           <p>
-            We&apos;d also like to give a special thank you to Ugur Dogan for guiding us throughout
-            the course and teaching us the skills that made this project possible. His support and
-            instruction played a huge role in bringing CraveRoll to life.
+            We&apos;d also like to give a special thank you to{" "}
+            <strong className="font-semibold text-foreground">Ugur Dogan</strong> for guiding us
+            throughout the course and teaching us the skills that made this project possible. His
+            support and instruction played a huge role in bringing{" "}
+            <strong className="font-semibold text-foreground">CraveRoll</strong> to life.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
