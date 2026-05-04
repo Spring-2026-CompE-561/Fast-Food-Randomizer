@@ -4,13 +4,13 @@ import { Shuffle, LayoutGrid, MoveRight } from "lucide-react";
 
 export default function HomePage() {
   return (
-    <div className="min-h-[calc(100vh-73px)] bg-[#E8F4FD] flex flex-col items-center pt-20 px-4 font-sans">
+    <div className="min-h-[calc(100vh-73px)] bg-background flex flex-col items-center pt-20 px-4 font-sans">
       {/* Hero Header */}
       <div className="text-center mb-16 space-y-2">
-        <h1 className="text-8xl font-black tracking-tighter text-[#1E293B] lowercase">
-          craveroll
+        <h1 className="text-8xl font-black tracking-tighter text-foreground">
+          CraveRoll
         </h1>
-        <p className="text-2xl font-bold tracking-tight text-[#475569]">
+        <p className="text-2xl font-bold tracking-tight text-muted-foreground">
          SDSU's Official Fast-Food Randomizer
         </p>
       </div>
@@ -20,7 +20,7 @@ export default function HomePage() {
         
         {/* Randomizer Card */}
         <Link href="/randomizer" className="group">
-          <div className="bg-[#FF5722] rounded-[45px] p-12 text-white h-[420px] flex flex-col items-center justify-center text-center shadow-2xl transition-transform hover:scale-[1.01]">
+          <div className="bg-accent rounded-[45px] p-12 text-accent-foreground h-[420px] flex flex-col items-center justify-center text-center shadow-2xl shadow-accent/35 transition-transform hover:scale-[1.01]">
             <Shuffle size={70} strokeWidth={2.5} className="mb-6" />
             <h2 className="text-4xl font-black tracking-tight mb-4">Randomizer</h2>
             <p className="text-lg font-medium opacity-90 mb-8 leading-relaxed max-w-[320px]">
@@ -34,7 +34,7 @@ export default function HomePage() {
 
         {/* Browse All Card */}
         <Link href="/browse" className="group">
-          <div className="bg-[#9333EA] rounded-[45px] p-12 text-white h-[420px] flex flex-col items-center justify-center text-center shadow-2xl transition-transform hover:scale-[1.01]">
+          <div className="bg-primary rounded-[45px] p-12 text-primary-foreground h-[420px] flex flex-col items-center justify-center text-center shadow-2xl shadow-primary/35 transition-transform hover:scale-[1.01]">
             <LayoutGrid size={70} strokeWidth={2.5} className="mb-6" />
             <h2 className="text-4xl font-black tracking-tight mb-4">Browse All</h2>
             <p className="text-lg font-medium opacity-90 mb-8 leading-relaxed max-w-[320px]">
