@@ -1,3 +1,11 @@
+import ProtectedRoute from "@/components/ProtectedRoute";
+
+export default function FavoritesPage() {
+  return (
+    <ProtectedRoute>
+      <div>Favorites Page (placeholder)</div>
+    </ProtectedRoute>
+  );
 export default function FavoritesPage() {
   return (
     <main className="min-h-screen bg-[#E8F4FD] px-4 py-14 font-sans">
