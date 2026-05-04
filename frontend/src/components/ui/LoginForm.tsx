@@ -24,7 +24,7 @@ export default function LoginForm() {
     e.preventDefault();
     const success = await login(email, password);
     if(success) {
-      router.push("/randomizer");
+      window.location.href = "/randomizer";
     }
   }
 
