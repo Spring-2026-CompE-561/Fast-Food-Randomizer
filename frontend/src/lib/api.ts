@@ -1,4 +1,13 @@
 export const API_BASE_URL = "http://127.0.0.1:8000"
+export const ACCESS_TOKEN_KEY = "access_token";
+
+export function getAccessToken() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
 
 export class ApiUnauthorizedError extends Error {
   constructor(message = "Your session expired. Please sign in again.") {
@@ -78,4 +87,31 @@ export async function postApiJson<TResponse, TBody>(
   }
 
   return (await response.json()) as TResponse
+}
+
+export async function getAuthenticatedApiJson<T>(path: string): Promise<T> {
+  const accessToken = getAccessToken();
+
+  if (!accessToken) {
+    throw new ApiUnauthorizedError("You must be logged in.");
+  }
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.status === 401) {
+    throw new ApiUnauthorizedError();
+  }
+
+  if (!response.ok) {
+    const message = await readApiErrorMessage(response);
+    throw new Error(message ?? `Failed to load ${path}`);
+  }
+
+  return (await response.json()) as T;
 }

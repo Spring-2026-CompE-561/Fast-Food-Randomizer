@@ -5,6 +5,7 @@ import { loginUser, registerUser } from "@/lib/auth"
 
 export function useAuth() {
   const [user, setUser] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

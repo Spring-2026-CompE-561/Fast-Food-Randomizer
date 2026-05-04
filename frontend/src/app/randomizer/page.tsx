@@ -1,9 +1,11 @@
 "use client"
 
 import { useRandomizer } from "@/hooks/use-randomizer"
+import { useCurrentUser } from "@/hooks/use-curr-user"
 
 export default function RandomizerPage() {
   const { result, loading, error, runRandomizer } = useRandomizer()
+  const { user } = useCurrentUser()
 
   function handleClick() {
     runRandomizer({
@@ -27,6 +29,8 @@ export default function RandomizerPage() {
 
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
+
+      {user && <p>Logged in as: {user.email}</p>}
 
       {result && (
         <div style={{ marginTop: "20px" }}>
