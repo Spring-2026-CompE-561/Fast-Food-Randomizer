@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Info, LayoutGrid, Menu, Shuffle } from "lucide-react";
+import { Home, Info, LayoutGrid, Menu, Shuffle, Heart, Clock, User } from "lucide-react";
 import { Button } from "./button";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Sheet,
   SheetClose,
@@ -37,6 +38,7 @@ function NavLinkDesktop({
   icon: typeof Home;
 }) {
   const pathname = usePathname();
+  const { isAuthenticated, logout } = useAuth();
   const active = pathname === href;
   const hint = navHints[href];
 
