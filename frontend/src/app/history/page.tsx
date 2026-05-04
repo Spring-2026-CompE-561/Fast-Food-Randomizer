@@ -1,4 +1,5 @@
 // src/app/history/page.tsx
+import { Clock } from "lucide-react";
 
 //Placeholders until backend/auth is connected
 //Newest randomizer results appear first in array
@@ -50,6 +51,20 @@ export default function HistoryPage(){
                     Your recent randomizer picks
                 </p>
             </section>
+
+             {/* Empty state: shown when the logged-in user has no randomizer history yet */}
+             {historyItems.length === 0 && (
+                <section className="flex flex-col items-center justify-center text-center mt-24">
+                    <Clock size={110} className="text-muted-foreground/40 mb-8" />
+                    <h2 className="text-3xl text-muted-foreground mb-4">
+                        No history yet!
+                    </h2>
+                    <p className="text-lg text-muted-foreground">
+                        Use the randomizer to start building your history
+                    </p>
+                </section>
+            )}
+
         </main>
     );
 }
