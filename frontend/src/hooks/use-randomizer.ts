@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import { useState } from "react"
 import { randomizeRestaurant } from "@/lib/randomizer"
 
 export function useRandomizer() {
@@ -8,18 +6,15 @@ export function useRandomizer() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  async function runRandomizer(payload: unknown) {
+  async function runRandomizer(payload: any) {
     setLoading(true)
     setError(null)
 
     try {
       const data = await randomizeRestaurant(payload)
       setResult(data)
-      return { ok: true as const, data }
-    } catch {
-      const msg = "We couldn’t pick a spot this time. Try again?"
-      setError(msg)
-      return { ok: false as const, error: msg }
+    } catch (err) {
+      setError("Failed to fetch restaurant.")
     } finally {
       setLoading(false)
     }
