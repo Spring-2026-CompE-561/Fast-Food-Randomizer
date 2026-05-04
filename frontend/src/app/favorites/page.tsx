@@ -1,6 +1,11 @@
+"use client";
+
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useFavorites } from "@/hooks/use-favorites"
 
 export default function FavoritesPage() {
+  const { favorites, loading, error } = useFavorites();
+
   return (
     <ProtectedRoute>
         <main className="min-h-screen bg-[#E8F4FD] px-4 py-14 font-sans">
