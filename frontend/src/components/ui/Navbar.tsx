@@ -1,42 +1,53 @@
-// frontend/src/components/ui/Navbar.tsx
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Home, Shuffle, LayoutGrid, Info } from "lucide-react";
-import { Button } from "./button";
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   return (
-    <nav className="flex items-center justify-between px-12 py-4 bg-white border-b sticky top-0 z-50 font-sans">
-      {/* Logo */}
-      <Link href="/" className="text-3xl font-black tracking-tighter text-[#1e293b] lowercase">
-        craveroll
-      </Link>
+    <nav className="flex items-center justify-between px-12 py-6 bg-[#FFFDF0] w-full border-b border-transparent">
       
-      {/* Centered Navigation Menu */}
-      <div className="flex items-center gap-8 bg-[#fff5f0] px-6 py-2 rounded-full border border-orange-100 shadow-sm">
-        <Link href="/" className="flex items-center gap-2 text-sm font-bold text-orange-600">
-          <Home size={18} strokeWidth={2.5} /> Home
-        </Link>
-        <Link href="/randomizer" className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-orange-600 transition-colors">
-          <Shuffle size={18} strokeWidth={2.5} /> Randomizer
-        </Link>
-        <Link href="/browse" className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-orange-600 transition-colors">
-          <LayoutGrid size={18} strokeWidth={2.5} /> Browse
-        </Link>
-        {/* Added About Link here */}
-        <Link href="/about" className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-orange-600 transition-colors">
-          <Info size={18} strokeWidth={2.5} /> About
-        </Link>
+      {/* Logo */}
+      <Link href="/" className="text-4xl font-serif font-black text-[#C27803] tracking-tight hover:opacity-80 transition-opacity">
+        CraveRoll
+      </Link>
+
+      {/* Center Pill Nav */}
+      <div className="bg-[#FEF9C3] border border-[#FDE68A] rounded-full p-1.5 flex items-center gap-1 shadow-sm">
+        <NavLink href="/" icon={<Home size={18} />} label="Home" active={pathname === "/"} />
+        <NavLink href="/randomizer" icon={<Shuffle size={18} />} label="Randomizer" active={pathname === "/randomizer"} />
+        <NavLink href="/browse" icon={<LayoutGrid size={18} />} label="Browse" active={pathname === "/browse"} />
+        <NavLink href="/about" icon={<Info size={18} />} label="About" active={pathname === "/about"} />
       </div>
 
-      {/* Right Side Actions */}
-      <div className="flex items-center gap-4">
-        <Link href="/login" className="text-sm font-bold text-slate-600 hover:text-orange-600 px-4">
+      {/* Auth Buttons */}
+      <div className="flex items-center gap-6">
+        <Link href="/login" className="font-bold text-[#2D2D2D] hover:text-black">
           Login
         </Link>
-        <Button className="bg-[#ff5722] hover:bg-[#e64a19] font-black rounded-xl px-6 text-white h-11">
+        <Link href="/signup" className="bg-[#E67E5F] text-white px-8 py-2.5 rounded-full font-bold shadow-sm hover:bg-[#d46b4c] transition-all">
           Sign Up
-        </Button>
+        </Link>
       </div>
     </nav>
+  );
+}
+
+function NavLink({ href, icon, label, active }: { href: string, icon: React.ReactNode, label: string, active: boolean }) {
+  return (
+    <Link 
+      href={href} 
+      className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-bold transition-all whitespace-nowrap ${
+        active 
+          ? 'bg-[#FDE68A] text-[#2D2D2D] shadow-sm' 
+          : 'text-[#8c8c8c] hover:text-[#2D2D2D] hover:bg-white/50'
+      }`}
+    >
+      {icon}
+      {label}
+    </Link>
   );
 }

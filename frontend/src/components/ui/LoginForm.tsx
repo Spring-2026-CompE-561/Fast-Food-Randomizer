@@ -1,46 +1,66 @@
-// src/components/LoginForm.tsx
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
-import { LogIn } from "lucide-react"; // Make sure lucide-react is installed
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { LogIn } from "lucide-react";
 
 export default function LoginForm() {
-  return (
-    <div className="w-full max-w-[450px] bg-white rounded-[40px] p-10 shadow-xl border border-slate-100">
-      <div className="text-center mb-8 space-y-2">
-        <h1 className="text-5xl font-black tracking-tight text-slate-900">
-          Welcome Back!
-        </h1>
-        <p className="text-slate-500 font-medium">
-          Log in to your craveroll account
-        </p>
-      </div>
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-      <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-        <Input 
-          type="email" 
-          placeholder="Email" 
-          className="h-14 rounded-2xl border-slate-200 bg-slate-50/50 px-6 focus:ring-orange-500"
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  return (
+    // White card with subtle yellow border
+    <div className="bg-white rounded-[40px] shadow-xl p-10 w-full max-w-lg text-center border border-[#FDE68A]/30">
+      
+      <h1 className="text-5xl font-black text-[#111827] mb-2 tracking-tight">
+        Welcome Back!
+      </h1>
+      <p className="text-gray-500 text-lg mb-8">
+        Login to your craveroll account
+      </p>
+
+      <form className="space-y-4">
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-[#FFFDF0]/50 focus:outline-none focus:ring-2 focus:ring-[#E67E5F]/20 focus:border-[#E67E5F] transition-all text-lg"
+          required
         />
-        <Input 
-          type="password" 
-          placeholder="Password" 
-          className="h-14 rounded-2xl border-slate-200 bg-slate-50/50 px-6 focus:ring-orange-500"
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          className="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-[#FFFDF0]/50 focus:outline-none focus:ring-2 focus:ring-[#E67E5F]/20 focus:border-[#E67E5F] transition-all text-lg"
+          required
         />
-        
-        <Button className="w-full h-14 bg-[#FF5722] hover:bg-[#F4511E] text-white text-xl font-bold rounded-2xl mt-4 flex items-center justify-center gap-2">
-          <LogIn size={20} strokeWidth={3} /> Login
-        </Button>
+
+        {/* Login Button updated to #E67E5F */}
+        <button
+          type="submit"
+          className="w-full bg-[#E67E5F] hover:bg-[#D46B4C] text-white font-black py-4 rounded-2xl text-xl shadow-lg shadow-orange-100 flex items-center justify-center gap-3 mt-4 transition-all active:scale-[0.98]"
+        >
+          <LogIn size={24} />
+          Login
+        </button>
       </form>
 
-      <div className="mt-8 text-center font-bold">
-        <span className="text-slate-500">New here? </span>
-        <Link href="/signup" className="text-[#FF5722] hover:underline">
+      <p className="mt-8 text-gray-600 text-lg">
+        Don't have an account?{" "}
+        <Link href="/signup" className="text-[#E67E5F] font-bold hover:underline">
           Sign Up
         </Link>
-      </div>
+      </p>
     </div>
   );
 }
