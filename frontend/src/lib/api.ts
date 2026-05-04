@@ -115,3 +115,31 @@ export async function getAuthenticatedApiJson<T>(path: string): Promise<T> {
 
   return (await response.json()) as T;
 }
+
+export async function postOptionalAuthenticatedApiJson<TResponse, TBody>(
+  path: string,
+  body: TBody,
+): Promise<TResponse> {
+  const accessToken = getAccessToken();
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const message = await readApiErrorMessage(response);
+    throw new Error(message ?? `Failed to save to ${path}`);
+  }
+
+  return (await response.json()) as TResponse;
+}
