@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import Navbar from "../components/ui/Navbar";
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,10 +32,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${sourceSans.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${playfair.variable} ${sourceSans.variable}`}>
       <body className="font-sans antialiased">
-        <Navbar /> 
-        <main>{children}</main>
+        <Providers>
+          <Navbar />
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );
