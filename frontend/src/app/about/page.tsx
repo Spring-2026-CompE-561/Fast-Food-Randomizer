@@ -20,22 +20,27 @@ const team: TeamMember[] = [
   {
     name: "Valerie Joy Pinto",
     bio: "Keeps our API and data layer solid so random picks stay fast and trustworthy between classes.",
+    photo: "/team/valpfp.jpg",
   },
   {
     name: "Sydney Kim",
     bio: "Shapes the CraveRoll experience on the web—layout, colors, and flows built for real SDSU schedules.",
+    photo: "/team/sydneypfp.jpg",
   },
   {
     name: "Aliza Siddiqui",
     bio: "Bridges design and logic so filters and favorites feel obvious the first time you use them.",
+    photo: "/team/alizapfp.JPEG",
   },
   {
     name: "Melina Kai Kwarcinski",
     bio: "Makes sure the app reflects how students actually eat: quick, social, and never overcomplicated.",
+    photo: "/team/melinapfp.jpg",
   },
   {
     name: "Kaitlin Bituen",
     bio: "Helps tune copy and flows so the randomizer feels friendly, not like another homework assignment.",
+    photo: "/team/kaitlinpfp.JPG",
   },
 ];
 
