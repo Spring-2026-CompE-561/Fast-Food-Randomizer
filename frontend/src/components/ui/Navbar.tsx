@@ -25,6 +25,8 @@ const navHints: Partial<Record<string, string>> = {
   "/": "Your starting point for everything CraveRoll.",
   "/randomizer": "Let us surprise you with a spot worth trying.",
   "/browse": "See every restaurant CraveRoll lists in one place.",
+  "/favorites": "View your saved favorite restaurants.",
+  "/history": "See your recent randomizer picks.",
   "/about": "Our story, mission, and the team behind the app.",
 };
 
@@ -38,7 +40,6 @@ function NavLinkDesktop({
   icon: typeof Home;
 }) {
   const pathname = usePathname();
-  const { isAuthenticated, logout } = useAuth();
   const active = pathname === href;
   const hint = navHints[href];
 
@@ -68,6 +69,7 @@ function NavLinkDesktop({
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { isAuthenticated, logout } = useAuth();
 
   const mobileLinkClass = (href: string) =>
     cn(
@@ -86,11 +88,20 @@ export default function Navbar() {
         CraveRoll
       </Link>
 
+      {/* Desktop Navigation */}
       <div className="hidden md:flex flex-1 justify-center">
         <div className="flex items-center gap-8 bg-muted px-6 py-2 rounded-full border border-border shadow-sm">
           <NavLinkDesktop href="/" label="Home" icon={Home} />
           <NavLinkDesktop href="/randomizer" label="Randomizer" icon={Shuffle} />
           <NavLinkDesktop href="/browse" label="Browse" icon={LayoutGrid} />
+          
+          {isAuthenticated && (
+            <>
+            <NavLinkDesktop href="/favorites" label="Favorites" icon={Heart} />
+            <NavLinkDesktop href="/history" label="History" icon={Clock} />
+            </>
+          )}
+          
           <NavLinkDesktop href="/about" label="About" icon={Info} />
         </div>
       </div>
