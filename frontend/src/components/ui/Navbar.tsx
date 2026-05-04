@@ -106,33 +106,57 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Desktop Right Side */}
       <div className="hidden md:flex items-center gap-4 shrink-0">
-        <Tooltip>
-          <TooltipTrigger asChild>
+        {isAuthenticated ? (
+          <>
             <Link
-              href="/login"
+              href="/profile"
               className="text-sm font-bold text-muted-foreground hover:text-primary px-4 transition-colors"
             >
-              Login
+              <User size={16} className="inline mr-2" />
+              Profile
             </Link>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            Welcome back — sign in to your account.
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link href="/register">
-              <Button className="font-black rounded-xl px-6 h-11 shadow-md shadow-primary/20">
-                Sign Up
-              </Button>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            New here? Create a free CraveRoll account.
-          </TooltipContent>
-        </Tooltip>
-      </div>
+
+            <Button
+              variant="outline"
+              className="font-bold rounded-xl px-6 h-11"
+              onClick={logout}
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href="/login"
+                className="text-sm font-bold text-muted-foreground hover:text-primary px-4 transition-colors"
+              >
+                Login
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              Welcome back — sign in to your account.
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/register">
+                <Button className="font-black rounded-xl px-6 h-11 shadow-md shadow-primary/20">
+                  Sign Up
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              New here? Create a free CraveRoll account.
+            </TooltipContent>
+          </Tooltip>
+        </>
+      )}
+    </div>
 
       <div className="flex md:hidden items-center shrink-0">
         <Sheet>
