@@ -1,9 +1,15 @@
 // frontend/src/components/ui/Navbar.tsx
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Home, Shuffle, LayoutGrid, Info } from "lucide-react";
 import { Button } from "./button";
 
 export default function Navbar() {
+  //usePathname gets current route
+  const pathname = usePathname();
+
   return (
     <nav className="flex items-center justify-between px-12 py-4 bg-card border-b border-border sticky top-0 z-50 font-sans">
       {/* Logo */}
@@ -25,6 +31,7 @@ export default function Navbar() {
         <Link href="/browse" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors">
           <LayoutGrid size={18} strokeWidth={2.5} /> Browse
         </Link>
+
         {/* Added About Link here */}
         <Link href="/about" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors">
           <Info size={18} strokeWidth={2.5} /> About
