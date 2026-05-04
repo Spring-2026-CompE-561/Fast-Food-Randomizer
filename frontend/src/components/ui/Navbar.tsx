@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Home, Info, LayoutGrid, Menu, Shuffle, Heart, Clock, User } from "lucide-react";
 import { Button } from "./button";
 import { useAuth } from "@/hooks/use-auth";
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { authPopOutline, authPopPrimary } from "@/lib/auth-button-styles";
+import { userAgent } from "next/server";
 
 const navHints: Partial<Record<string, string>> = {
   "/": "Your starting point for everything CraveRoll.",
@@ -72,6 +73,13 @@ export default function Navbar() {
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
 
+  const router = useRouter();
+
+  function handleLogout() {
+    logout();
+    router.push("/login");
+  }
+
   const mobileLinkClass = (href: string) =>
     cn(
       "flex items-center gap-3 rounded-xl px-3 py-3 text-base font-bold transition-colors",
@@ -122,7 +130,7 @@ export default function Navbar() {
             <Button
               variant="outline"
               className="font-bold rounded-xl px-6 h-11"
-              onClick={logout}
+              onClick={handleLogout}
             >
               Logout
             </Button>
@@ -240,7 +248,7 @@ export default function Navbar() {
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Button className="w-full font-black" onClick={logout}>
+                    <Button className="w-full font-black" onClick={handleLogout} asChild>
                       Logout
                     </Button>
                   </SheetClose>
