@@ -1,5 +1,6 @@
 // src/app/history/page.tsx
 import { Clock } from "lucide-react";
+import RestaurantCard from "@/components/ui/RestaurantCard";
 
 //Placeholders until backend/auth is connected
 //Newest randomizer results appear first in array
@@ -65,6 +66,30 @@ export default function HistoryPage(){
                 </section>
             )}
 
+            {/* History grid: shown when history data exists */}
+            {historyItems.length > 0 && (
+                <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                    {historyItems.map((item, index) => (
+                        <div key={`${item.name}-${index}`} className="relative">
+                            {/* Number indicator: newest item appears as #1 */}
+                            <span className="absolute top-6 right-6 z-10 text-muted-foreground font-bold">
+                                #{index + 1}
+                            </span> 
+
+                             {/* Reusable restaurant card component */}
+                             <RestaurantCard
+                                name={item.name}
+                                emoji={item.emoji}
+                                rating={item.rating}
+                                reviews={item.reviews}
+                                price={item.price}
+                                category={item.category}
+                                onCampus={item.onCampus}
+                            />
+                        </div>
+                    ))}
+                </section>
+            )} 
         </main>
     );
 }
