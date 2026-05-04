@@ -158,6 +158,7 @@ export default function Navbar() {
       )}
     </div>
 
+      {/* Mobile Menu */}
       <div className="flex md:hidden items-center shrink-0">
         <Sheet>
           <SheetTrigger asChild>
@@ -192,12 +193,32 @@ export default function Navbar() {
                   <LayoutGrid size={20} strokeWidth={2.5} /> Browse
                 </Link>
               </SheetClose>
+
+              {/* auth history and favs */}
+              {isAuthenticated && (
+                <>
+                  <SheetClose asChild>
+                    <Link href="/favorites" className={mobileLinkClass("/favorites")}>
+                      <Heart size={20} strokeWidth={2.5} /> Favorites
+                    </Link>
+                  </SheetClose>
+
+                  <SheetClose asChild>
+                    <Link href="/history" className={mobileLinkClass("/history")}>
+                      <Clock size={20} strokeWidth={2.5} /> History
+                    </Link>
+                  </SheetClose>
+                </>
+              )}
+
               <SheetClose asChild>
                 <Link href="/about" className={mobileLinkClass("/about")}>
                   <Info size={20} strokeWidth={2.5} /> About
                 </Link>
               </SheetClose>
             </nav>
+
+            
             <SheetFooter className="gap-2 sm:flex-col border-t border-border pt-4">
               <SheetClose asChild>
                 <Button variant="outline" className="w-full font-bold" asChild>
