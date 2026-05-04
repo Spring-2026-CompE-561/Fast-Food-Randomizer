@@ -9,20 +9,19 @@ export function useAuth() {
   const [error, setError] = useState<string | null>(null)
 
   async function login(email: string, password: string) {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
 
     try {
-      const data = await loginUser(email, password)
-
-      // store token
-      localStorage.setItem("access_token", data.access_token)
-
-      setUser(email)
+      const data = await loginUser(email, password);
+      localStorage.setItem("access_token", data.access_token);
+      setUser(email);
+      return true;
     } catch (err: any) {
-      setError(err.message)
+      setError(err.message);
+      return false;
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 

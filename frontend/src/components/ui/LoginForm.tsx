@@ -20,18 +20,21 @@ export default function LoginForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    await login(email, password);
+    const success = await login(email, password);
+    if(success) {
+      router.push("/randomizer");
+    }
   }
 
   return (
-    <div className="w-full max-w-[480px] bg-white rounded-[50px] p-12 shadow-xl border border-white/20">
+    <div className="w-full max-w-[480px] bg-card rounded-[50px] p-12 shadow-xl border border-border">
       {/* Header section with high-weight font */}
       <div className="text-center mb-10 space-y-2">
-        <h1 className="text-6xl font-black tracking-tighter text-[#1E293B]">
+        <h1 className="text-6xl font-black tracking-tighter text-card-foreground">
           Welcome Back!
         </h1>
-        <p className="text-lg font-medium text-[#64748B]">
-          Login to craveroll
+        <p className="text-lg font-medium text-muted-foreground">
+          Login to CraveRoll
         </p>
       </div>
 
@@ -39,28 +42,18 @@ export default function LoginForm() {
         <div className="space-y-4">
           <Input 
             type="text" 
-            placeholder="Email or Username"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="h-14 rounded-2xl border-slate-200 bg-slate-50/50 px-6 text-lg focus:ring-orange-500"
+            placeholder="Email or Username" 
+            className="h-14 rounded-2xl border-border bg-muted/50 px-6 text-lg focus-visible:ring-ring"
           />
           <Input 
             type="password" 
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="h-14 rounded-2xl border-slate-200 bg-slate-50/50 px-6 text-lg focus:ring-orange-500"
+            placeholder="Password" 
+            className="h-14 rounded-2xl border-border bg-muted/50 px-6 text-lg focus-visible:ring-ring"
           />
         </div>
 
-        {/* The specific orange login button from your design */}
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full h-16 bg-[#FF5722] hover:bg-[#E64A19] text-white text-2xl font-black rounded-2xl shadow-lg shadow-orange-100 mt-6 flex items-center justify-center gap-3 transition-transform active:scale-95"
-        >
-          <LogIn strokeWidth={3} size={28} />
-          {loading ? "Logging in..." : "Login"}
+        <Button className="w-full h-16 text-2xl font-black rounded-2xl shadow-lg shadow-primary/25 mt-6 flex items-center justify-center gap-3 transition-transform active:scale-95">
+           <LogIn strokeWidth={3} size={28} /> Login
         </Button>
       </form>
 
@@ -71,8 +64,8 @@ export default function LoginForm() {
       )}
 
       <div className="mt-10 text-center text-lg font-bold">
-        <span className="text-[#64748B]">Don't have an account? </span>
-        <Link href="/register" className="text-[#FF5722] hover:underline underline-offset-4">
+        <span className="text-muted-foreground">Don't have an account? </span>
+        <Link href="/register" className="text-primary hover:underline underline-offset-4">
           Sign up
         </Link>
       </div>
