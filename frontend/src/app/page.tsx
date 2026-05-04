@@ -8,7 +8,7 @@ export default function HomePage() {
       {/* Hero Header */}
       <div className="text-center mb-16 space-y-2">
         <h1 className="text-8xl font-black tracking-tighter text-[#1E293B] lowercase">
-          craveroll
+          CraveRoll
         </h1>
         <p className="text-2xl font-bold tracking-tight text-[#475569]">
          SDSU's Official Fast-Food Randomizer
