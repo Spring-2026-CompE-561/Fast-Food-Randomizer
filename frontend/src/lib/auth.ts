@@ -15,16 +15,28 @@ export async function registerUser(data: {
 
   if (!res.ok) {
     const error = await res.json()
-    throw new Error(error.detail || "Failed to register")
+
+    let message = "Failed to register"
+
+    if (typeof error.detail === "string") {
+      message = error.detail
+    } else if (Array.isArray(error.detail)) {
+      message = error.detail
+        .map((item: any) => item.msg)
+        .filter(Boolean)
+        .join("; ")
+    }
+
+    throw new Error(message)
   }
 
   return res.json()
 }
 
 export async function loginUser(email: string, password: string) {
-  const formData = new URLSearchParams()
-  formData.append("username", email)
-  formData.append("password", password)
+  const formData = new URLSearchParams();
+  formData.append("username", email);
+  formData.append("password", password);
 
   const res = await fetch(`${API_BASE_URL}/api/v1/users/login`, {
     method: "POST",
@@ -32,12 +44,12 @@ export async function loginUser(email: string, password: string) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: formData.toString(),
-  })
+  });
 
   if (!res.ok) {
-    const error = await res.json()
-    throw new Error(error.detail || "Invalid credentials")
+    const error = await res.json();
+    throw new Error(error.detail || "Invalid credentials");
   }
 
-  return res.json()
+  return res.json();
 }

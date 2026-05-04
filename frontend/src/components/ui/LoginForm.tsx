@@ -41,14 +41,18 @@ export default function LoginForm() {
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-4">
           <Input 
-            type="text" 
-            placeholder="Email or Username" 
+            type="email" 
+            placeholder="Email" 
             className="h-14 rounded-2xl border-border bg-muted/50 px-6 text-lg focus-visible:ring-ring"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input 
             type="password" 
             placeholder="Password" 
             className="h-14 rounded-2xl border-border bg-muted/50 px-6 text-lg focus-visible:ring-ring"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 

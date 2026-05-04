@@ -36,15 +36,17 @@ export function useAuth() {
   }
 
   async function register(username: string, email: string, password: string) {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
 
     try {
-      await registerUser({ username, email, password })
+      await registerUser({ username, email, password });
+      return true;
     } catch (err: any) {
-      setError(err.message)
+      setError(err.message);
+      return false;
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
