@@ -12,13 +12,13 @@ Valerie Joy Pinto, Sydney Kim, Aliza Siddiqui, Melina Kai Kwarcinski, Kaitlin Bi
 ---
 **Project Overview**
 ```
-This project presents a FastAPI backend for [Insert Name], a fast food randomizer app. Users can register, log in, and get a randomly selected fast-food restaurant based on custom filters. 
+This project presents a FastAPI backend for **CraveRoll**, a fast food randomizer app. Users can register, log in, and get a randomly selected fast-food restaurant based on custom filters. 
 Results are saved to history and the user can favorite restaurants for quick access.
 ```
 ---
 # Fast Food Randomizer Backend
 
-A FastAPI backend for a Fast Food Randomizer web application. This API supports user authentication and backend features for restaurants, favorites, history, and randomizer-based restaurant selection.
+A FastAPI backend for the CraveRoll web application. This API supports user authentication and backend features for restaurants, favorites, history, and randomizer-based restaurant selection.
 
 ## Features
 
@@ -119,7 +119,7 @@ You can optionally create a `.env` file in the project root to override settings
 Example:
 
 ```env
-APP_NAME=Fast Food Randomizer API
+APP_NAME=CraveRoll API
 APP_VERSION=1.0.0
 SECRET_KEY=your_secret_key_here
 ALGORITHM=HS256
