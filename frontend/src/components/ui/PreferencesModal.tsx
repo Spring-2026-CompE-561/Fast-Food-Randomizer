@@ -2,7 +2,8 @@
 "use client";
 
 import React from "react";
-import { X, Target, Utensils, Salad, Banknote } from "lucide-react";
+import { toast } from "sonner";
+import { X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -105,8 +106,14 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
           >
             Cancel
           </Button>
-          <Button 
+          <Button
             className="px-10 h-14 rounded-2xl font-black text-lg shadow-xl shadow-primary/25"
+            onClick={() => {
+              toast.success("Preferences saved", {
+                description: "We'll use these on your next random spin.",
+              });
+              onClose();
+            }}
           >
             Apply Filters
           </Button>

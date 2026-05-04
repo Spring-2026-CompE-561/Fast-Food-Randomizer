@@ -15,7 +15,7 @@ export function useRestaurants() {
 
       try {
         const data = await getRestaurants()
-        setRestaurants(data)
+        setRestaurants(Array.isArray(data) ? data : [])
       } catch (err) {
         setError("Failed to fetch restaurants")
       } finally {
