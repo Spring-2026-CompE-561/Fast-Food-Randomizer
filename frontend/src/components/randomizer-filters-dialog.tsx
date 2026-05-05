@@ -161,8 +161,8 @@ export function RandomizerFiltersDialog({
           <section className="space-y-3">
             <Label className="text-base font-black text-foreground">Price</Label>
             <p className="text-xs text-muted-foreground">
-              Exact tier — we only pick restaurants whose price matches this level ($ through $$$).
-              Choose Any to ignore price.
+              Pick restaurants that match your budget.
+              Choose 'Any' to ignore price.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {PRICE_OPTIONS.map(({ label, value }) => {
@@ -192,7 +192,7 @@ export function RandomizerFiltersDialog({
           <section className="space-y-3">
             <Label className="text-base font-black text-foreground">Cuisine</Label>
             <p className="text-xs text-muted-foreground">
-              Tap one or more — leave empty to allow any cuisine.
+              Tell us what you're craving! Select none, one or more.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {CUISINE_OPTIONS.map((c) => {
@@ -220,7 +220,7 @@ export function RandomizerFiltersDialog({
           <section className="space-y-3">
             <Label className="text-base font-black text-foreground">Dietary</Label>
             <p className="text-xs text-muted-foreground">
-              We match menu tags in our listings (e.g. vegetarian-friendly counts as vegetarian).
+              Tell us your dietary needs! Select none, one or more.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {DIETARY_OPTIONS.map(({ label, search }) => {
