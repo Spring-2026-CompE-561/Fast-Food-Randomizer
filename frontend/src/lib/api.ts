@@ -143,3 +143,65 @@ export async function postOptionalAuthenticatedApiJson<TResponse, TBody>(
 
   return (await response.json()) as TResponse;
 }
+
+export async function postAuthenticatedApiJson<TResponse, TBody>(
+  path: string,
+  body: TBody,
+): Promise<TResponse> {
+  const accessToken = getAccessToken();
+
+  if (!accessToken) {
+    throw new ApiUnauthorizedError("You must be logged in.");
+  }
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (response.status === 401) {
+    throw new ApiUnauthorizedError();
+  }
+
+  if (!response.ok) {
+    const message = await readApiErrorMessage(response);
+    throw new Error(message ?? `Failed to save to ${path}`);
+  }
+
+  return (await response.json()) as TResponse;
+}
+
+export async function putAuthenticatedApiJson<TResponse, TBody>(
+  path: string,
+  body: TBody,
+): Promise<TResponse> {
+  const accessToken = getAccessToken();
+
+  if (!accessToken) {
+    throw new ApiUnauthorizedError("You must be logged in.");
+  }
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (response.status === 401) {
+    throw new ApiUnauthorizedError();
+  }
+
+  if (!response.ok) {
+    const message = await readApiErrorMessage(response);
+    throw new Error(message ?? `Failed to save to ${path}`);
+  }
+
+  return (await response.json()) as TResponse;
+}

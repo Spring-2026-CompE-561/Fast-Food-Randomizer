@@ -5,7 +5,7 @@ import {
   MapPin,
   Moon,
   Shuffle,
-  SlidersHorizontal,
+  Tags,
   Wallet,
 } from "lucide-react";
 
@@ -142,14 +142,14 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="flex flex-col items-center gap-4 text-center">
-              <SlidersHorizontal size={52} className="text-primary shrink-0" aria-hidden />
+              <Tags size={52} className="text-primary shrink-0" aria-hidden />
               <div>
                 <h3 className="text-2xl font-black text-foreground mb-3">
-                  Smart Filters
+                  Quick Review Tag
                 </h3>
                 <p className="text-lg leading-relaxed text-muted-foreground">
-                  Sort by cuisine, price, and preferences so you only see spots that fit your budget
-                  and your mood.
+                  Tap quick tags like fast, late-night, study-friendly, or loud to share real crowd
+                  signals without writing long reviews.
                 </p>
               </div>
             </div>

@@ -1,6 +1,10 @@
-from datetime import datetime 
-from sqlalchemy import Column, Integer, String, DateTime, Float
+from datetime import datetime
+
+from sqlalchemy import Column, DateTime, Float, Integer, String
+from sqlalchemy.orm import relationship
+
 from app.core.database import Base
+
 
 class Restaurant(Base):
     __tablename__ = 'restaurants'
@@ -12,4 +16,10 @@ class Restaurant(Base):
     dietary_tags = Column(String, index=True, nullable=True)
     latitude = Column(Float, index=True, nullable=True)
     longitude = Column(Float, index=True, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow) 
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    reviews = relationship(
+        "Review",
+        back_populates="restaurant",
+        cascade="all, delete-orphan",
+    ) 

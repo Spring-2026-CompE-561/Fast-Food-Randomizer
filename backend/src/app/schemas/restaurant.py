@@ -1,6 +1,7 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
 
 class RestaurantBase(BaseModel):
     name: str
@@ -15,6 +16,7 @@ class RestaurantCreate(RestaurantBase):
 
 class RestaurantResponse(RestaurantBase):
     id: int
+    review_tag_counts: dict[str, int] = Field(default_factory=dict)
 
     class Config:
         from_attributes = True

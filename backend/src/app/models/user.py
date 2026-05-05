@@ -17,3 +17,4 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     favorites = relationship("Favorite", back_populates="user", cascade="all, delete")
+    reviews = relationship("Review", back_populates="user", cascade="all, delete")
