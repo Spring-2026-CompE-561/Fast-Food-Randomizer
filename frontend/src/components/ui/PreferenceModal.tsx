@@ -1,18 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import type { RandomizerFilterState } from "@/components/randomizer-filters-dialog";
 
 interface PreferencesModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialFilters: RandomizerFilterState;
+  onApply: (filters: RandomizerFilterState) => void;
 }
 
 // Option definitions for cleaner mapping
@@ -29,11 +33,33 @@ const CUISINE_OPTIONS = [
   { label: "Cafe", icon: "☕" },
 ];
 
-export default function PreferencesModal({ isOpen, onClose }: PreferencesModalProps) {
+export default function PreferencesModal({ 
+  isOpen, 
+  onClose, 
+  initialFilters,
+  onApply,
+}: PreferencesModalProps) {
   // State for multiple selections
   const [selectedDietary, setSelectedDietary] = useState<string[]>([]);
   const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    setSelectedDietary(initialFilters.dietary);
+    setSelectedCuisines(initialFilters.cuisines);
+
+    const numberToPrice: Record<number, string> = {
+      1: "$",
+      2: "$$",
+      3: "$$$",
+    };
+
+    setSelectedPrices(
+      initialFilters.maxPrice ? [numberToPrice[initialFilters.maxPrice]] : []
+    );
+  }, [isOpen, initialFilters]);
 
   // Helper to toggle selections in an array
   const toggleSelection = (
@@ -80,7 +106,7 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
             <span className="text-2xl">🎯</span>
             <DialogTitle className="text-2xl font-black tracking-tight text-foreground">
               Set Your Preferences
-            </DialogTitle>
+            </DialogTitle>   
           </div>
         </DialogHeader>
 
@@ -117,7 +143,9 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
                 return (
                   <button
                     key={price}
-                    onClick={() => toggleSelection(price, setSelectedPrices)}
+                    onClick={() =>
+                      setSelectedPrices((prev) => (prev.includes(price) ? [] : [price]))
+                    }
                     className={`px-5 py-2 rounded-full border-2 font-black text-sm transition-all ${
                       isSelected
                         ? "bg-primary border-primary text-primary-foreground shadow-md shadow-primary/25 scale-105"
@@ -162,12 +190,24 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
           <Button
             className="px-6 h-12 rounded-xl font-black text-base shadow-lg shadow-primary/25"
             onClick={() => {
-              // You can pass the state objects to your backend or context here
-              console.log({ selectedDietary, selectedPrices, selectedCuisines });
-              
+              const priceToNumber: Record<string, number> = {
+                $: 1,
+                $$: 2,
+                $$$: 3,
+              };
+
+              onApply({
+                cuisines: selectedCuisines,
+                dietary: selectedDietary,
+                maxPrice: selectedPrices.length
+                  ? Math.max(...selectedPrices.map((price) => priceToNumber[price]))
+                  : null,
+              });
+
               toast.success("Preferences saved", {
                 description: "We'll use these on your next random spin.",
               });
+
               onClose();
             }}
           >

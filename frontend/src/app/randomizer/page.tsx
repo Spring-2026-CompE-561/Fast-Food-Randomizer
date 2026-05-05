@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useCurrentUser } from "@/hooks/use-curr-user";
 import { useRandomizer } from "@/hooks/use-randomizer";
 import {
-  RandomizerFiltersDialog,
   defaultFilters,
   type RandomizerFilterState,
 } from "@/components/randomizer-filters-dialog";
@@ -18,11 +17,7 @@ import {
 } from "@/components/ui/card";
 import { RestaurantCardSkeleton } from "@/components/ui/restaurant-card-skeleton";
 import RestaurantCard from "@/components/ui/RestaurantCard";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+
 import { Shuffle, Target, Dices, MapPin, Settings2, SlidersHorizontal } from "lucide-react";
 import {
   looksOnCampus,
@@ -95,7 +90,7 @@ export default function RandomizerPage() {
   useEffect(() => {
     setIsPrefModalOpen(true);
   }, []);
-  const [filterDialogOpen, setFilterDialogOpen] = useState(true);
+  // const [filterDialogOpen, setFilterDialogOpen] = useState(true);
   const [appliedFilters, setAppliedFilters] =
     useState<RandomizerFilterState>(defaultFilters);
   const [filtersApplyHint, setFiltersApplyHint] = useState(false);
@@ -256,40 +251,6 @@ export default function RandomizerPage() {
               </p>
             )}
 
-            <div className="flex justify-center">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="rounded-full gap-2 font-semibold"
-                onClick={() => setFilterDialogOpen(true)}
-              >
-                <SlidersHorizontal className="size-4" aria-hidden />
-                Edit filters
-              </Button>
-            </div>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="lg"
-                  className="group w-full h-14 text-lg font-black rounded-2xl gap-2 border border-transparent shadow-lg shadow-primary/25 transition-all duration-300 ease-out enabled:hover:scale-[1.025] enabled:hover:-translate-y-2 enabled:hover:shadow-xl enabled:hover:shadow-primary/40 enabled:hover:border-primary-foreground/25 enabled:active:scale-[0.98] enabled:active:translate-y-0 disabled:hover:scale-100 disabled:hover:translate-y-0 disabled:hover:shadow-lg disabled:hover:border-transparent"
-                  disabled={loading}
-                  onClick={() => void handleSpin()}
-                >
-                  <Shuffle className="size-5 shrink-0 transition-transform duration-300 ease-out group-hover:rotate-[-8deg] group-hover:scale-110" />
-                  {loading ? "Finding your spot…" : "Randomize"}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                When you’re stuck choosing, we’ll suggest a restaurant for you.
-              </TooltipContent>
-            </Tooltip>
-
-            {error && !loading && (
-              <p className="text-sm text-center text-destructive font-medium">{error}</p>
-            )}
-
             {user?.email && (
               <p className="text-center text-sm text-muted-foreground">
                 Signed in as <span className="font-semibold text-foreground">{user.email}</span>
@@ -315,18 +276,13 @@ export default function RandomizerPage() {
         </Card>
 
         {/* --- PREFERENCES MODAL INSTANCE --- */}
-        <PreferencesModal 
-          isOpen={isPrefModalOpen} 
-          onClose={() => setIsPrefModalOpen(false)} 
+        <PreferencesModal
+          isOpen={isPrefModalOpen}
+          onClose={() => setIsPrefModalOpen(false)}
+          initialFilters={appliedFilters}
+          onApply={handleApplyFilters}
         />
       </div>
-
-      <RandomizerFiltersDialog
-        open={filterDialogOpen}
-        onOpenChange={setFilterDialogOpen}
-        initialFilters={appliedFilters}
-        onApply={handleApplyFilters}
-      />
     </div>
   );
 }
