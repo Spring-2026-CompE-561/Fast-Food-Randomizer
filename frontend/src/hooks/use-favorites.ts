@@ -9,7 +9,6 @@ export type FavoriteRestaurant = {
   name: string;
   cuisine: string;
   price_range: number;
-  hours_display?: string | null;
 };
 
 type Restaurant = {
@@ -17,7 +16,6 @@ type Restaurant = {
   name: string;
   cuisine: string;
   price_range: number;
-  hours_display?: string | null;
 };
 
 type FavoriteEntry = {
@@ -52,7 +50,7 @@ export function useFavorites() {
             name,
             cuisine: restaurant?.cuisine ?? "Unknown",
             price_range: restaurant?.price_range ?? 1,
-            hours_display: restaurant?.hours_display ?? null,
+            // priceFromRange / looksOnCampus used on the page from helpers
           };
         });
 

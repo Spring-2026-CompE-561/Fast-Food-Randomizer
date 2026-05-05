@@ -51,20 +51,13 @@ export default function BrowsePage() {
       {!loading && !error && restaurants.length > 0 && (
         <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 gap-8 max-w-5xl mx-auto pb-8">
           {restaurants.map(
-            (r: {
-              id: number;
-              name: string;
-              cuisine: string;
-              price_range: number;
-              hours_display?: string | null;
-            }) => (
+            (r: { id: number; name: string; cuisine: string; price_range: number }) => (
               <RestaurantCard
                 key={r.id}
                 name={r.name}
                 price={priceFromRange(r.price_range)}
                 category={r.cuisine}
                 onCampus={looksOnCampus(r.name)}
-                hoursDisplay={r.hours_display ?? null}
                 className={restaurantCardMotionClass}
               />
             )

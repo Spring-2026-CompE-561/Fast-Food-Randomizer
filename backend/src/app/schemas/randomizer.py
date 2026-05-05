@@ -9,7 +9,6 @@ class RandomizeRequest(BaseModel):
     cuisine: Optional[list[str]] = None
     price_range: Optional[int] = Field(default=None, ge=1, le=5)
     dietary_tag: Optional[list[str]] = None
-    open_now: Optional[bool] = False
 
 class RandomizeResponse(BaseModel):
     restaurant_id: int
@@ -17,7 +16,6 @@ class RandomizeResponse(BaseModel):
     cuisine: str
     price_range: int
     dietary_tags: Optional[str]
-    hours_display: Optional[str] = None
     latitude: Optional[float]
     longitude: Optional[float]
     distance_miles: float

@@ -49,7 +49,6 @@ export default function FavoritesPage() {
                   price={priceFromRange(r.price_range)}
                   category={r.cuisine}
                   onCampus={looksOnCampus(r.name)}
-                  hoursDisplay={r.hours_display ?? null}
                   className={restaurantCardMotionClass}
                 />
               ))}

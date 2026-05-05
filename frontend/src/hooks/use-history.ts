@@ -10,7 +10,6 @@ type Restaurant = {
   name: string;
   cuisine: string;
   price_range: number;
-  hours_display?: string | null;
 };
 
 type HistoryEntry = {
@@ -48,7 +47,6 @@ export function useHistory() {
             price: priceFromRange(restaurant?.price_range),
             category: restaurant?.cuisine ?? "Unknown",
             onCampus: looksOnCampus(name),
-            hours_display: restaurant?.hours_display ?? null,
           }
         })
 

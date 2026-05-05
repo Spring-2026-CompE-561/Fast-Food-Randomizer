@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Clock, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,14 +17,13 @@ import { chipPop, chipPopDietary } from "@/lib/auth-button-styles";
 import { cn } from "@/lib/utils";
 
 export type RandomizerFilterState = {
-  /** Exact price tier; `null` = any. */
+  /** `null` = any price; otherwise exact `price_range` tier (1–3). */
   maxPrice: number | null;
+  /** Substrings matched against `cuisine` (ilike). */
   cuisines: string[];
+  /** Substrings matched against `dietary_tags` (ilike). */
   dietary: string[];
-  openNow: boolean;
 };
-
-const MAX_PRICE_TIER = 3;
 
 const PRICE_OPTIONS: { label: string; value: number | null }[] = [
   { label: "Any", value: null },
@@ -54,7 +53,7 @@ const CUISINE_OPTIONS = [
   "Wings",
 ] as const;
 
-/** Substrings matched on `dietary_tags` (≥2 seeded restaurants each). */
+/** Only tags with ≥2 restaurants in DB substring-match (`ilike %search%`) on seeded data. */
 const DIETARY_OPTIONS: { label: string; search: string }[] = [
   { label: "Vegetarian", search: "vegetarian" },
   { label: "Vegan", search: "vegan" },
@@ -65,15 +64,17 @@ const ALLOWED_DIETARY_SEARCHES = new Set(
   DIETARY_OPTIONS.map((o) => o.search)
 );
 
+const MAX_PRICE_TIER = 3;
+
 export function defaultFilters(): RandomizerFilterState {
   return {
     maxPrice: null,
     cuisines: [],
     dietary: [],
-    openNow: false,
   };
 }
 
+/** Drop removed tiers / dietary tags so API calls stay valid after UI changes. */
 export function sanitizeRandomizerFilters(
   s: RandomizerFilterState
 ): RandomizerFilterState {
@@ -87,7 +88,6 @@ export function sanitizeRandomizerFilters(
     maxPrice: max,
     cuisines: [...s.cuisines],
     dietary: s.dietary.filter((x) => ALLOWED_DIETARY_SEARCHES.has(x)),
-    openNow: Boolean(s.openNow),
   };
 }
 
@@ -113,7 +113,6 @@ export function RandomizerFiltersDialog({
         maxPrice: next.maxPrice,
         cuisines: [...next.cuisines],
         dietary: [...next.dietary],
-        openNow: next.openNow,
       });
     }
   }, [open, initialFilters]);
@@ -150,8 +149,8 @@ export function RandomizerFiltersDialog({
               Spin preferences
             </DialogTitle>
             <DialogDescription>
-              Choose price, cuisine, dietary, and whether the spot must be open right now (Pacific
-              time). Use <strong className="text-foreground">Edit filters</strong> anytime.
+              Choose price, cuisine, and dietary filters. You can change these anytime with{" "}
+              <strong className="text-foreground">Edit filters</strong>.
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -162,7 +161,8 @@ export function RandomizerFiltersDialog({
           <section className="space-y-3">
             <Label className="text-base font-black text-foreground">Price</Label>
             <p className="text-xs text-muted-foreground">
-              Exact tier — only restaurants at this dollar level ($ through $$$). Any skips price.
+              Exact tier — we only pick restaurants whose price matches this level ($ through $$$).
+              Choose Any to ignore price.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {PRICE_OPTIONS.map(({ label, value }) => {
@@ -171,7 +171,9 @@ export function RandomizerFiltersDialog({
                   <button
                     key={label}
                     type="button"
-                    onClick={() => setDraft((p) => ({ ...p, maxPrice: value }))}
+                    onClick={() =>
+                      setDraft((p) => ({ ...p, maxPrice: value }))
+                    }
                     className={cn(
                       "rounded-full border-2 px-4 py-2 text-sm font-bold transition-colors",
                       chipPop,
@@ -190,7 +192,7 @@ export function RandomizerFiltersDialog({
           <section className="space-y-3">
             <Label className="text-base font-black text-foreground">Cuisine</Label>
             <p className="text-xs text-muted-foreground">
-              Tap one or more — leave empty for any cuisine.
+              Tap one or more — leave empty to allow any cuisine.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {CUISINE_OPTIONS.map((c) => {
@@ -242,41 +244,16 @@ export function RandomizerFiltersDialog({
               })}
             </div>
           </section>
-
-          <Separator />
-
-          <section className="space-y-3">
-            <Label className="text-base font-black text-foreground">Hours</Label>
-            <div className="flex items-start gap-3 rounded-2xl border border-border bg-muted/40 p-4">
-              <input
-                id="open_now"
-                type="checkbox"
-                checked={draft.openNow}
-                onChange={(e) =>
-                  setDraft((p) => ({ ...p, openNow: e.target.checked }))
-                }
-                className="mt-1 size-4 shrink-0 accent-primary"
-              />
-              <div className="space-y-1">
-                <Label
-                  htmlFor="open_now"
-                  className="flex items-center gap-2 text-base font-black text-foreground cursor-pointer"
-                >
-                  <Clock className="size-4 text-primary shrink-0" aria-hidden />
-                  Open now only
-                </Label>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Only picks whose posted hours include this moment (San Diego / Pacific).
-                </p>
-              </div>
-            </div>
-          </section>
         </div>
 
         <Separator />
 
         <DialogFooter className="flex-col gap-2 border-t bg-muted/30 p-4 sm:flex-col">
-          <Button type="button" className="w-full rounded-2xl font-black" onClick={handleApply}>
+          <Button
+            type="button"
+            className="w-full rounded-2xl font-black"
+            onClick={handleApply}
+          >
             Apply
           </Button>
           <Button

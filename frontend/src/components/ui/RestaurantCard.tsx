@@ -1,7 +1,6 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface RestaurantCardProps {
@@ -9,8 +8,6 @@ interface RestaurantCardProps {
   price: string;
   category: string;
   onCampus: boolean;
-  /** Hours of operation line from the API (e.g. &quot;Mon–Sun 7:00 AM–9:00 PM&quot;). */
-  hoursDisplay?: string | null;
   className?: string;
 }
 
@@ -19,7 +16,6 @@ export default function RestaurantCard({
   price,
   category,
   onCampus,
-  hoursDisplay,
   className,
 }: RestaurantCardProps) {
   return (
@@ -48,13 +44,6 @@ export default function RestaurantCard({
           </Badge>
         )}
       </div>
-
-      {hoursDisplay != null && String(hoursDisplay).trim() !== "" && (
-        <p className="flex w-full max-w-sm items-start justify-center gap-2 text-sm leading-snug text-muted-foreground">
-          <Clock className="size-4 shrink-0 mt-0.5 text-primary/80" aria-hidden />
-          <span>{hoursDisplay}</span>
-        </p>
-      )}
     </div>
   );
 }
