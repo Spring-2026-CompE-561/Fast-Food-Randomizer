@@ -3,6 +3,7 @@
 
 import { Clock, Heart } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import RestaurantCard from "@/components/ui/RestaurantCard";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useHistory } from "@/hooks/use-history";
@@ -17,6 +18,10 @@ export default function HistoryPage(){
   const [favoritedItems, setFavoritedItems] = useState<Record<string, boolean>>(
     {}
   );
+
+  //tracking animation state
+  const [animating, setAnimating] = useState<Record<string, boolean>>({});
+
 
   {loading && <p>Loading...</p>}
   {error && <p className="text-red-500">{error}</p>}
@@ -74,16 +79,32 @@ export default function HistoryPage(){
                                        ...prev,
                                        [item.name]: !prev[item.name],
                                     }));
+
+                                //trigger animation
+                                setAnimating((prev) => ({
+                                    ...prev,
+                                    [item.name]: true,
+                                 }));
+                                 
+                                 //reset animation
+                                 setTimeout(() => {
+                                    setAnimating((prev) => ({
+                                        ...prev,
+                                        [item.name]: false,
+                                    }));
+                                }, 200);
                                 }}
                             >
                                 <Heart 
                                     size={20} 
                                     strokeWidth={2.5}
-                                    className={
+                                    className={cn(
+                                        "transition-transform duration-200",
                                         favoritedItems[item.name]
-                                        ? "fill-primary text-primary"
-                                        : "text-muted-foreground"
-                                    }
+                                            ? "fill-primary text-primary"
+                                            : "text-muted-foreground",
+                                        animating[item.name] ? "scale-125" : "scale-100"
+                                    )}         
                                 />
                             </button>
 
