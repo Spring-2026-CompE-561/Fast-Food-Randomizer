@@ -21,7 +21,7 @@ export default function RestaurantCard({
   return (
     <div
       className={cn(
-        "mx-auto w-full md:w-[320px] justify-self-center bg-card rounded-[32px] p-8 shadow-sm border border-border flex flex-col items-center justify-between gap-4 text-center hover:shadow-md transition-shadow h-[220px]",
+        "mx-auto w-full max-w-md justify-self-center bg-card rounded-[32px] p-8 shadow-sm border border-border flex flex-col items-center gap-4 text-center hover:shadow-md transition-shadow",
         className
       )}
     >
