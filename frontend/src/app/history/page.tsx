@@ -8,6 +8,11 @@ import RestaurantCard from "@/components/ui/RestaurantCard";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useHistory } from "@/hooks/use-history";
 import { restaurantCardMotionClass } from "@/lib/restaurant-card-helpers";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 
 //based on Next.js App Router page structure
@@ -70,43 +75,51 @@ export default function HistoryPage(){
                     {historyItems.map((item, index) => (
                         <div key={`${item.name}-${index}`} className="relative">
                             
-                            <button
-                                type="button"
-                                aria-label={`Add ${item.name} to favorites`}
-                                className="absolute top-5 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-primary"
-                                onClick={() => {
-                                    setFavoritedItems((prev) => ({
-                                       ...prev,
-                                       [item.name]: !prev[item.name],
-                                    }));
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button
+                                        type="button"
+                                        aria-label={`Add ${item.name} to favorites`}
+                                        className="absolute top-5 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card shadow-sm"
+                                        onClick={() => {
+                                            setFavoritedItems((prev) => ({
+                                                ...prev,
+                                                [item.name]: !prev[item.name],
+                                            }));
 
-                                //trigger animation
-                                setAnimating((prev) => ({
-                                    ...prev,
-                                    [item.name]: true,
-                                 }));
-                                 
-                                 //reset animation
-                                 setTimeout(() => {
-                                    setAnimating((prev) => ({
-                                        ...prev,
-                                        [item.name]: false,
-                                    }));
-                                }, 200);
-                                }}
-                            >
-                                <Heart 
-                                    size={20} 
-                                    strokeWidth={2.5}
-                                    className={cn(
-                                        "transition-transform duration-200",
-                                        favoritedItems[item.name]
-                                            ? "fill-primary text-primary"
-                                            : "text-muted-foreground",
-                                        animating[item.name] ? "scale-125" : "scale-100"
-                                    )}         
-                                />
-                            </button>
+                                            setAnimating((prev) => ({
+                                                ...prev,
+                                                [item.name]: true,
+                                            }));
+
+                                            setTimeout(() => {
+                                                setAnimating((prev) => ({
+                                                    ...prev,
+                                                    [item.name]: false,
+                                                }));
+                                            }, 200);
+                                        }}
+                                        >
+                                            <Heart
+                                                size={16}
+                                                strokeWidth={2.5}
+                                                className={cn(
+                                                    "transition-transform duration-200",
+                                                    favoritedItems[item.name]
+                                                        ? "fill-primary text-primary"
+                                                        : "text-muted-foreground",
+                                                    animating[item.name] ? "scale-125" : "scale-100"
+                                                )}
+                                            />
+                                    </button>
+                                </TooltipTrigger>
+                                    
+                                <TooltipContent side="left">
+                                    {favoritedItems[item.name]
+                                        ? "Remove from favorites"
+                                        : "Add to favorites"}
+                                </TooltipContent>
+                            </Tooltip>
 
                             {/* Number indicator: newest item appears as #1 */}
                             <span className="absolute top-7 left-7 z-10 text-sm font-black text-muted-foreground">
