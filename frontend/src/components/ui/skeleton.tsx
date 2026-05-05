@@ -10,8 +10,4 @@ function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-<<<<<<< HEAD
 export { Skeleton }
-=======
-export { Skeleton }
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04

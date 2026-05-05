@@ -5,7 +5,7 @@ import {
   MapPin,
   Moon,
   Shuffle,
-  Star,
+  SlidersHorizontal,
   Wallet,
 } from "lucide-react";
 
@@ -20,30 +20,27 @@ const team: TeamMember[] = [
   {
     name: "Valerie Joy Pinto",
     bio: "Keeps our API and data layer solid so random picks stay fast and trustworthy between classes.",
+    photo: "/team/valpfp.jpg",
   },
   {
     name: "Sydney Kim",
     bio: "Shapes the CraveRoll experience on the web—layout, colors, and flows built for real SDSU schedules.",
-<<<<<<< HEAD
-=======
     photo: "/team/sydneypfp.jpg",
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
   },
   {
     name: "Aliza Siddiqui",
     bio: "Bridges design and logic so filters and favorites feel obvious the first time you use them.",
+    photo: "/team/alizapfp.JPEG",
   },
   {
     name: "Melina Kai Kwarcinski",
     bio: "Makes sure the app reflects how students actually eat: quick, social, and never overcomplicated.",
-<<<<<<< HEAD
-=======
     photo: "/team/melinapfp.jpg",
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
   },
   {
     name: "Kaitlin Bituen",
     bio: "Helps tune copy and flows so the randomizer feels friendly, not like another homework assignment.",
+    photo: "/team/kaitlinpfp.JPG",
   },
 ];
 
@@ -75,7 +72,7 @@ export default function AboutPage() {
           <h2 className="text-4xl font-black text-foreground mb-8 text-center">
             Our Mission
           </h2>
-          <div className="space-y-8 text-lg leading-relaxed text-muted-foreground max-w-3xl mx-auto">
+          <div className="space-y-8 text-center text-lg leading-relaxed text-muted-foreground max-w-3xl mx-auto">
             <p>
               CraveRoll was built <span className="text-foreground font-semibold">by SDSU students, for SDSU students</span>.
               We know the scramble between lectures, the 10:30 p.m. library hunger, and the reality
@@ -89,8 +86,8 @@ export default function AboutPage() {
               <p className="text-foreground font-semibold mb-4">
                 Our listings lean into the spots you really use, including:
               </p>
-              <ul className="space-y-4">
-                <li className="flex gap-4">
+              <ul className="space-y-5">
+                <li className="mx-auto flex max-w-2xl items-start justify-center gap-3 text-center">
                   <Building2
                     className="size-9 shrink-0 text-primary mt-0.5"
                     aria-hidden
@@ -101,22 +98,16 @@ export default function AboutPage() {
                     next lecture.
                   </span>
                 </li>
-                <li className="flex gap-4">
-                  <Moon
-                    className="size-9 shrink-0 text-primary mt-0.5"
-                    aria-hidden
-                  />
+                <li className="mx-auto flex max-w-2xl items-start justify-center gap-3 text-center">
+                  <Moon className="size-9 shrink-0 text-primary mt-0.5" aria-hidden />
                   <span>
                     <strong className="text-foreground">Late-night eats</strong> — places that are
                     still an option when your study block runs past dinner and the dining hall
                     window is long gone.
                   </span>
                 </li>
-                <li className="flex gap-4">
-                  <Wallet
-                    className="size-9 shrink-0 text-primary mt-0.5"
-                    aria-hidden
-                  />
+                <li className="mx-auto flex max-w-2xl items-start justify-center gap-3 text-center">
+                  <Wallet className="size-9 shrink-0 text-primary mt-0.5" aria-hidden />
                   <span>
                     <strong className="text-foreground">Cheap student options</strong> — meals that
                     respect a real college wallet, from quick solo runs to splitting something
@@ -125,7 +116,7 @@ export default function AboutPage() {
                 </li>
               </ul>
             </div>
-            <p className="text-foreground/95 font-medium border-l-4 border-primary pl-5 py-1">
+            <p className="mx-auto max-w-2xl border-t-4 border-primary pt-5 text-foreground/95 font-medium">
               CraveRoll is built for real student budgets and real student schedules—so you spend
               less time debating &quot;where should we eat?&quot; and more time eating.
             </p>
@@ -138,9 +129,9 @@ export default function AboutPage() {
           <h2 className="text-4xl font-black text-foreground mb-10 text-center">
             What We Offer
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div className="flex gap-5">
-              <Shuffle size={52} className="text-accent shrink-0" />
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+            <div className="flex flex-col items-center gap-4 text-center">
+              <Shuffle size={52} className="text-accent shrink-0" aria-hidden />
               <div>
                 <h3 className="text-2xl font-black text-foreground mb-3">
                   Smart Randomizer
@@ -150,19 +141,20 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="flex gap-5">
-              <Star size={52} className="text-primary shrink-0" />
+            <div className="flex flex-col items-center gap-4 text-center">
+              <SlidersHorizontal size={52} className="text-primary shrink-0" aria-hidden />
               <div>
                 <h3 className="text-2xl font-black text-foreground mb-3">
-                  Real Reviews
+                  Smart Filters
                 </h3>
                 <p className="text-lg leading-relaxed text-muted-foreground">
-                  Authentic student reviews and ratings to help you choose wisely.
+                  Sort by cuisine, price, and preferences so you only see spots that fit your budget
+                  and your mood.
                 </p>
               </div>
             </div>
-            <div className="flex gap-5">
-              <Heart size={52} className="text-accent shrink-0" />
+            <div className="flex flex-col items-center gap-4 text-center">
+              <Heart size={52} className="text-accent shrink-0" aria-hidden />
               <div>
                 <h3 className="text-2xl font-black text-foreground mb-3">
                   Save Favorites
@@ -172,14 +164,15 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="flex gap-5">
-              <MapPin size={52} className="text-chart-2 shrink-0" />
+            <div className="flex flex-col items-center gap-4 text-center">
+              <MapPin size={52} className="text-chart-2 shrink-0" aria-hidden />
               <div>
                 <h3 className="text-2xl font-black text-foreground mb-3">
-                  31+ Locations
+                  31+ Local Spots Around SDSU
                 </h3>
                 <p className="text-lg leading-relaxed text-muted-foreground">
-                  From on-campus dining to College Area favorites.
+                  On-campus dining and College Area walkable favorites built for how Aztecs actually
+                  eat between classes.
                 </p>
               </div>
             </div>
@@ -189,7 +182,7 @@ export default function AboutPage() {
 
       <section className="w-full max-w-5xl mx-auto bg-accent rounded-[30px] p-10 shadow-xl text-accent-foreground text-center mb-12 shadow-accent/30">
         <h2 className="text-4xl font-black mb-10">By The Numbers</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div>
             <p className="text-5xl font-black">31+</p>
             <p className="mt-3 text-lg">Restaurants</p>
@@ -197,10 +190,6 @@ export default function AboutPage() {
           <div>
             <p className="text-5xl font-black">10</p>
             <p className="mt-3 text-lg">Categories</p>
-          </div>
-          <div>
-            <p className="text-5xl font-black">1000+</p>
-            <p className="mt-3 text-lg">Reviews</p>
           </div>
           <div>
             <p className="text-5xl font-black">∞</p>
@@ -213,19 +202,8 @@ export default function AboutPage() {
         <h2 className="text-4xl font-black text-foreground mb-3 text-center">
           Meet The Team
         </h2>
-        <div className="max-w-3xl mx-auto mb-12 space-y-5 text-muted-foreground text-lg leading-relaxed text-left">
+        <div className="max-w-3xl mx-auto mb-12 space-y-5 text-center text-muted-foreground text-lg leading-relaxed">
           <p>
-<<<<<<< HEAD
-            CraveRoll was built by a group of students at San Diego State University as part of
-            COMPE 561, where we collaborated to design and develop a full-stack application from the
-            ground up. Each of us contributed to different parts of the project, from frontend design
-            to backend development, all while learning how to work as a real development team.
-          </p>
-          <p>
-            We&apos;d also like to give a special thank you to Ugur Dogan for guiding us throughout
-            the course and teaching us the skills that made this project possible. His support and
-            instruction played a huge role in bringing CraveRoll to life.
-=======
             <strong className="font-semibold text-foreground">CraveRoll</strong> was built by a group
             of students at{" "}
             <strong className="font-semibold text-foreground">
@@ -243,7 +221,6 @@ export default function AboutPage() {
             throughout the course and teaching us the skills that made this project possible. His
             support and instruction played a huge role in bringing{" "}
             <strong className="font-semibold text-foreground">CraveRoll</strong> to life.
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
@@ -269,8 +246,4 @@ export default function AboutPage() {
       </section>
     </main>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04

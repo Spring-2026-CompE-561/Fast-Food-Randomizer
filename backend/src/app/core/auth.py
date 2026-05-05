@@ -16,6 +16,11 @@ password_hash = PasswordHash.recommended()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/users/login")
 
+optional_oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="/api/v1/users/login",
+    auto_error=False,
+)
+
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     to_encode = data.copy()

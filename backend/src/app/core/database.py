@@ -3,9 +3,15 @@ from collections.abc import Generator
 
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 from app.core.settings import settings
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parents[4]
+DB_PATH = BASE_DIR / "fast_food_randomizer.db"
+
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 engine = create_engine(
-    settings.database_url, 
+    SQLALCHEMY_DATABASE_URL, 
     connect_args=({"check_same_thread": False}
     if settings.database_url.startswith("sqlite")
     else {}

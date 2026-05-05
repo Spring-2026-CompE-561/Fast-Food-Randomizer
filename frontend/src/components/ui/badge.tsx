@@ -46,8 +46,4 @@ function Badge({
   )
 }
 
-<<<<<<< HEAD
 export { Badge, badgeVariants }
-=======
-export { Badge, badgeVariants }
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04

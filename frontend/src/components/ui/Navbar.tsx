@@ -2,40 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-<<<<<<< HEAD
-import { Home, Shuffle, LayoutGrid, Info } from "lucide-react";
-
-export default function Navbar() {
-  const pathname = usePathname();
-
-  return (
-    <nav className="flex items-center justify-between px-12 py-6 bg-[#FFFDF0] w-full border-b border-transparent">
-      
-      {/* Logo */}
-      <Link href="/" className="text-4xl font-serif font-black text-[#C27803] tracking-tight hover:opacity-80 transition-opacity">
-        CraveRoll
-      </Link>
-
-      {/* Center Pill Nav */}
-      <div className="bg-[#FEF9C3] border border-[#FDE68A] rounded-full p-1.5 flex items-center gap-1 shadow-sm">
-        <NavLink href="/" icon={<Home size={18} />} label="Home" active={pathname === "/"} />
-        <NavLink href="/randomizer" icon={<Shuffle size={18} />} label="Randomizer" active={pathname === "/randomizer"} />
-        <NavLink href="/browse" icon={<LayoutGrid size={18} />} label="Browse" active={pathname === "/browse"} />
-        <NavLink href="/about" icon={<Info size={18} />} label="About" active={pathname === "/about"} />
-      </div>
-
-      {/* Auth Buttons */}
-      <div className="flex items-center gap-6">
-        <Link href="/login" className="font-bold text-[#2D2D2D] hover:text-black">
-          Login
-        </Link>
-        <Link href="/signup" className="bg-[#E67E5F] text-white px-8 py-2.5 rounded-full font-bold shadow-sm hover:bg-[#d46b4c] transition-all">
-          Sign Up
-        </Link>
-=======
 import { Home, Info, LayoutGrid, Menu, Shuffle, Heart, Clock, User } from "lucide-react";
 import { Button } from "./button";
 import { useAuth } from "@/hooks/use-auth";
+import { useCurrentUser } from "@/hooks/use-curr-user";
 import {
   Sheet,
   SheetClose,
@@ -102,6 +72,13 @@ function NavLinkDesktop({
 export default function Navbar() {
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
+  const { user } = useCurrentUser();
+
+  function handleLogout() {
+    logout();
+    window.location.href = "/login";
+
+  }
 
   const mobileLinkClass = (href: string) =>
     cn(
@@ -142,18 +119,14 @@ export default function Navbar() {
       <div className="hidden md:flex items-center gap-4 shrink-0">
         {isAuthenticated ? (
           <>
-            <Link
-              href="/profile"
-              className="text-sm font-bold text-muted-foreground hover:text-primary px-4 transition-colors"
-            >
+            <div className="text-sm font-bold text-muted-foreground px-4">
               <User size={16} className="inline mr-2" />
-              Profile
-            </Link>
-
+              {user?.username ?? "Account"}
+            </div>
             <Button
               variant="outline"
-              className="font-bold rounded-xl px-6 h-11"
-              onClick={logout}
+              className={cn("font-bold rounded-xl px-6 h-11", authPopOutline)}
+              onClick={handleLogout}
             >
               Logout
             </Button>
@@ -216,7 +189,7 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent side="right" className="flex flex-col w-[min(100vw-1rem,20rem)]">
             <SheetHeader>
-              <SheetTitle className="text-left font-heading text-xl">
+              <SheetTitle className="text-center font-heading text-xl">
                 Navigate
               </SheetTitle>
             </SheetHeader>
@@ -266,12 +239,16 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <>
                   <SheetClose asChild>
-                    <Button variant="outline" className="w-full font-bold" asChild>
-                      <Link href="/profile">Profile</Link>
-                    </Button>
+                    <div className="w-full text-center font-bold text-muted-foreground">
+                      {user?.username ?? "Account"}
+                    </div>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Button className="w-full font-black" onClick={logout}>
+                    <Button
+                      variant="outline"
+                      className={cn("w-full font-bold rounded-xl", authPopOutline)}
+                      onClick={handleLogout}
+                    >
                       Logout
                     </Button>
                   </SheetClose>
@@ -300,27 +277,7 @@ export default function Navbar() {
             </SheetFooter>
           </SheetContent>
         </Sheet>
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
       </div>
     </nav>
   );
 }
-<<<<<<< HEAD
-
-function NavLink({ href, icon, label, active }: { href: string, icon: React.ReactNode, label: string, active: boolean }) {
-  return (
-    <Link 
-      href={href} 
-      className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-bold transition-all whitespace-nowrap ${
-        active 
-          ? 'bg-[#FDE68A] text-[#2D2D2D] shadow-sm' 
-          : 'text-[#8c8c8c] hover:text-[#2D2D2D] hover:bg-white/50'
-      }`}
-    >
-      {icon}
-      {label}
-    </Link>
-  );
-}
-=======
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04

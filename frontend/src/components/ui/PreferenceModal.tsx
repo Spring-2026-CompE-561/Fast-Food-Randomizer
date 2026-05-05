@@ -1,10 +1,8 @@
+//This is the pop-up window page for when a user hits the "Randomizer" page
 "use client";
 
 import React from "react";
-<<<<<<< HEAD:frontend/src/components/ui/PreferenceModal.tsx
-=======
 import { toast } from "sonner";
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04:frontend/src/components/ui/PreferencesModal.tsx
 import { X } from "lucide-react";
 import {
   Dialog,
@@ -23,11 +21,7 @@ interface PreferencesModalProps {
 export default function PreferencesModal({ isOpen, onClose }: PreferencesModalProps) {
   // Helper to render the selection pills
   const FilterPill = ({ label, icon }: { label: string; icon?: string }) => (
-<<<<<<< HEAD:frontend/src/components/ui/PreferenceModal.tsx
-    <button className="px-6 py-2 rounded-full border-2 border-slate-200 font-bold text-slate-600 hover:border-[#E67E5F] hover:text-[#E67E5F] transition-all bg-white whitespace-nowrap">
-=======
     <button className="px-6 py-2 rounded-full border-2 border-border font-bold text-muted-foreground hover:border-primary hover:text-primary transition-all bg-card whitespace-nowrap">
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04:frontend/src/components/ui/PreferencesModal.tsx
       {icon && <span className="mr-2">{icon}</span>}
       {label}
     </button>
@@ -35,7 +29,7 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl rounded-[40px] p-10 border-none shadow-2xl bg-white">
+      <DialogContent className="max-w-2xl rounded-[40px] p-10 border-none shadow-2xl">
         <DialogHeader className="flex flex-row items-center justify-between mb-2">
           <div className="flex items-center gap-3">
             <span className="text-3xl">🎯</span>
@@ -53,6 +47,7 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
         </p>
 
         <div className="space-y-10">
+          {/* Dietary Preferences */}
           <section className="space-y-4">
             <h3 className="flex items-center gap-2 text-xl font-black text-foreground">
               <span className="text-2xl">🥗</span> Dietary Preferences
@@ -64,20 +59,12 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
             </div>
           </section>
 
+          {/* Price Range */}
           <section className="space-y-4">
             <h3 className="flex items-center gap-2 text-xl font-black text-foreground">
               <span className="text-2xl">💰</span> Price Range
             </h3>
             <div className="flex flex-wrap gap-3">
-<<<<<<< HEAD:frontend/src/components/ui/PreferenceModal.tsx
-              <button className="px-8 py-3 rounded-full bg-[#E67E5F] text-white font-black text-lg shadow-lg shadow-orange-100">
-                $ (Cheap)
-              </button>
-              <button className="px-8 py-3 rounded-full bg-[#E67E5F] text-white font-black text-lg shadow-lg shadow-orange-100">
-                $$ (Moderate)
-              </button>
-              <button className="px-8 py-3 rounded-full bg-[#E67E5F] text-white font-black text-lg shadow-lg shadow-orange-100">
-=======
               {/* Highlighted state for price pills */}
               <button className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-black text-lg shadow-lg shadow-primary/25">
                 $ (Cheap)
@@ -86,12 +73,12 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
                 $$ (Moderate)
               </button>
               <button className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-black text-lg shadow-lg shadow-primary/25">
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04:frontend/src/components/ui/PreferencesModal.tsx
                 $$$ (Expensive)
               </button>
             </div>
           </section>
 
+          {/* Cuisine Types */}
           <section className="space-y-4">
             <h3 className="flex items-center gap-2 text-xl font-black text-foreground">
               <span className="text-2xl">🍴</span> Cuisine Types
@@ -110,19 +97,11 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
           </section>
         </div>
 
+        {/* Action Buttons */}
         <div className="flex justify-end gap-4 mt-12">
           <Button 
             variant="outline" 
             onClick={onClose}
-<<<<<<< HEAD:frontend/src/components/ui/PreferenceModal.tsx
-            className="px-10 h-14 rounded-2xl border-2 font-black text-lg text-slate-500 hover:bg-slate-50"
-          >
-            Cancel
-          </Button>
-          <Button 
-            onClick={onClose}
-            className="px-10 h-14 rounded-2xl bg-[#E67E5F] hover:bg-[#D46B4C] font-black text-lg shadow-xl shadow-orange-100 text-white"
-=======
             className="px-10 h-14 rounded-2xl border-2 font-black text-lg text-muted-foreground"
           >
             Cancel
@@ -135,7 +114,6 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
               });
               onClose();
             }}
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04:frontend/src/components/ui/PreferencesModal.tsx
           >
             Apply Filters
           </Button>

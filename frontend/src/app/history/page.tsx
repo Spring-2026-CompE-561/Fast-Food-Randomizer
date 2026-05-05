@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-//This is the "History" page of Craveroll
-=======
 // src/app/history/page.tsx
 "use client";
 
@@ -8,6 +5,7 @@ import { Clock } from "lucide-react";
 import RestaurantCard from "@/components/ui/RestaurantCard";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useHistory } from "@/hooks/use-history";
+import { restaurantCardMotionClass } from "@/lib/restaurant-card-helpers";
 
 
 //based on Next.js App Router page structure
@@ -23,12 +21,9 @@ export default function HistoryPage(){
         <main className="min-h-screen bg-background px-4 py-14 font-sans">
             {/* Hero section */}
             <section className="text-center mb-16">
-                <div className="flex items-center justify-center gap-6">
-                    <span className="text-6xl">📜</span>
-                    <h1 className="text-7xl font-black tracking-tight text-foreground">
-                        Roll History
-                    </h1>
-                </div>
+                <h1 className="text-7xl font-black tracking-tight text-foreground">
+                    Roll History
+                </h1>
 
                 <p className="mt-6 text-2xl text-muted-foreground">
                     Your recent randomizer picks
@@ -50,9 +45,9 @@ export default function HistoryPage(){
 
             {/* History grid: shown when history data exists */}
             {historyItems.length > 0 && (
-                <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <section className="mx-auto grid max-w-5xl grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
                     {historyItems.map((item, index) => (
-                        <div key={`${item.name}-${index}`} className="relative">
+                        <div key={`${item.name}-${index}`} className="relative w-full max-w-md justify-self-center">
                             {/* Number indicator: newest item appears as #1 */}
                             <span className="absolute top-6 right-6 z-10 text-muted-foreground font-bold">
                                 #{index + 1}
@@ -61,12 +56,10 @@ export default function HistoryPage(){
                              {/* Reusable restaurant card component */}
                              <RestaurantCard
                                 name={item.name}
-                                emoji={item.emoji}
-                                rating={item.rating}
-                                reviews={item.reviews}
                                 price={item.price}
                                 category={item.category}
                                 onCampus={item.onCampus}
+                                className={restaurantCardMotionClass}
                             />
                         </div>
                     ))}
@@ -76,4 +69,3 @@ export default function HistoryPage(){
       </ProtectedRoute>
     );
 }
->>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
