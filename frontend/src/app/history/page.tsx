@@ -47,9 +47,9 @@ export default function HistoryPage(){
             {historyItems.length > 0 && (
                 <section className="mx-auto grid max-w-5xl grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
                     {historyItems.map((item, index) => (
-                        <div key={`${item.name}-${index}`} className="relative w-full max-w-md justify-self-center">
+                        <div key={`${item.name}-${index}`} className="relative">
                             {/* Number indicator: newest item appears as #1 */}
-                            <span className="absolute top-6 right-6 z-10 text-muted-foreground font-bold">
+                            <span className="absolute top-5 right-5 z-10 rounded-full border border-border bg-card px-3 py-1 text-sm font-black text-muted-foreground shadow-sm">
                                 #{index + 1}
                             </span> 
 
@@ -59,7 +59,7 @@ export default function HistoryPage(){
                                 price={item.price}
                                 category={item.category}
                                 onCampus={item.onCampus}
-                                className={restaurantCardMotionClass}
+                                className={`${restaurantCardMotionClass} pt-14`}
                             />
                         </div>
                     ))}
