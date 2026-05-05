@@ -71,6 +71,7 @@ def randomize_restaurant(
         cuisine=payload.cuisine,
         max_price=payload.price_range,
         dietary_tag=payload.dietary_tag,
+        open_now_only=bool(payload.open_now),
     )
 
     if payload.latitude is not None and payload.longitude is not None:
@@ -101,6 +102,7 @@ def randomize_restaurant(
                 "cuisine": payload.cuisine,
                 "price_range": payload.price_range,
                 "dietary_tag": payload.dietary_tag,
+                "open_now": payload.open_now,
                 "radius_miles": 3.0,
             }
         )
@@ -117,6 +119,7 @@ def randomize_restaurant(
         cuisine=str(chosen.cuisine),
         price_range=int(chosen.price_range),
         dietary_tags=chosen.dietary_tags,
+        hours_display=chosen.hours_display,
         latitude=chosen.latitude,
         longitude=chosen.longitude,
         distance_miles=distance_miles,

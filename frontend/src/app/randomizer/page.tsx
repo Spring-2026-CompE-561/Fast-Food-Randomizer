@@ -1,7 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useCurrentUser } from "@/hooks/use-curr-user";
 import { useRandomizer } from "@/hooks/use-randomizer";
+import {
+  RandomizerFiltersDialog,
+  defaultFilters,
+  sanitizeRandomizerFilters,
+  type RandomizerFilterState,
+} from "@/components/randomizer-filters-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,7 +24,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Shuffle } from "lucide-react";
+import { Shuffle, SlidersHorizontal } from "lucide-react";
 import {
   looksOnCampus,
   priceFromRange,
@@ -27,18 +34,40 @@ import {
 export default function RandomizerPage() {
   const { result, loading, error, runRandomizer } = useRandomizer();
   const { user } = useCurrentUser();
+  const [filterDialogOpen, setFilterDialogOpen] = useState(true);
+  const [appliedFilters, setAppliedFilters] =
+    useState<RandomizerFilterState>(defaultFilters);
+  const [filtersApplyHint, setFiltersApplyHint] = useState(false);
+
+  useEffect(() => {
+    if (result && !loading) {
+      setFiltersApplyHint(false);
+    }
+  }, [result, loading]);
+
+  function handleApplyFilters(next: RandomizerFilterState) {
+    setAppliedFilters(next);
+    setFiltersApplyHint(true);
+  }
 
   async function handleSpin() {
+    const f = sanitizeRandomizerFilters(appliedFilters);
     await runRandomizer({
       latitude: null,
       longitude: null,
-      cuisine: null,
-      price_range: null,
-      dietary_tags: null,
-      radius_miles: 1,
-      user_id: user?.id ?? null,
+      cuisine: f.cuisines.length > 0 ? f.cuisines : null,
+      price_range: f.maxPrice,
+      dietary_tag: f.dietary.length > 0 ? f.dietary : null,
+      open_now: f.openNow,
     });
   }
+
+  const f = sanitizeRandomizerFilters(appliedFilters);
+  const hasActiveFilters =
+    f.maxPrice != null ||
+    f.cuisines.length > 0 ||
+    f.dietary.length > 0 ||
+    f.openNow;
 
   return (
     <div className="min-h-[calc(100vh-5rem)] bg-background px-4 py-10 md:py-14 font-sans">
@@ -63,6 +92,32 @@ export default function RandomizerPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {filtersApplyHint && (
+              <p className="rounded-2xl border border-primary/25 bg-primary/5 px-4 py-3 text-center text-sm text-muted-foreground">
+                Preferences saved — tap{" "}
+                <span className="font-bold text-foreground">Randomize</span> when you&apos;re ready.
+              </p>
+            )}
+
+            <div className="flex justify-center">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="rounded-full gap-2 font-semibold"
+                onClick={() => setFilterDialogOpen(true)}
+              >
+                <SlidersHorizontal className="size-4" aria-hidden />
+                Edit filters
+              </Button>
+            </div>
+
+            {hasActiveFilters && !filtersApplyHint && (
+              <p className="text-center text-xs text-muted-foreground">
+                Filters active — open Edit filters to review or change.
+              </p>
+            )}
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -110,6 +165,7 @@ export default function RandomizerPage() {
                       : "Restaurant"
                   }
                   onCampus={looksOnCampus(String(result.name ?? ""))}
+                  hoursDisplay={result.hours_display ?? null}
                   className={restaurantCardMotionClass}
                 />
                 {result.match_count != null && (
@@ -122,6 +178,13 @@ export default function RandomizerPage() {
           </CardContent>
         </Card>
       </div>
+
+      <RandomizerFiltersDialog
+        open={filterDialogOpen}
+        onOpenChange={setFilterDialogOpen}
+        initialFilters={appliedFilters}
+        onApply={handleApplyFilters}
+      />
     </div>
   );
 }

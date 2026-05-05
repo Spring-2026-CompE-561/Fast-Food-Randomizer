@@ -8,6 +8,7 @@ export function RestaurantCardSkeleton() {
         <Skeleton className="h-6 w-24 rounded-full" />
         <Skeleton className="h-6 w-14 rounded-full" />
       </div>
+      <Skeleton className="h-4 w-[85%] max-w-xs rounded-md" />
     </div>
   );
 }
