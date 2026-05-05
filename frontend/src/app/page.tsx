@@ -43,10 +43,7 @@ export default function HomePage() {
               />
             </div>
           </div>
-          <Link href="/randomizer" className="flex items-center gap-2 text-2xl font-bold group">
-            Get Started <ArrowRight className="group-hover:translate-x-2 transition-transform" />
-          </Link>
-        </div>
+        </Link>
 
         <Link
           href="/browse"
@@ -78,6 +75,6 @@ export default function HomePage() {
           </div>
         </Link>
       </div>
-    </main>
+    </div>
   );
 }
