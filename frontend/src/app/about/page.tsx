@@ -1,4 +1,3 @@
-//This is the "About" page of Craveroll
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Building2,
@@ -25,6 +24,10 @@ const team: TeamMember[] = [
   {
     name: "Sydney Kim",
     bio: "Shapes the CraveRoll experience on the web—layout, colors, and flows built for real SDSU schedules.",
+<<<<<<< HEAD
+=======
+    photo: "/team/sydneypfp.jpg",
+>>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
   },
   {
     name: "Aliza Siddiqui",
@@ -33,6 +36,10 @@ const team: TeamMember[] = [
   {
     name: "Melina Kai Kwarcinski",
     bio: "Makes sure the app reflects how students actually eat: quick, social, and never overcomplicated.",
+<<<<<<< HEAD
+=======
+    photo: "/team/melinapfp.jpg",
+>>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
   },
   {
     name: "Kaitlin Bituen",
@@ -208,6 +215,7 @@ export default function AboutPage() {
         </h2>
         <div className="max-w-3xl mx-auto mb-12 space-y-5 text-muted-foreground text-lg leading-relaxed text-left">
           <p>
+<<<<<<< HEAD
             CraveRoll was built by a group of students at San Diego State University as part of
             COMPE 561, where we collaborated to design and develop a full-stack application from the
             ground up. Each of us contributed to different parts of the project, from frontend design
@@ -217,6 +225,25 @@ export default function AboutPage() {
             We&apos;d also like to give a special thank you to Ugur Dogan for guiding us throughout
             the course and teaching us the skills that made this project possible. His support and
             instruction played a huge role in bringing CraveRoll to life.
+=======
+            <strong className="font-semibold text-foreground">CraveRoll</strong> was built by a group
+            of students at{" "}
+            <strong className="font-semibold text-foreground">
+              San Diego State University
+            </strong>{" "}
+            as part of{" "}
+            <strong className="font-semibold text-foreground">COMPE 561</strong>, where we
+            collaborated to design and develop a full-stack application from the ground up. Each of
+            us contributed to different parts of the project, from frontend design to backend
+            development, all while learning how to work as a real development team.
+          </p>
+          <p>
+            We&apos;d also like to give a special thank you to{" "}
+            <strong className="font-semibold text-foreground">Ugur Dogan</strong> for guiding us
+            throughout the course and teaching us the skills that made this project possible. His
+            support and instruction played a huge role in bringing{" "}
+            <strong className="font-semibold text-foreground">CraveRoll</strong> to life.
+>>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
@@ -242,4 +269,8 @@ export default function AboutPage() {
       </section>
     </main>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 086a7dabcb9b23a259bc9af2fc6079f49dbb8c04
