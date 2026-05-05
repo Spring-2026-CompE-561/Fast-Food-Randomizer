@@ -1,7 +1,8 @@
 // src/app/history/page.tsx
 "use client";
 
-import { Clock } from "lucide-react";
+import { Clock, Heart } from "lucide-react";
+import { useState } from "react";
 import RestaurantCard from "@/components/ui/RestaurantCard";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useHistory } from "@/hooks/use-history";
@@ -11,6 +12,11 @@ import { restaurantCardMotionClass } from "@/lib/restaurant-card-helpers";
 //based on Next.js App Router page structure
 export default function HistoryPage(){
   const { historyItems, loading, error } = useHistory();
+
+  //track favorited state per item
+  const [favoritedItems, setFavoritedItems] = useState<Record<string, boolean>>(
+    {}
+  );
 
   {loading && <p>Loading...</p>}
   {error && <p className="text-red-500">{error}</p>}
@@ -30,8 +36,18 @@ export default function HistoryPage(){
                 </p>
             </section>
 
+            {/* Loading state */}
+            {loading && (
+                <p className="text-center text-muted-foreground">Loading...</p>
+            )}
+
+            {/* Error state */}
+            {error && (
+                <p className="text-center text-red-500">{error}</p>
+            )}
+
              {/* Empty state: shown when the logged-in user has no randomizer history yet */}
-             {historyItems.length === 0 && (
+             {!loading && historyItems.length === 0 && (
                 <section className="flex flex-col items-center justify-center text-center mt-24">
                     <Clock size={110} className="text-muted-foreground/40 mb-8" />
                     <h2 className="text-3xl text-muted-foreground mb-4">
@@ -44,14 +60,37 @@ export default function HistoryPage(){
             )}
 
             {/* History grid: shown when history data exists */}
-            {historyItems.length > 0 && (
+            {!loading && historyItems.length > 0 && (
                 <section className="mx-auto grid max-w-5xl grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
                     {historyItems.map((item, index) => (
                         <div key={`${item.name}-${index}`} className="relative">
+                            
+                            <button
+                                type="button"
+                                aria-label={`Add ${item.name} to favorites`}
+                                className="absolute top-5 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-primary"
+                                onClick={() => {
+                                    setFavoritedItems((prev) => ({
+                                       ...prev,
+                                       [item.name]: !prev[item.name],
+                                    }));
+                                }}
+                            >
+                                <Heart 
+                                    size={20} 
+                                    strokeWidth={2.5}
+                                    className={
+                                        favoritedItems[item.name]
+                                        ? "fill-primary text-primary"
+                                        : "text-muted-foreground"
+                                    }
+                                />
+                            </button>
+
                             {/* Number indicator: newest item appears as #1 */}
-                            <span className="absolute top-5 right-5 z-10 rounded-full border border-border bg-card px-3 py-1 text-sm font-black text-muted-foreground shadow-sm">
+                            <span className="absolute top-7 left-7 z-10 text-sm font-black text-muted-foreground">
                                 #{index + 1}
-                            </span> 
+                            </span>
 
                              {/* Reusable restaurant card component */}
                              <RestaurantCard
