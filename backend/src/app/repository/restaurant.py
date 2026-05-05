@@ -58,7 +58,10 @@ class RestaurantRepository:
         cuisine: Optional[Sequence[str]] = None,
         max_price: Optional[int] = None,
         dietary_tag: Optional[Sequence[str]] = None,
+<<<<<<< aesthetics
         open_now_only: bool = False,
+=======
+>>>>>>> main
     ) -> list[Restaurant]:
         query = db.query(Restaurant)
 
@@ -70,6 +73,10 @@ class RestaurantRepository:
                 ])
             )
 
+<<<<<<< aesthetics
+=======
+        # Match the selected dollar tier exactly ($ = 1, $$ = 2, …).
+>>>>>>> main
         if max_price is not None:
             query = query.filter(Restaurant.price_range == max_price)
 

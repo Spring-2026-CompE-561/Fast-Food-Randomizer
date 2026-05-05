@@ -218,7 +218,7 @@ export function RandomizerFiltersDialog({
           <section className="space-y-3">
             <Label className="text-base font-black text-foreground">Dietary</Label>
             <p className="text-xs text-muted-foreground">
-              Matches wording on menu tags in our listings.
+              We match menu tags in our listings (e.g. vegetarian-friendly counts as vegetarian).
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {DIETARY_OPTIONS.map(({ label, search }) => {
