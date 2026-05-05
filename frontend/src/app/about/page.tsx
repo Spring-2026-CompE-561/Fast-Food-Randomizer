@@ -198,11 +198,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="w-full max-w-5xl mx-auto mb-8">
+      <section className="w-full max-w-5xl mx-auto mb-8 px-10">
         <h2 className="text-4xl font-black text-foreground mb-3 text-center">
           Meet The Team
         </h2>
-        <div className="max-w-3xl mx-auto mb-12 space-y-5 text-center text-muted-foreground text-lg leading-relaxed">
+        <div className="mb-12 w-full space-y-5 text-center text-muted-foreground text-lg leading-relaxed">
           <p>
             <strong className="font-semibold text-foreground">CraveRoll</strong> was built by a group
             of students at{" "}

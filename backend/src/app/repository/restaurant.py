@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Sequence
 from sqlalchemy.orm import Session
 from app.models.restaurant import Restaurant
 from app.schemas.restaurant import RestaurantCreate
@@ -50,9 +50,9 @@ class RestaurantRepository:
     @staticmethod
     def get_filtered(
         db: Session,
-        cuisine: Optional[str] = None,
+        cuisine: Optional[Sequence[str]] = None,
         max_price: Optional[int] = None,
-        dietary_tag: Optional[str] = None,
+        dietary_tag: Optional[Sequence[str]] = None,
     ) -> list[Restaurant]:
         query = db.query(Restaurant)
 
@@ -63,16 +63,17 @@ class RestaurantRepository:
                     for c in cuisine
                 ])
             )
-            
+
+        # Match the selected dollar tier exactly ($ = 1, $$ = 2, …).
         if max_price is not None:
-            query = query.filter(Restaurant.price_range <= max_price)
+            query = query.filter(Restaurant.price_range == max_price)
 
         if dietary_tag:
             query = query.filter(
-                Restaurant.dietary_tag.isnot(None)
+                Restaurant.dietary_tags.isnot(None)
             ).filter(
                 or_(*[
-                    Restaurant.dietary_tag.ilike(f"%{tag}%")
+                    Restaurant.dietary_tags.ilike(f"%{tag}%")
                     for tag in dietary_tag
                 ])
             )
