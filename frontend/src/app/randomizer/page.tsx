@@ -58,8 +58,19 @@ export default function RandomizerPage() {
       cuisine: f.cuisines.length > 0 ? f.cuisines : null,
       price_range: f.maxPrice,
       dietary_tag: f.dietary.length > 0 ? f.dietary : null,
+<<<<<<< aesthetics
+      open_now: f.openNow,
+=======
+>>>>>>> main
     });
   }
+
+  const f = sanitizeRandomizerFilters(appliedFilters);
+  const hasActiveFilters =
+    f.maxPrice != null ||
+    f.cuisines.length > 0 ||
+    f.dietary.length > 0 ||
+    f.openNow;
 
   return (
     <div className="min-h-[calc(100vh-5rem)] bg-background px-4 py-10 md:py-14 font-sans">
@@ -86,9 +97,14 @@ export default function RandomizerPage() {
           <CardContent className="space-y-6">
             {filtersApplyHint && (
               <p className="rounded-2xl border border-primary/25 bg-primary/5 px-4 py-3 text-center text-sm text-muted-foreground">
+<<<<<<< aesthetics
+                Preferences saved — tap{" "}
+                <span className="font-bold text-foreground">Randomize</span> when you&apos;re ready.
+=======
                 Preferences are set — tap{" "}
                 <span className="font-bold text-foreground">Randomize</span>{" "}
                 when you&apos;re ready for a pick.
+>>>>>>> main
               </p>
             )}
 
@@ -105,6 +121,15 @@ export default function RandomizerPage() {
               </Button>
             </div>
 
+<<<<<<< aesthetics
+            {hasActiveFilters && !filtersApplyHint && (
+              <p className="text-center text-xs text-muted-foreground">
+                Filters active — open Edit filters to review or change.
+              </p>
+            )}
+
+=======
+>>>>>>> main
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -152,6 +177,7 @@ export default function RandomizerPage() {
                       : "Restaurant"
                   }
                   onCampus={looksOnCampus(String(result.name ?? ""))}
+                  hoursDisplay={result.hours_display ?? null}
                   className={restaurantCardMotionClass}
                 />
                 {result.match_count != null && (

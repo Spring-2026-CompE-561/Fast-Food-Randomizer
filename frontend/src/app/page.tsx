@@ -1,5 +1,53 @@
 import Link from "next/link";
-import { LayoutGrid, MoveRight, Shuffle } from "lucide-react";
+import { HelpCircle, LayoutGrid, MoveRight, Shuffle } from "lucide-react";
+
+/** Curated picks aligned with CraveRoll listings (seed data). Not live ranked—browse for full list. */
+const HOME_FAQ_BLOCKS: {
+  question: string;
+  blurb: string;
+  restaurants: string[];
+}[] = [
+  {
+    question: "What are some of the best restaurants with outdoor seating?",
+    blurb: "Sit-down and street-front spots near SDSU & College Ave where patio or sidewalk seating is common—always double-check with the venue.",
+    restaurants: [
+      "Eureka!",
+      "Garden Restaurant (SDSU)",
+      "Rubio’s Coastal Grill (SDSU)",
+      "Pesto Italian Craft Kitchen",
+      "Cafe Madeline",
+      "Lolita’s Mexican Food",
+      "Chipotle Mexican Grill (SDSU)",
+      "Broken Yolk Cafe (SDSU)",
+    ],
+  },
+  {
+    question: "What are some of the best restaurants for lunch?",
+    blurb: "Fast, filling midday picks students actually use between classes or before study blocks.",
+    restaurants: [
+      "Subway (SDSU)",
+      "Panda Express (SDSU)",
+      "Chipotle Mexican Grill (SDSU)",
+      "Which Wich (SDSU)",
+      "The Halal Shack (SDSU)",
+      "Habit Burger Grill (SDSU)",
+      "Shake Smart (SDSU)",
+      "Everbowl (SDSU)",
+      "Taco Bell (College Area)",
+      "Starbucks (Aztec Student Union)",
+    ],
+  },
+  {
+    question: "What are some of the best vegan-friendly restaurants?",
+    blurb: "Places with clearly labeled vegan bowls, burritos, or plant-forward menus in our listings.",
+    restaurants: [
+      "The Radical Beet",
+      "Everbowl (SDSU)",
+      "Chipotle Mexican Grill (SDSU)",
+      "University Towers Kitchen (UTK)",
+    ],
+  },
+];
 
 export default function HomePage() {
   return (
@@ -75,6 +123,60 @@ export default function HomePage() {
           </div>
         </Link>
       </div>
+
+      <section
+        className="w-full max-w-5xl border-t border-border mt-10 pt-16 pb-24"
+        aria-labelledby="home-faq-heading"
+      >
+        <div className="flex flex-col items-center text-center gap-3 mb-12">
+          <span className="inline-flex items-center justify-center rounded-2xl bg-primary/10 p-3 ring-2 ring-primary/15">
+            <HelpCircle className="size-8 text-primary" aria-hidden />
+          </span>
+          <h2
+            id="home-faq-heading"
+            className="text-3xl md:text-4xl font-black tracking-tight text-foreground"
+          >
+            Frequently Asked Questions
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
+            Quick answers based on spots we list around campus. See every venue on{" "}
+            <Link href="/browse" className="font-semibold text-primary underline-offset-4 hover:underline">
+              Browse
+            </Link>{" "}
+            or roll the dice on the{" "}
+            <Link
+              href="/randomizer"
+              className="font-semibold text-primary underline-offset-4 hover:underline"
+            >
+              Randomizer
+            </Link>
+            .
+          </p>
+        </div>
+
+        <div className="space-y-14">
+          {HOME_FAQ_BLOCKS.map(({ question, blurb, restaurants }) => (
+            <article key={question}>
+              <h3 className="text-xl md:text-2xl font-black text-foreground leading-snug mb-3 text-center">
+                {question}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-3xl mx-auto text-center">
+                {blurb}
+              </p>
+              <ul className="mx-auto grid w-full max-w-4xl grid-cols-1 justify-items-center gap-y-2 sm:grid-cols-2 sm:gap-x-12">
+                {restaurants.map((name) => (
+                  <li
+                    key={name}
+                    className="text-center text-sm md:text-base font-medium text-primary leading-snug"
+                  >
+                    {name}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

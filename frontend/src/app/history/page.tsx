@@ -59,6 +59,7 @@ export default function HistoryPage(){
                                 price={item.price}
                                 category={item.category}
                                 onCampus={item.onCampus}
+                                hoursDisplay={item.hours_display ?? null}
                                 className={restaurantCardMotionClass}
                             />
                         </div>

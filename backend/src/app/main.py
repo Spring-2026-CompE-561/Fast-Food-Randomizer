@@ -5,11 +5,14 @@ from app.api.v1.routes import api_router
 from app.core.database import Base, engine, SessionLocal
 from app.core.settings import settings
 from app.models import Favorite, History, Restaurant, User
-from seed_restaurants import seed
+from seed_restaurants import ensure_sqlite_restaurant_hours_columns, seed
 
 # Create database tables
 # If the tables do not exist, create them
 Base.metadata.create_all(bind=engine)
+
+# Add hours columns to existing SQLite files (create_all does not ALTER TABLE)
+ensure_sqlite_restaurant_hours_columns()
 
 # Seed restaurants if database is empty
 db = SessionLocal()
