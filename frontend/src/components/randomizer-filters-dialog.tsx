@@ -13,10 +13,11 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { chipPop, chipPopDietary } from "@/lib/auth-button-styles";
 import { cn } from "@/lib/utils";
 
 export type RandomizerFilterState = {
-  /** `null` = any max price; otherwise max `price_range` on restaurant (1–4). */
+  /** `null` = any price; otherwise exact `price_range` tier (1–3). */
   maxPrice: number | null;
   /** Substrings matched against `cuisine` (ilike). */
   cuisines: string[];
@@ -29,7 +30,6 @@ const PRICE_OPTIONS: { label: string; value: number | null }[] = [
   { label: "$", value: 1 },
   { label: "$$", value: 2 },
   { label: "$$$", value: 3 },
-  { label: "$$$$", value: 4 },
 ];
 
 const CUISINE_OPTIONS = [
@@ -53,20 +53,41 @@ const CUISINE_OPTIONS = [
   "Wings",
 ] as const;
 
+/** Only tags with ≥2 restaurants in DB substring-match (`ilike %search%`) on seeded data. */
 const DIETARY_OPTIONS: { label: string; search: string }[] = [
   { label: "Vegetarian", search: "vegetarian" },
   { label: "Vegan", search: "vegan" },
-  { label: "Halal", search: "halal" },
-  { label: "Gluten-free", search: "gluten" },
   { label: "Pescatarian", search: "pescatarian" },
-  { label: "Healthy", search: "healthy" },
 ];
+
+const ALLOWED_DIETARY_SEARCHES = new Set(
+  DIETARY_OPTIONS.map((o) => o.search)
+);
+
+const MAX_PRICE_TIER = 3;
 
 export function defaultFilters(): RandomizerFilterState {
   return {
     maxPrice: null,
     cuisines: [],
     dietary: [],
+  };
+}
+
+/** Drop removed tiers / dietary tags so API calls stay valid after UI changes. */
+export function sanitizeRandomizerFilters(
+  s: RandomizerFilterState
+): RandomizerFilterState {
+  const max =
+    s.maxPrice == null ||
+    s.maxPrice < 1 ||
+    s.maxPrice > MAX_PRICE_TIER
+      ? null
+      : s.maxPrice;
+  return {
+    maxPrice: max,
+    cuisines: [...s.cuisines],
+    dietary: s.dietary.filter((x) => ALLOWED_DIETARY_SEARCHES.has(x)),
   };
 }
 
@@ -87,10 +108,11 @@ export function RandomizerFiltersDialog({
 
   useEffect(() => {
     if (open) {
+      const next = sanitizeRandomizerFilters(initialFilters);
       setDraft({
-        maxPrice: initialFilters.maxPrice,
-        cuisines: [...initialFilters.cuisines],
-        dietary: [...initialFilters.dietary],
+        maxPrice: next.maxPrice,
+        cuisines: [...next.cuisines],
+        dietary: [...next.dietary],
       });
     }
   }, [open, initialFilters]);
@@ -106,7 +128,7 @@ export function RandomizerFiltersDialog({
   }
 
   function handleApply() {
-    onApply(draft);
+    onApply(sanitizeRandomizerFilters(draft));
     onOpenChange(false);
   }
 
@@ -139,7 +161,8 @@ export function RandomizerFiltersDialog({
           <section className="space-y-3">
             <Label className="text-base font-black text-foreground">Price</Label>
             <p className="text-xs text-muted-foreground">
-              Max budget — we only pick spots at or below this level.
+              Exact tier — we only pick restaurants whose price matches this level ($ through $$$).
+              Choose Any to ignore price.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {PRICE_OPTIONS.map(({ label, value }) => {
@@ -153,9 +176,10 @@ export function RandomizerFiltersDialog({
                     }
                     className={cn(
                       "rounded-full border-2 px-4 py-2 text-sm font-bold transition-colors",
+                      chipPop,
                       selected
-                        ? "border-primary bg-primary text-primary-foreground shadow-md"
-                        : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                        ? "border-primary bg-primary text-primary-foreground shadow-md hover:shadow-xl hover:shadow-primary/40"
+                        : "border-border bg-card text-muted-foreground shadow-sm shadow-black/[0.04] hover:border-primary/50 hover:text-foreground hover:shadow-primary/20"
                     )}
                   >
                     {label}
@@ -180,9 +204,10 @@ export function RandomizerFiltersDialog({
                     onClick={() => toggleList("cuisines", c)}
                     className={cn(
                       "rounded-full border-2 px-3 py-1.5 text-xs font-bold transition-colors sm:text-sm",
+                      chipPop,
                       selected
-                        ? "border-primary bg-primary/15 text-foreground ring-1 ring-primary/30"
-                        : "border-border bg-muted/40 text-muted-foreground hover:border-primary/40"
+                        ? "border-primary bg-primary/15 text-foreground shadow-sm ring-1 ring-primary/30 hover:border-primary hover:bg-primary/20"
+                        : "border-border bg-muted/40 text-muted-foreground shadow-sm shadow-black/[0.04] hover:border-primary/40"
                     )}
                   >
                     {c}
@@ -207,9 +232,10 @@ export function RandomizerFiltersDialog({
                     onClick={() => toggleList("dietary", search)}
                     className={cn(
                       "rounded-full border-2 px-3 py-1.5 text-xs font-bold transition-colors sm:text-sm",
+                      chipPopDietary,
                       selected
-                        ? "border-accent bg-accent/15 text-foreground ring-1 ring-accent/30"
-                        : "border-border bg-muted/40 text-muted-foreground hover:border-accent/40"
+                        ? "border-accent bg-accent/15 text-foreground shadow-sm ring-1 ring-accent/30 hover:border-accent hover:bg-accent/25"
+                        : "border-border bg-muted/40 text-muted-foreground shadow-sm shadow-black/[0.04] hover:border-accent/50"
                     )}
                   >
                     {label}

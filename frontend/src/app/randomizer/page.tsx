@@ -6,6 +6,7 @@ import { useRandomizer } from "@/hooks/use-randomizer";
 import {
   RandomizerFiltersDialog,
   defaultFilters,
+  sanitizeRandomizerFilters,
   type RandomizerFilterState,
 } from "@/components/randomizer-filters-dialog";
 import { Button } from "@/components/ui/button";
@@ -50,14 +51,13 @@ export default function RandomizerPage() {
   }
 
   async function handleSpin() {
+    const f = sanitizeRandomizerFilters(appliedFilters);
     await runRandomizer({
       latitude: null,
       longitude: null,
-      cuisine:
-        appliedFilters.cuisines.length > 0 ? appliedFilters.cuisines : null,
-      price_range: appliedFilters.maxPrice,
-      dietary_tag:
-        appliedFilters.dietary.length > 0 ? appliedFilters.dietary : null,
+      cuisine: f.cuisines.length > 0 ? f.cuisines : null,
+      price_range: f.maxPrice,
+      dietary_tag: f.dietary.length > 0 ? f.dietary : null,
     });
   }
 
