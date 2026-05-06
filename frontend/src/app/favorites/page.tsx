@@ -64,9 +64,9 @@ export default function FavoritesPage() {
           <p className="mt-6 text-2xl text-[#334155]">Your saved restaurants</p>
         </section>
 
-        <div className="w-full max-w-5xl mx-auto bg-white rounded-[30px] shadow-xl p-10 mb-10">
+        <div className="w-full max-w-5xl mx-auto bg-primary/75 rounded-[30px] shadow-xl p-10 mb-10">
           <h2 className="text-3xl font-black mb-8 flex items-center justify-center gap-3">
-            <Heart size={52} className="text-accent shrink-0" aria-hidden />
+            {/* <Heart size={52} className="text-accent shrink-0" aria-hidden /> */}
             Saved Places
           </h2>
 
@@ -112,7 +112,7 @@ export default function FavoritesPage() {
                       strokeWidth={2.5}
                       className={cn(
                         "transition-transform duration-200",
-                        "fill-primary text-primary",
+                        "fill-accent text-accent",
                         animating[item.restaurant_id] ? "scale-125" : "scale-100"
                       )}
                     />
@@ -136,9 +136,9 @@ export default function FavoritesPage() {
         </div>
 
         {recentNotFavorited.length > 0 && (
-          <div className="w-full max-w-5xl mx-auto bg-white rounded-[30px] shadow-xl p-10">
+          <div className="w-full max-w-5xl mx-auto bg-accent/75 rounded-[30px] shadow-xl p-10">
             <h2 className="text-2xl font-black mb-6 text-center">
-              Quick Add from Recent History
+              Quick Add Your Recent Visits
             </h2>
 
             {successMsg && (

@@ -151,7 +151,7 @@ export default function HistoryPage(){
                                                 className={cn(
                                                     "transition-transform duration-200",
                                                     favoritedItems[item.restaurant_id]
-                                                        ? "fill-primary text-primary"
+                                                        ? "fill-accent text-accent"
                                                         : "text-muted-foreground",
                                                     animating[item.restaurant_id] ? "scale-125" : "scale-100"
                                                 )}

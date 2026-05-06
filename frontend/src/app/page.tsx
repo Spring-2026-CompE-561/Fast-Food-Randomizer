@@ -68,7 +68,7 @@ export default function HomePage() {
           className="group rounded-[45px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           <div
-            className="bg-accent rounded-[45px] p-12 text-accent-foreground min-h-[420px] flex flex-col items-center justify-center text-center shadow-2xl shadow-accent/35 border border-transparent transition-all duration-300 ease-out
+            className="bg-accent/75 rounded-[45px] p-12 text-accent/75-foreground min-h-[420px] flex flex-col items-center justify-center text-center shadow-2xl shadow-accent/35 border border-transparent transition-all duration-300 ease-out
             hover:scale-[1.025] hover:-translate-y-2 hover:shadow-accent/45 hover:border-accent-foreground/20
             active:scale-[0.98] active:translate-y-0"
           >
@@ -99,7 +99,7 @@ export default function HomePage() {
           className="group rounded-[45px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           <div
-            className="bg-primary rounded-[45px] p-12 text-primary-foreground min-h-[420px] flex flex-col items-center justify-center text-center shadow-2xl shadow-primary/35 border border-transparent transition-all duration-300 ease-out
+            className="bg-primary/75 rounded-[45px] p-12 text-primary-foreground min-h-[420px] flex flex-col items-center justify-center text-center shadow-2xl shadow-primary/35 border border-transparent transition-all duration-300 ease-out
             hover:scale-[1.025] hover:-translate-y-2 hover:shadow-primary/45 hover:border-primary-foreground/20
             active:scale-[0.98] active:translate-y-0"
           >
