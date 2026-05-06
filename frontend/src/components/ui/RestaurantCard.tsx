@@ -21,6 +21,7 @@ interface RestaurantCardProps {
   reviewTagCounts?: Record<string, number> | null;
   onAddReviewTags?: () => void;
   className?: string;
+  onFavoriteClick?: () => void;
 }
 
 export default function RestaurantCard({
@@ -34,6 +35,7 @@ export default function RestaurantCard({
   reviewTagCounts,
   onAddReviewTags,
   className,
+  onFavoriteClick,
 }: RestaurantCardProps) {
   const tagsForCard = reviewTagsSortedByVotes(reviewTagCounts);
 

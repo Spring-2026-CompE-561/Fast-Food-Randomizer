@@ -2,7 +2,7 @@
 "use client";
 
 import { Clock, Heart } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import RestaurantCard from "@/components/ui/RestaurantCard";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -13,23 +13,67 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { addFavorite, getFavorites, removeFavorite } from "@/lib/favorites";
 
+export type Favorite = {
+  id: number;
+  user_id: number;
+  restaurant_id: number;
+};
 
 //based on Next.js App Router page structure
 export default function HistoryPage(){
   const { historyItems, loading, error } = useHistory();
+  
+    async function handleToggleFavorite(restaurantId: number) {
+        const wasFavorited = favoritedItems[restaurantId];
 
-  //track favorited state per item
-  const [favoritedItems, setFavoritedItems] = useState<Record<string, boolean>>(
-    {}
-  );
+        setFavoritedItems((prev) => ({
+            ...prev,
+            [restaurantId]: !wasFavorited,
+        }));
 
-  //tracking animation state
-  const [animating, setAnimating] = useState<Record<string, boolean>>({});
+        try {
+            if (wasFavorited) {
+            await removeFavorite(restaurantId);
+            } else {
+            await addFavorite(restaurantId);
+            }
+        } catch (err: any) {
+            setFavoritedItems((prev) => ({
+            ...prev,
+            [restaurantId]: wasFavorited,
+            }));
 
+            alert(err.message);
+        }
+    }
 
-  {loading && <p>Loading...</p>}
-  {error && <p className="text-red-500">{error}</p>}
+    //track favorited state per item
+    const [favoritedItems, setFavoritedItems] = useState<Record<number, boolean>>({});
+    const [animating, setAnimating] = useState<Record<number, boolean>>({});
+
+    useEffect(() => {
+        async function loadFavorites() {
+            try {
+            const favorites = await getFavorites();
+            const initialFavorites: Record<number, boolean> = {};
+
+            favorites.forEach((favorite) => {
+                initialFavorites[favorite.restaurant_id] = true;
+            });
+
+            setFavoritedItems(initialFavorites);
+            } catch (err) {
+            console.error("Failed to load favorites", err);
+            }
+        }
+
+        void loadFavorites();
+        }, []);
+
+    {loading && <p>Loading...</p>}
+    {error && <p className="text-red-500">{error}</p>}
 
     return(
         //Page background and spacing
@@ -79,23 +123,24 @@ export default function HistoryPage(){
                                 <TooltipTrigger asChild>
                                     <button
                                         type="button"
-                                        aria-label={`Add ${item.name} to favorites`}
+                                        aria-label={
+                                            favoritedItems[item.restaurant_id]
+                                                ? `Remove ${item.name} from favorites`
+                                                : `Add ${item.name} to favorites`
+                                        }
                                         className="absolute top-5 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card shadow-sm"
                                         onClick={() => {
-                                            setFavoritedItems((prev) => ({
-                                                ...prev,
-                                                [item.name]: !prev[item.name],
-                                            }));
+                                            void handleToggleFavorite(item.restaurant_id);
 
                                             setAnimating((prev) => ({
                                                 ...prev,
-                                                [item.name]: true,
+                                                [item.restaurant_id]: true,
                                             }));
 
                                             setTimeout(() => {
                                                 setAnimating((prev) => ({
-                                                    ...prev,
-                                                    [item.name]: false,
+                                                ...prev,
+                                                [item.restaurant_id]: false,
                                                 }));
                                             }, 200);
                                         }}
@@ -105,17 +150,17 @@ export default function HistoryPage(){
                                                 strokeWidth={2.5}
                                                 className={cn(
                                                     "transition-transform duration-200",
-                                                    favoritedItems[item.name]
+                                                    favoritedItems[item.restaurant_id]
                                                         ? "fill-primary text-primary"
                                                         : "text-muted-foreground",
-                                                    animating[item.name] ? "scale-125" : "scale-100"
+                                                    animating[item.restaurant_id] ? "scale-125" : "scale-100"
                                                 )}
                                             />
                                     </button>
                                 </TooltipTrigger>
                                     
                                 <TooltipContent side="left">
-                                    {favoritedItems[item.name]
+                                    {favoritedItems[item.restaurant_id]
                                         ? "Remove from favorites"
                                         : "Add to favorites"}
                                 </TooltipContent>
