@@ -51,6 +51,7 @@ export function useFavorites() {
             cuisine: restaurant?.cuisine ?? "Unknown",
             price_range: restaurant?.price_range ?? 1,
             // priceFromRange / looksOnCampus used on the page from helpers
+            // restaurant_id: f.restaurant_id,
           };
         });
 

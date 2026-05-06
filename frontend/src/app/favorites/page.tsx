@@ -10,13 +10,23 @@ import {
   priceFromRange,
   restaurantCardMotionClass,
 } from "@/lib/restaurant-card-helpers";
+import { removeFavorite } from "@/lib/favorites";
 
 export default function FavoritesPage() {
   const { favorites, loading, error } = useFavorites();
 
+  async function handleRemoveFavorite(restaurantId: number) {
+    try {
+      await removeFavorite(restaurantId);
+      window.location.reload();
+    } catch (err: any) {
+      alert(err.message);
+    }
+  }
+
   return (
     <ProtectedRoute>
-      <main className="min-h-screen bg-[#E8F4FD] px-4 py-14 font-sans">
+      <main className="min-h-screen bg-background px-4 py-14 font-sans">
         <section className="text-center mb-16">
           <h1 className="text-7xl font-black text-[#111827]">Favorites</h1>
           <p className="mt-6 text-2xl text-[#334155]">Your saved restaurants</p>
@@ -50,6 +60,7 @@ export default function FavoritesPage() {
                   category={r.cuisine}
                   onCampus={looksOnCampus(r.name)}
                   className={restaurantCardMotionClass}
+                  onFavoriteClick={() => handleRemoveFavorite(r.id)}
                 />
               ))}
             </div>
