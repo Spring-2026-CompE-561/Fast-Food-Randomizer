@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HelpCircle, LayoutGrid, MoveRight, Shuffle } from "lucide-react";
+import { googleSearchHref } from "@/lib/restaurant-card-helpers";
 
 /** Curated picks aligned with CraveRoll listings (seed data). Not live ranked—browse for full list. */
 const HOME_FAQ_BLOCKS: {
@@ -165,11 +166,16 @@ export default function HomePage() {
               </p>
               <ul className="mx-auto grid w-full max-w-4xl grid-cols-1 justify-items-center gap-y-2 sm:grid-cols-2 sm:gap-x-12">
                 {restaurants.map((name) => (
-                  <li
-                    key={name}
-                    className="text-center text-sm md:text-base font-medium text-primary leading-snug"
-                  >
-                    {name}
+                  <li key={name} className="text-center leading-snug">
+                    <a
+                      href={googleSearchHref(name)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm md:text-base font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm"
+                      aria-label={`Search Google for ${name}`}
+                    >
+                      {name}
+                    </a>
                   </li>
                 ))}
               </ul>

@@ -1,28 +1,53 @@
+import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.routes import api_router
-from app.core.database import Base, engine, SessionLocal, prepare_sqlite_schema
+from app.core.database import (
+    Base,
+    DB_PATH,
+    SessionLocal,
+    engine,
+    ensure_sqlite_restaurant_hours,
+    prepare_sqlite_schema,
+)
 from app.core.settings import settings
 from app.models import Favorite, History, Restaurant, Review, User
 from seed_restaurants import seed
 
-# Create database tables (SQLite: reconcile legacy review schema first)
-prepare_sqlite_schema(engine)
-Base.metadata.create_all(bind=engine)
+logger = logging.getLogger("uvicorn.error")
 
-# Seed restaurants if database is empty
-db = SessionLocal()
-try:
-    if db.query(Restaurant).count() == 0:
-        seed()
-finally:
-    db.close()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Ensure SQLite schema + seed run for every server process (including uvicorn --reload)."""
+
+    logger.info("Using SQLite database file: %s", DB_PATH)
+    prepare_sqlite_schema(engine)
+    ensure_sqlite_restaurant_hours(engine)
+    Base.metadata.create_all(bind=engine)
+    # Idempotent: inserts only missing restaurants by name (safe every startup).
+    seed()
+    db = SessionLocal()
+    try:
+        n = db.query(Restaurant).count()
+        logger.info("Restaurant count after startup seed: %s", n)
+        if n == 0:
+            logger.warning(
+                "No restaurants in DB after seed — check seed_restaurants.py and DB path."
+            )
+    finally:
+        db.close()
+    yield
+
 
 app = FastAPI(
     title=settings.app_name,
     description="CraveRoll — pick a restaurant based on user preferences.",
     version=settings.app_version,
+    lifespan=lifespan,
 )
 
 app.include_router(api_router)

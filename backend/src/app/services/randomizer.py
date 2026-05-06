@@ -10,8 +10,11 @@ from app.models.restaurant import Restaurant
 import app.services.history as history_service
 from app.schemas.history import HistoryCreate
 from app.repository.restaurant import RestaurantRepository
+from app.repository.review import ReviewRepository
+from app.services.restaurant import _allowed_tag_counts
 from app.schemas.randomizer import RandomizeRequest, RandomizeResponse
 from app.models.user import User
+from app.utils.open_hours import restaurant_is_open_now
 
 
 def haversine_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -73,6 +76,11 @@ def randomize_restaurant(
         dietary_tag=payload.dietary_tag,
     )
 
+    if payload.open_now:
+        candidates = [
+            r for r in candidates if restaurant_is_open_now(r.weekly_hours_json)
+        ]
+
     if payload.latitude is not None and payload.longitude is not None:
         chosen_result = choose_random_within_radius(
             restaurants=candidates,
@@ -101,6 +109,7 @@ def randomize_restaurant(
                 "cuisine": payload.cuisine,
                 "price_range": payload.price_range,
                 "dietary_tag": payload.dietary_tag,
+                "open_now": payload.open_now,
                 "radius_miles": 3.0,
             }
         )
@@ -111,6 +120,8 @@ def randomize_restaurant(
             int(chosen.id),
         )
         
+    tag_counts = ReviewRepository.tag_counts_for_restaurant(db, int(chosen.id))
+
     return RandomizeResponse(
         restaurant_id=int(chosen.id),
         name=str(chosen.name),
@@ -119,6 +130,8 @@ def randomize_restaurant(
         dietary_tags=chosen.dietary_tags,
         latitude=chosen.latitude,
         longitude=chosen.longitude,
+        hours_display=chosen.hours_display,
+        review_tag_counts=_allowed_tag_counts(tag_counts),
         distance_miles=distance_miles,
         match_count=match_count,
     )

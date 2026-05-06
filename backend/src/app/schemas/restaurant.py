@@ -11,11 +11,15 @@ class RestaurantBase(BaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
+
 class RestaurantCreate(RestaurantBase):
-    pass
+    hours_display: Optional[str] = None
+    weekly_hours_json: Optional[str] = None
+
 
 class RestaurantResponse(RestaurantBase):
     id: int
+    hours_display: Optional[str] = None
     review_tag_counts: dict[str, int] = Field(default_factory=dict)
 
     class Config:

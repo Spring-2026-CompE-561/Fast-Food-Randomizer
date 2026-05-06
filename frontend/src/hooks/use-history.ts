@@ -10,6 +10,7 @@ type Restaurant = {
   name: string;
   cuisine: string;
   price_range: number;
+  hours_display?: string | null;
 };
 
 type HistoryEntry = {
@@ -41,12 +42,14 @@ export function useHistory() {
         const combined = history.map((h: any) => {
           const restaurant = restaurantMap.get(h.restaurant_id)
           const name = restaurant?.name ?? "Unknown"
-
+          
           return {
             name,
             price: priceFromRange(restaurant?.price_range),
             category: restaurant?.cuisine ?? "Unknown",
             onCampus: looksOnCampus(name),
+            restaurant_id: h.restaurant_id,
+            hoursDisplay: restaurant?.hours_display ?? null,
           }
         })
 

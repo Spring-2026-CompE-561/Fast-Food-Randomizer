@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Heart } from "lucide-react";
 import { useRestaurants } from "@/hooks/use-restaurants";
 import RestaurantCard from "@/components/ui/RestaurantCard";
 import { RestaurantCardGridSkeleton } from "@/components/ui/restaurant-card-skeleton";
+import { addFavorite, removeFavorite, getFavorites } from "@/lib/favorites";
 import {
   looksOnCampus,
   priceFromRange,
@@ -13,6 +15,8 @@ import {
 
 export default function BrowsePage() {
   const { restaurants, loading, error } = useRestaurants();
+  const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
+  const [toggling, setToggling] = useState<number | null>(null);
 
   useEffect(() => {
     if (error) {
@@ -21,6 +25,41 @@ export default function BrowsePage() {
       });
     }
   }, [error]);
+
+  useEffect(() => {
+    async function loadFavorites() {
+      try {
+        const favs = (await getFavorites()) as { id: number; restaurant_id: number }[];
+        setFavoriteIds(new Set(favs.map((f) => f.restaurant_id)));
+      } catch {
+        // not logged in, no favorites to load
+      }
+    }
+    loadFavorites();
+  }, []);
+
+  async function handleToggleFavorite(restaurantId: number) {
+    setToggling(restaurantId);
+    try {
+      if (favoriteIds.has(restaurantId)) {
+        await removeFavorite(restaurantId);
+        setFavoriteIds((prev) => {
+          const next = new Set(prev);
+          next.delete(restaurantId);
+          return next;
+        });
+        toast.success("Removed from favorites");
+      } else {
+        await addFavorite(restaurantId);
+        setFavoriteIds((prev) => new Set(prev).add(restaurantId));
+        toast.success("Added to favorites!");
+      }
+    } catch {
+      toast.error("Please log in to save favorites");
+    } finally {
+      setToggling(null);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background px-6 py-12 font-sans">
@@ -51,14 +90,31 @@ export default function BrowsePage() {
         <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 gap-8 max-w-5xl mx-auto pb-8">
           {restaurants.map(
             (r: { id: number; name: string; cuisine: string; price_range: number }) => (
-              <RestaurantCard
-                key={r.id}
-                name={r.name}
-                price={priceFromRange(r.price_range)}
-                category={r.cuisine}
-                onCampus={looksOnCampus(r.name)}
-                className={restaurantCardMotionClass}
-              />
+              <div key={r.id} className="w-full flex flex-col items-center gap-2">
+                <RestaurantCard
+                  name={r.name}
+                  price={priceFromRange(r.price_range)}
+                  category={r.cuisine}
+                  onCampus={looksOnCampus(r.name)}
+                  className={restaurantCardMotionClass}
+                />
+                <button
+                  onClick={() => handleToggleFavorite(r.id)}
+                  disabled={toggling === r.id}
+                  className="flex items-center gap-2 text-sm transition-colors"
+                  style={{ color: favoriteIds.has(r.id) ? "#E24B4A" : "#94A3B8" }}
+                >
+                  <Heart
+                    size={16}
+                    className={favoriteIds.has(r.id) ? "fill-red-500 text-red-500" : ""}
+                  />
+                  {toggling === r.id
+                    ? "Saving..."
+                    : favoriteIds.has(r.id)
+                    ? "Saved to favorites"
+                    : "Add to favorites"}
+                </button>
+              </div>
             )
           )}
         </div>

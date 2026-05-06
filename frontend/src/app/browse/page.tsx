@@ -19,6 +19,7 @@ type RestaurantRow = {
   name: string;
   cuisine: string;
   price_range: number;
+  hours_display?: string | null;
   review_tag_counts?: Record<string, number>;
 };
 
@@ -62,9 +63,12 @@ export default function BrowsePage() {
         price={priceFromRange(r.price_range)}
         category={r.cuisine}
         onCampus={looksOnCampus(r.name)}
+        hoursDisplay={r.hours_display ?? null}
         restaurantId={r.id}
         reviewTagCounts={r.review_tag_counts ?? null}
-        onAddReviewTags={() => openSheet(r)}
+        onAddReviewTags={
+          isAuthenticated ? () => openSheet(r) : undefined
+        }
         className={restaurantCardMotionClass}
       />
     ));
@@ -80,13 +84,15 @@ export default function BrowsePage() {
           Explore dining options near SDSU — campus, College Area, and late-night
           picks.
         </p>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Signed-out? You can still browse.{" "}
-          <Link href="/login" className="font-semibold text-primary underline-offset-4 hover:underline">
-            Log in
-          </Link>{" "}
-          to add quick tags and help the crowd.
-        </p>
+        {!isAuthenticated && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            Signed-out? You can still browse.{" "}
+            <Link href="/login" className="font-semibold text-primary underline-offset-4 hover:underline">
+              Log in
+            </Link>{" "}
+            to add quick tags and help the crowd.
+          </p>
+        )}
       </div>
 
       {loading && <RestaurantCardGridSkeleton />}

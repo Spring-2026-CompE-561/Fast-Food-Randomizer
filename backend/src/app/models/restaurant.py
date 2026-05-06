@@ -16,6 +16,8 @@ class Restaurant(Base):
     dietary_tags = Column(String, index=True, nullable=True)
     latitude = Column(Float, index=True, nullable=True)
     longitude = Column(Float, index=True, nullable=True)
+    hours_display = Column(String, nullable=True)
+    weekly_hours_json = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     reviews = relationship(
