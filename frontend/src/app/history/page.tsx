@@ -117,7 +117,7 @@ export default function HistoryPage(){
             {!loading && historyItems.length > 0 && (
                 <section className="mx-auto grid max-w-5xl grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
                     {historyItems.map((item, index) => (
-                        <div key={`${item.name}-${index}`} className="relative">
+                        <div key={`${item.restaurant_id}-${index}`} className="relative">
                             
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -151,7 +151,7 @@ export default function HistoryPage(){
                                                 className={cn(
                                                     "transition-transform duration-200",
                                                     favoritedItems[item.restaurant_id]
-                                                        ? "fill-primary text-primary"
+                                                        ? "fill-accent text-accent"
                                                         : "text-muted-foreground",
                                                     animating[item.restaurant_id] ? "scale-125" : "scale-100"
                                                 )}

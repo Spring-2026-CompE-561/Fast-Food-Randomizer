@@ -6,6 +6,7 @@ import { getRestaurants } from "@/lib/restaurants";
 
 export type FavoriteRestaurant = {
   id: number;
+  restaurant_id: number;
   name: string;
   cuisine: string;
   price_range: number;
@@ -49,6 +50,7 @@ export function useFavorites() {
 
           return {
             id: f.id,
+            restaurant_id: f.restaurant_id,
             name,
             cuisine: restaurant?.cuisine ?? "Unknown",
             price_range: restaurant?.price_range ?? 1,
@@ -68,5 +70,5 @@ export function useFavorites() {
     void fetchData();
   }, []);
 
-  return { favorites, loading, error };
+  return { favorites, setFavorites, loading, error };
 }
