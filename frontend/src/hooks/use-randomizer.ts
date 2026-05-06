@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { randomizeRestaurant } from "@/lib/randomizer";
 
 export function useRandomizer() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const mergeIntoResult = useCallback((patch: Record<string, unknown>) => {
+    setResult((prev) =>
+      prev && typeof prev === "object" ? { ...prev, ...patch } : prev
+    );
+  }, []);
 
   async function runRandomizer(payload: any) {
     setLoading(true);
@@ -26,5 +32,6 @@ export function useRandomizer() {
     loading,
     error,
     runRandomizer,
+    mergeIntoResult,
   };
 }

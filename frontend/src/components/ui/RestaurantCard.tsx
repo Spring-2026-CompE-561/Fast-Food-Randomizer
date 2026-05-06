@@ -3,7 +3,7 @@
 import type { KeyboardEvent } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tag } from "lucide-react";
+import { Clock, Tag } from "lucide-react";
 import { ReviewTagIcon } from "@/components/review-tag-icon";
 import { googleSearchHref } from "@/lib/restaurant-card-helpers";
 import { reviewTagsSortedByVotes } from "@/lib/review-tags";
@@ -14,6 +14,9 @@ interface RestaurantCardProps {
   price: string;
   category: string;
   onCampus: boolean;
+  hoursDisplay?: string | null;
+  /** When false (e.g. Randomizer), hide crowd tags + “Rate with tags” entirely for a tighter centered layout. */
+  showTagReviews?: boolean;
   restaurantId?: number;
   reviewTagCounts?: Record<string, number> | null;
   onAddReviewTags?: () => void;
@@ -25,6 +28,8 @@ export default function RestaurantCard({
   price,
   category,
   onCampus,
+  hoursDisplay,
+  showTagReviews = true,
   restaurantId,
   reviewTagCounts,
   onAddReviewTags,
@@ -53,7 +58,8 @@ export default function RestaurantCard({
   return (
     <div
       className={cn(
-        "mx-auto w-full max-w-md justify-self-center bg-card rounded-[32px] p-8 shadow-sm border border-border flex flex-col items-center gap-4 text-center hover:shadow-md transition-shadow",
+        "mx-auto grid w-full max-w-md justify-items-center rounded-[32px] border border-border bg-card p-8 text-center shadow-sm transition-shadow hover:shadow-md",
+        showTagReviews ? "gap-4" : "gap-3",
         className
       )}
     >
@@ -85,6 +91,18 @@ export default function RestaurantCard({
             </Badge>
           )}
         </div>
+        
+        {hoursDisplay != null && hoursDisplay.trim() !== "" && (
+          <div className="flex w-full justify-center px-2">
+            <p className="flex max-w-sm flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xs leading-snug text-muted-foreground">
+              <Clock
+                className="size-3.5 shrink-0 text-muted-foreground/85"
+                aria-hidden
+              />
+              <span className="text-balance">{hoursDisplay}</span>
+            </p>
+          </div>
+        )}
 
         <div className="flex min-h-[2rem] w-full max-w-sm flex-col items-center gap-2">
           {tagsForCard.length > 0 ? (

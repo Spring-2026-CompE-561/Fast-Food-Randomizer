@@ -26,6 +26,30 @@ export function useRestaurants() {
     void reload();
   }, [reload]);
 
+  const reloadSilent = useCallback(async () => {
+    try {
+      const data = await getRestaurants();
+      setRestaurants(Array.isArray(data) ? data : []);
+    } catch {
+      /* keep existing list */
+    }
+  }, []);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      if (document.visibilityState === "visible") void reloadSilent();
+    }, 30000);
+    return () => window.clearInterval(id);
+  }, [reloadSilent]);
+
+  useEffect(() => {
+    const onVis = () => {
+      if (document.visibilityState === "visible") void reloadSilent();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [reloadSilent]);
+
   return {
     restaurants,
     loading,
