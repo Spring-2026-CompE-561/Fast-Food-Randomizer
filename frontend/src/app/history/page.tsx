@@ -128,6 +128,7 @@ export default function HistoryPage(){
                                                 ? `Remove ${item.name} from favorites`
                                                 : `Add ${item.name} to favorites`
                                         }
+                                        className="absolute top-5 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card shadow-sm"
                                         onClick={() => {
                                             void handleToggleFavorite(item.restaurant_id);
 
