@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { RestaurantReviewSheet } from "@/components/restaurant-review-sheet";
 import RestaurantCard from "@/components/ui/RestaurantCard";
@@ -13,6 +14,7 @@ import {
   priceFromRange,
   restaurantCardMotionClass,
 } from "@/lib/restaurant-card-helpers";
+import { promptLoginForRestaurantTags } from "@/lib/tag-login-toast";
 
 type RestaurantRow = {
   id: number;
@@ -28,6 +30,7 @@ function tagVoteTotal(r: RestaurantRow): number {
 }
 
 export default function BrowsePage() {
+  const router = useRouter();
   const { restaurants, loading, error, reload } = useRestaurants();
   const { isAuthenticated } = useAuth();
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -67,7 +70,10 @@ export default function BrowsePage() {
         restaurantId={r.id}
         reviewTagCounts={r.review_tag_counts ?? null}
         onAddReviewTags={
-          isAuthenticated ? () => openSheet(r) : undefined
+          isAuthenticated
+            ? () => openSheet(r)
+            : () =>
+                promptLoginForRestaurantTags(() => router.push("/login"))
         }
         className={restaurantCardMotionClass}
       />
