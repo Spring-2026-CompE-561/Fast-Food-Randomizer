@@ -84,13 +84,15 @@ export default function BrowsePage() {
           Explore dining options near SDSU — campus, College Area, and late-night
           picks.
         </p>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Signed-out? You can still browse.{" "}
-          <Link href="/login" className="font-semibold text-primary underline-offset-4 hover:underline">
-            Log in
-          </Link>{" "}
-          to add quick tags and help the crowd.
-        </p>
+        {!isAuthenticated && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            Signed-out? You can still browse.{" "}
+            <Link href="/login" className="font-semibold text-primary underline-offset-4 hover:underline">
+              Log in
+            </Link>{" "}
+            to add quick tags and help the crowd.
+          </p>
+        )}
       </div>
 
       {loading && <RestaurantCardGridSkeleton />}
