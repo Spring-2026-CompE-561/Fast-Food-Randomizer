@@ -48,17 +48,11 @@ export default function RandomizerPage() {
   const { result, loading, error, runRandomizer, mergeIntoResult } =
     useRandomizer();
   const { user } = useCurrentUser();
-<<<<<<< val_randomizer2
-  
-  const [filterDialogOpen, setFilterDialogOpen] = useState(true);
-  const [appliedFilters, setAppliedFilters] = useState<RandomizerFilterState>(defaultFilters);
-=======
   const { isAuthenticated } = useAuth();
   const [filterDialogOpen, setFilterDialogOpen] = useState(true);
   const [tagSheetOpen, setTagSheetOpen] = useState(false);
   const [appliedFilters, setAppliedFilters] =
     useState<RandomizerFilterState>(defaultFilters);
->>>>>>> main
   const [filtersApplyHint, setFiltersApplyHint] = useState(false);
   
   const [mode, setMode] = useState<RandomizerMode>("button");
@@ -164,14 +158,9 @@ export default function RandomizerPage() {
               </Button>
             </div>
           </CardHeader>
-<<<<<<< val_randomizer2
 
           <CardContent className="space-y-6">
             {filtersApplyHint && !showVisuals && (
-=======
-          <CardContent className="space-y-6 text-center">
-            {filtersApplyHint && (
->>>>>>> main
               <p className="rounded-2xl border border-primary/25 bg-primary/5 px-4 py-3 text-center text-sm text-muted-foreground">
                 Preferences are set — tap{" "}
                 <span className="font-bold text-foreground">Randomize</span>{" "}
@@ -229,14 +218,9 @@ export default function RandomizerPage() {
               </div>
             )}
 
-<<<<<<< val_randomizer2
             {/* FINAL RESULT */}
             {!showVisuals && result && (
               <div className="flex w-full flex-col items-center space-y-3 animate-in fade-in zoom-in duration-500">
-=======
-            {!loading && result && (
-              <div className="grid w-full place-items-center gap-3">
->>>>>>> main
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground text-center">
                   Tonight&apos;s pick
                 </p>
