@@ -1,9 +1,11 @@
 "use client";
 
+import type { KeyboardEvent } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tag } from "lucide-react";
 import { ReviewTagIcon } from "@/components/review-tag-icon";
+import { googleSearchHref } from "@/lib/restaurant-card-helpers";
 import { reviewTagsSortedByVotes } from "@/lib/review-tags";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +32,24 @@ export default function RestaurantCard({
 }: RestaurantCardProps) {
   const tagsForCard = reviewTagsSortedByVotes(reviewTagCounts);
 
+  function openGoogleSearch() {
+    window.open(
+      googleSearchHref(name),
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
+
+  function handleCardClick() {
+    openGoogleSearch();
+  }
+
+  function handleCardKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    openGoogleSearch();
+  }
+
   return (
     <div
       className={cn(
@@ -37,55 +57,65 @@ export default function RestaurantCard({
         className
       )}
     >
-      <div className="w-full">
-        <h3 className="text-2xl font-black tracking-tight text-card-foreground">
-          {name}
-        </h3>
-      </div>
+      {/* Link region excludes the tag button so we don’t nest interactive controls */}
+      <div
+        role="link"
+        tabIndex={0}
+        aria-label={`${name}. Opens Google search in a new tab`}
+        className="flex w-full cursor-pointer flex-col items-center gap-4 text-center rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        onClick={handleCardClick}
+        onKeyDown={handleCardKeyDown}
+      >
+        <div className="w-full">
+          <h3 className="text-2xl font-black tracking-tight text-card-foreground">
+            {name}
+          </h3>
+        </div>
 
-      <div className="flex flex-wrap justify-center gap-2">
-        <Badge variant="secondary" className="font-semibold">
-          {category}
-        </Badge>
-        <Badge variant="outline" className="font-semibold">
-          {price}
-        </Badge>
-        {onCampus && (
-          <Badge variant="default" className="font-semibold uppercase tracking-wide">
-            On campus
+        <div className="flex flex-wrap justify-center gap-2">
+          <Badge variant="secondary" className="font-semibold">
+            {category}
           </Badge>
-        )}
-      </div>
+          <Badge variant="outline" className="font-semibold">
+            {price}
+          </Badge>
+          {onCampus && (
+            <Badge variant="default" className="font-semibold uppercase tracking-wide">
+              On campus
+            </Badge>
+          )}
+        </div>
 
-      <div className="flex min-h-[2rem] w-full max-w-sm flex-col items-center gap-2">
-        {tagsForCard.length > 0 ? (
-          <div className="flex flex-wrap justify-center gap-1.5">
-            {tagsForCard.map(({ slug, count, label }) => (
-              <span
-                key={slug}
-                className="inline-flex items-center gap-1.5 rounded-full bg-muted/90 px-3 py-1 text-xs font-semibold text-foreground/95"
-              >
-                <ReviewTagIcon
-                  slug={slug}
-                  className="size-3.5 text-foreground/75"
-                />
-                <span>{label}</span>
-                {count > 1 && (
-                  <span className="text-[10px] font-black tabular-nums text-muted-foreground">
-                    ×{count}
-                  </span>
-                )}
-              </span>
-            ))}
-          </div>
-        ) : (
-          restaurantId != null &&
-          onAddReviewTags && (
-            <p className="text-center text-xs font-medium text-muted-foreground">
-              No crowd tags yet — tap below to add yours.
-            </p>
-          )
-        )}
+        <div className="flex min-h-[2rem] w-full max-w-sm flex-col items-center gap-2">
+          {tagsForCard.length > 0 ? (
+            <div className="flex flex-wrap justify-center gap-1.5">
+              {tagsForCard.map(({ slug, count, label }) => (
+                <span
+                  key={slug}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-muted/90 px-3 py-1 text-xs font-semibold text-foreground/95"
+                >
+                  <ReviewTagIcon
+                    slug={slug}
+                    className="size-3.5 text-foreground/75"
+                  />
+                  <span>{label}</span>
+                  {count > 1 && (
+                    <span className="text-[10px] font-black tabular-nums text-muted-foreground">
+                      ×{count}
+                    </span>
+                  )}
+                </span>
+              ))}
+            </div>
+          ) : (
+            restaurantId != null &&
+            onAddReviewTags && (
+              <p className="text-center text-xs font-medium text-muted-foreground">
+                No crowd tags yet — tap below to add yours.
+              </p>
+            )
+          )}
+        </div>
       </div>
 
       {restaurantId != null && onAddReviewTags && (
@@ -94,12 +124,18 @@ export default function RestaurantCard({
           variant={tagsForCard.length > 0 ? "ghost" : "outline"}
           size="sm"
           className={cn(
-            "h-9 gap-2 rounded-full text-xs font-bold",
+            "h-9 gap-2 rounded-full text-xs font-bold shrink-0",
             tagsForCard.length > 0
               ? "text-primary hover:text-primary"
               : "border-primary/40 text-primary"
           )}
-          onClick={onAddReviewTags}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddReviewTags();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") e.stopPropagation();
+          }}
         >
           <Tag className="size-3.5 shrink-0" aria-hidden />
           Rate with tags

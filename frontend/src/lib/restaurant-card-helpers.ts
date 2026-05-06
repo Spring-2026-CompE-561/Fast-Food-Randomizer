@@ -1,3 +1,8 @@
+/** Opens Google search for a venue name (used by FAQ links and restaurant cards). */
+export function googleSearchHref(restaurantName: string): string {
+  return `https://www.google.com/search?q=${encodeURIComponent(restaurantName)}`;
+}
+
 /** Price badge from API `price_range` (1–4). */
 export function priceFromRange(range: number | string | null | undefined): string {
   const n =
