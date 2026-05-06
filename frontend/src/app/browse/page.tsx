@@ -19,6 +19,7 @@ type RestaurantRow = {
   name: string;
   cuisine: string;
   price_range: number;
+  hours_display?: string | null;
   review_tag_counts?: Record<string, number>;
 };
 
@@ -62,9 +63,12 @@ export default function BrowsePage() {
         price={priceFromRange(r.price_range)}
         category={r.cuisine}
         onCampus={looksOnCampus(r.name)}
+        hoursDisplay={r.hours_display ?? null}
         restaurantId={r.id}
         reviewTagCounts={r.review_tag_counts ?? null}
-        onAddReviewTags={() => openSheet(r)}
+        onAddReviewTags={
+          isAuthenticated ? () => openSheet(r) : undefined
+        }
         className={restaurantCardMotionClass}
       />
     ));
