@@ -28,6 +28,8 @@ class RestaurantRepository:
             dietary_tags=restaurant.dietary_tags,
             latitude=restaurant.latitude,
             longitude=restaurant.longitude,
+            hours_display=restaurant.hours_display,
+            weekly_hours_json=restaurant.weekly_hours_json,
         )
 
         db.add(db_restaurant)

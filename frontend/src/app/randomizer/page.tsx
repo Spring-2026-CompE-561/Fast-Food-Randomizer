@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { RestaurantReviewSheet } from "@/components/restaurant-review-sheet";
+import { useAuth } from "@/hooks/use-auth";
 import { useCurrentUser } from "@/hooks/use-curr-user";
 import { useRandomizer } from "@/hooks/use-randomizer";
 import {
@@ -30,11 +33,15 @@ import {
   priceFromRange,
   restaurantCardMotionClass,
 } from "@/lib/restaurant-card-helpers";
+import { getRestaurantById } from "@/lib/restaurants";
 
 export default function RandomizerPage() {
-  const { result, loading, error, runRandomizer } = useRandomizer();
+  const { result, loading, error, runRandomizer, mergeIntoResult } =
+    useRandomizer();
   const { user } = useCurrentUser();
+  const { isAuthenticated } = useAuth();
   const [filterDialogOpen, setFilterDialogOpen] = useState(true);
+  const [tagSheetOpen, setTagSheetOpen] = useState(false);
   const [appliedFilters, setAppliedFilters] =
     useState<RandomizerFilterState>(defaultFilters);
   const [filtersApplyHint, setFiltersApplyHint] = useState(false);
@@ -44,6 +51,10 @@ export default function RandomizerPage() {
       setFiltersApplyHint(false);
     }
   }, [result, loading]);
+
+  useEffect(() => {
+    setTagSheetOpen(false);
+  }, [result?.restaurant_id]);
 
   function handleApplyFilters(next: RandomizerFilterState) {
     setAppliedFilters(next);
@@ -58,6 +69,7 @@ export default function RandomizerPage() {
       cuisine: f.cuisines.length > 0 ? f.cuisines : null,
       price_range: f.maxPrice,
       dietary_tag: f.dietary.length > 0 ? f.dietary : null,
+      open_now: f.openNow,
     });
   }
 
@@ -83,7 +95,7 @@ export default function RandomizerPage() {
               Hungry but stuck deciding? Tap below and we&apos;ll suggest a spot worth trying.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 text-center">
             {filtersApplyHint && (
               <p className="rounded-2xl border border-primary/25 bg-primary/5 px-4 py-3 text-center text-sm text-muted-foreground">
                 Preferences are set — tap{" "}
@@ -139,21 +151,33 @@ export default function RandomizerPage() {
             )}
 
             {!loading && result && (
-              <div className="flex w-full flex-col items-center space-y-3">
+              <div className="grid w-full place-items-center gap-3">
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground text-center">
                   Tonight&apos;s pick
                 </p>
-                <RestaurantCard
-                  name={String(result.name ?? "Your spot")}
-                  price={priceFromRange(result.price_range)}
-                  category={
-                    result.cuisine != null && String(result.cuisine).trim() !== ""
-                      ? String(result.cuisine)
-                      : "Restaurant"
-                  }
-                  onCampus={looksOnCampus(String(result.name ?? ""))}
-                  className={restaurantCardMotionClass}
-                />
+                <div className="grid w-full place-items-center">
+                  <RestaurantCard
+                    name={String(result.name ?? "Your spot")}
+                    price={priceFromRange(result.price_range)}
+                    category={
+                      result.cuisine != null && String(result.cuisine).trim() !== ""
+                        ? String(result.cuisine)
+                        : "Restaurant"
+                    }
+                    onCampus={looksOnCampus(String(result.name ?? ""))}
+                    hoursDisplay={
+                      result.hours_display != null
+                        ? String(result.hours_display)
+                        : null
+                    }
+                    restaurantId={Number(result.restaurant_id)}
+                    reviewTagCounts={result.review_tag_counts ?? null}
+                    onAddReviewTags={
+                      isAuthenticated ? () => setTagSheetOpen(true) : undefined
+                    }
+                    className={restaurantCardMotionClass}
+                  />
+                </div>
                 {result.match_count != null && (
                   <p className="text-center text-xs text-muted-foreground">
                     {String(result.match_count)} places we considered
@@ -170,6 +194,33 @@ export default function RandomizerPage() {
         onOpenChange={setFilterDialogOpen}
         initialFilters={appliedFilters}
         onApply={handleApplyFilters}
+      />
+
+      <RestaurantReviewSheet
+        open={tagSheetOpen}
+        onOpenChange={setTagSheetOpen}
+        restaurantId={
+          result?.restaurant_id != null ? Number(result.restaurant_id) : null
+        }
+        restaurantName={
+          result?.name != null ? String(result.name) : ""
+        }
+        isAuthenticated={isAuthenticated}
+        onSaved={async () => {
+          const id =
+            result?.restaurant_id != null ? Number(result.restaurant_id) : null;
+          if (id == null) return;
+          try {
+            const r = (await getRestaurantById(id)) as {
+              review_tag_counts?: Record<string, number>;
+            };
+            mergeIntoResult({
+              review_tag_counts: r.review_tag_counts ?? {},
+            });
+          } catch {
+            toast.error("Couldn’t refresh tag counts");
+          }
+        }}
       />
     </div>
   );
