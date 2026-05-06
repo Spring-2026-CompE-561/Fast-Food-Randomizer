@@ -20,8 +20,20 @@ type HistoryEntry = {
   selected_at: string;
 };
 
+/** Shape merged for History / Favorites “recent rolls” UI */
+export type HistoryListItem = {
+  name: string;
+  price: string;
+  category: string;
+  onCampus: boolean;
+  restaurant_id: number;
+  hoursDisplay: string | null;
+  price_range: number;
+  selected_at: string;
+};
+
 export function useHistory() {
-  const [historyItems, setHistoryItems] = useState<any[]>([])
+  const [historyItems, setHistoryItems] = useState<HistoryListItem[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -39,10 +51,10 @@ export function useHistory() {
           restaurants.map((r: any) => [r.id, r])
         )
 
-        const combined = history.map((h: any) => {
+        const combined: HistoryListItem[] = history.map((h: HistoryEntry) => {
           const restaurant = restaurantMap.get(h.restaurant_id)
           const name = restaurant?.name ?? "Unknown"
-          
+
           return {
             name,
             price: priceFromRange(restaurant?.price_range),
@@ -50,6 +62,11 @@ export function useHistory() {
             onCampus: looksOnCampus(name),
             restaurant_id: h.restaurant_id,
             hoursDisplay: restaurant?.hours_display ?? null,
+            price_range: restaurant?.price_range ?? 1,
+            selected_at:
+              typeof h.selected_at === "string"
+                ? h.selected_at
+                : String(h.selected_at),
           }
         })
 
