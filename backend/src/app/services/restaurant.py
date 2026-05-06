@@ -37,6 +37,7 @@ def get_restaurants(db: Session) -> list[RestaurantResponse]:
             dietary_tags=r.dietary_tags,
             latitude=r.latitude,
             longitude=r.longitude,
+            hours_display=r.hours_display,
             review_tag_counts=_allowed_tag_counts(counts_map.get(r.id, {})),
         )
         for r in restaurants
@@ -58,6 +59,7 @@ def get_restaurant_by_id(db: Session, restaurant_id: int) -> Optional[Restaurant
         dietary_tags=r.dietary_tags,
         latitude=r.latitude,
         longitude=r.longitude,
+        hours_display=r.hours_display,
         review_tag_counts=_allowed_tag_counts(counts),
     )
 
@@ -72,5 +74,6 @@ def create_restaurant(db: Session, restaurant: RestaurantCreate) -> RestaurantRe
         dietary_tags=r.dietary_tags,
         latitude=r.latitude,
         longitude=r.longitude,
+        hours_display=r.hours_display,
         review_tag_counts={},
     )

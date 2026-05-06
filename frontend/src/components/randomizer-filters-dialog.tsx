@@ -23,6 +23,8 @@ export type RandomizerFilterState = {
   cuisines: string[];
   /** Substrings matched against `dietary_tags` (ilike). */
   dietary: string[];
+  /** Only venues open right now (America/Los_Angeles) using seeded weekly hours. */
+  openNow: boolean;
 };
 
 const PRICE_OPTIONS: { label: string; value: number | null }[] = [
@@ -71,6 +73,7 @@ export function defaultFilters(): RandomizerFilterState {
     maxPrice: null,
     cuisines: [],
     dietary: [],
+    openNow: false,
   };
 }
 
@@ -88,6 +91,7 @@ export function sanitizeRandomizerFilters(
     maxPrice: max,
     cuisines: [...s.cuisines],
     dietary: s.dietary.filter((x) => ALLOWED_DIETARY_SEARCHES.has(x)),
+    openNow: Boolean(s.openNow),
   };
 }
 
@@ -113,6 +117,7 @@ export function RandomizerFiltersDialog({
         maxPrice: next.maxPrice,
         cuisines: [...next.cuisines],
         dietary: [...next.dietary],
+        openNow: next.openNow,
       });
     }
   }, [open, initialFilters]);
@@ -149,7 +154,8 @@ export function RandomizerFiltersDialog({
               Spin preferences
             </DialogTitle>
             <DialogDescription>
-              Choose price, cuisine, and dietary filters. You can change these anytime with{" "}
+              Choose price, cuisine, dietary, and whether the spot must be open right now. You can
+              change these anytime with{" "}
               <strong className="text-foreground">Edit filters</strong>.
             </DialogDescription>
           </DialogHeader>
@@ -214,6 +220,30 @@ export function RandomizerFiltersDialog({
                   </button>
                 );
               })}
+            </div>
+          </section>
+
+          <section className="space-y-3">
+            <Label className="text-base font-black text-foreground">Hours</Label>
+            <p className="text-xs text-muted-foreground">
+              Uses typical weekly hours for each listing (San Diego time).
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              <button
+                type="button"
+                onClick={() =>
+                  setDraft((p) => ({ ...p, openNow: !p.openNow }))
+                }
+                className={cn(
+                  "rounded-full border-2 px-4 py-2 text-sm font-bold transition-colors",
+                  chipPop,
+                  draft.openNow
+                    ? "border-primary bg-primary text-primary-foreground shadow-md hover:shadow-xl hover:shadow-primary/40"
+                    : "border-border bg-card text-muted-foreground shadow-sm shadow-black/[0.04] hover:border-primary/50 hover:text-foreground hover:shadow-primary/20"
+                )}
+              >
+                Open now
+              </button>
             </div>
           </section>
 

@@ -176,7 +176,9 @@ export default function HistoryPage(){
                                 price={item.price}
                                 category={item.category}
                                 onCampus={item.onCampus}
-                                className={`${restaurantCardMotionClass} md:w-[320px] h-[200px] pt-14`}
+                                hoursDisplay={item.hoursDisplay}
+                                showTagReviews={false}
+                                className={`${restaurantCardMotionClass} md:w-[320px] pt-14`}
                             />
                         </div>
                     ))}
