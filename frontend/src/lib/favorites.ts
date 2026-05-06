@@ -1,3 +1,4 @@
+import { Favorite } from "@/app/history/page";
 import { getAuthenticatedApiJson, postAuthenticatedApiJson } from "@/lib/api"
 
 export async function getFavorites(): Promise<Favorite[]> {
