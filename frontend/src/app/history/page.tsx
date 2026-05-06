@@ -117,7 +117,7 @@ export default function HistoryPage(){
             {!loading && historyItems.length > 0 && (
                 <section className="mx-auto grid max-w-5xl grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
                     {historyItems.map((item, index) => (
-                        <div key={`${item.name}-${index}`} className="relative">
+                        <div key={`${item.restaurant_id}-${index}`} className="relative">
                             
                             <Tooltip>
                                 <TooltipTrigger asChild>
