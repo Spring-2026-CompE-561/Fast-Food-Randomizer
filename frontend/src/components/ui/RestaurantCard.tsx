@@ -141,13 +141,12 @@ export default function RestaurantCard({
       {restaurantId != null && onAddReviewTags && (
         <Button
           type="button"
-          variant={tagsForCard.length > 0 ? "ghost" : "outline"}
+          variant="outline"
           size="sm"
           className={cn(
-            "h-9 gap-2 rounded-full text-xs font-bold shrink-0",
-            tagsForCard.length > 0
-              ? "text-primary hover:text-primary"
-              : "border-primary/40 text-primary"
+            "h-9 min-h-9 shrink-0 gap-2 rounded-full border-primary/40 px-4 text-xs font-bold text-primary",
+            "hover:bg-primary/10 hover:text-primary hover:border-primary/50",
+            "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           )}
           onClick={(e) => {
             e.stopPropagation();
@@ -157,7 +156,7 @@ export default function RestaurantCard({
             if (e.key === "Enter" || e.key === " ") e.stopPropagation();
           }}
         >
-          <Tag className="size-3.5 shrink-0" aria-hidden />
+          <Tag className="size-3.5 shrink-0 text-primary" aria-hidden />
           Rate with tags
         </Button>
       )}

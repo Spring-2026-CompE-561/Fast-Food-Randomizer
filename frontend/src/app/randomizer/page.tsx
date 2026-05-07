@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { RestaurantReviewSheet } from "@/components/restaurant-review-sheet";
 import { useAuth } from "@/hooks/use-auth";
@@ -40,11 +41,13 @@ import {
   restaurantCardMotionClass,
 } from "@/lib/restaurant-card-helpers";
 import { getRestaurantById } from "@/lib/restaurants";
+import { promptLoginForRestaurantTags } from "@/lib/tag-login-toast";
 
 // Define the available randomizer styles
 type RandomizerMode = "button" | "wheel" | "slot";
 
 export default function RandomizerPage() {
+  const router = useRouter();
   const { result, loading, error, runRandomizer, mergeIntoResult } =
     useRandomizer();
   const { user } = useCurrentUser();
@@ -242,7 +245,12 @@ export default function RandomizerPage() {
                     restaurantId={Number(result.restaurant_id)}
                     reviewTagCounts={result.review_tag_counts ?? null}
                     onAddReviewTags={
-                      isAuthenticated ? () => setTagSheetOpen(true) : undefined
+                      isAuthenticated
+                        ? () => setTagSheetOpen(true)
+                        : () =>
+                            promptLoginForRestaurantTags(() =>
+                              router.push("/login"),
+                            )
                     }
                     className={restaurantCardMotionClass}
                   />
