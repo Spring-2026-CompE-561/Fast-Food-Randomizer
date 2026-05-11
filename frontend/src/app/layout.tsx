@@ -32,8 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    // Keep it on html for general extensions
     <html lang="en" suppressHydrationWarning className={`${playfair.variable} ${sourceSans.variable}`}>
-      <body className="font-sans antialiased text-center">
+      {/* Add suppressHydrationWarning here to stop the Grammarly error specifically */}
+      <body className="font-sans antialiased text-center" suppressHydrationWarning>
         <Providers>
           <Navbar />
           <main>{children}</main>
