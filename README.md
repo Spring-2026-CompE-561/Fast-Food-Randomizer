@@ -26,7 +26,7 @@
 
 ## Introduction
 
-The website **Craveroll** is a web application that is designed to help students navigate on-campus and nearby dining options. Using tools such as Next.js and FastAPI,  the application allows users to enhance their dining decisions through an automated randomizer and comprehensive search filters, such as cuisine and budget. Key features include a custom review system using quick-tags, a favorite list for quick access, and a history log to track past meals or options. By focusing on performance and user experience, Craveroll delivers an efficient tool and optimized to align with the specific needs of students in SDSU. 
+The website **Craveroll** is a web application that is designed to help students navigate on-campus and nearby dining options. Using tools such as Next.js and FastAPI,  the application allows users to enhance their dining decisions through an automated randomizer and comprehensive search filters, such as cuisine and budget. Key features include a custom review system using quick-tags, a favorite list for quick access, and a history log to track past 'rolls'. By focusing on performance and user experience, Craveroll delivers an efficient tool and optimized to align with the specific needs of students in SDSU. 
 
 --- 
 
@@ -54,12 +54,15 @@ DATABASE_URL="sqlite:///./fast_food_randomizer.db"
 ## Installation and Usage:
 Clone the repository!
 
+With SSH:
+git clone git@github.com:Spring-2026-CompE-561/Fast-Food-Randomizer.git
+
 With HTTPS:
 
 git clone [https://github.com/your-username/Fast-Food-Randomizer.git](https://github.com/your-username/Fast-Food-Randomizer.git)
 cd Fast-Food-Randomizer
 
-**Prerequisites:
+**Prerequisites:**
 - Python 3.9+
 
 - Node.js & npm
@@ -71,4 +74,26 @@ cd Fast-Food-Randomizer
 ## Running the Application
 The application requires running the backend and frontend simultaneously in separate terminals.
 
-1. Start the Backend API
+## Setup frontend/backend .env files:
+
+Navigate to `frontend` directory and create a `.env.local` file. Paste the following into the file:
+```env
+NEXT_PUBLIC_API_URL="http://localhost:8000"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+```
+Navigate to 'backend' directory and create an .env file. Paste the following into the file:
+```DATABASE_URL="sqlite:///./fast_food_randomizer.db"```
+
+
+## Accessing the Application
+Frontend: http://localhost:3000
+
+Backend API: http://localhost:8000
+
+API Documentation (Swagger UI): http://localhost:8000/docs
+
+---
+### Project Members:
+Valerie Joy Pinto, Sydney Kim, Aliza Siddiqui, Melina Kai Kwarcinski, Kaitlin Bituen  
+
+---
